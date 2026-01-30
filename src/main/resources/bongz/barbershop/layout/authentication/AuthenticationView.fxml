@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="768.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bongz.barbershop.layout.authentication.AuthenticationController">
+   <children>
+      <ImageView fitHeight="590.0" fitWidth="790.0" layoutX="-13.0" layoutY="-7.0">
+    <image>
+        <Image url="@/bongz/barbershop/assets/images/4161365.jpg" />
+    </image>
+</ImageView>
+
+<ImageView fitHeight="254.0" fitWidth="277.0" layoutX="392.0" layoutY="511.0">
+    <image>
+        <Image url="@/bongz/barbershop/assets/images/Redbally.png" />
+    </image>
+</ImageView>
+
+<ImageView fitHeight="254.0" fitWidth="286.0" layoutX="588.0" layoutY="-69.0">
+    <image>
+        <Image url="@/bongz/barbershop/assets/images/Redbally.png" />
+    </image>
+</ImageView>
+
+      <Pane layoutX="238.0" layoutY="125.0" prefHeight="414.0" prefWidth="326.0">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" height="415.0" layoutX="1.0" strokeType="INSIDE" width="326.0">
+               <fill>
+                  <LinearGradient endX="1.0" endY="0.36363639705108863" startY="0.3825758081493955">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.410526305437088" green="0.25999999046325684" blue="0.15964911878108978" opacity="0.6499999761581421" />
+                           </color>
+                        </Stop>
+                        <Stop offset="0.9975609756097561">
+                           <color>
+                              <Color red="0.04210526496171951" green="0.024007797241210938" blue="0.009200779721140862" opacity="0.4300000071525574" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="0.24210526049137115" green="0.16080571711063385" blue="0.0986354798078537" opacity="0.5799999833106995" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </fill>
+               <stroke>
+                  <LinearGradient endX="0.11363636002396083" endY="0.23484851916631058" startX="0.43560607505567145" startY="0.454545436483441">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.4000000059604645" green="0.01185185182839632" blue="0.01185185182839632" opacity="0.6100000143051147" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="0.6105263233184814" green="0.27971151471138" blue="0.009044834412634373" opacity="0.36000001430511475" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </stroke>
+            </Rectangle>
+            <TextField fx:id="usernameField" layoutX="56.0" layoutY="172.0" opacity="0.91" prefHeight="36.0" prefWidth="212.0" promptText="    Username" />
+            <PasswordField fx:id="passwordField" layoutX="58.0" layoutY="225.0" prefHeight="36.0" prefWidth="212.0" />
+            <Label layoutX="58.0" layoutY="108.0" prefHeight="51.0" prefWidth="125.0" text="Login" textFill="#fff6f6">
+               <font>
+                  <Font name="Constantia" size="32.0" />
+               </font>
+            </Label>
+            <Button fx:id="loginButton" layoutX="56.0" layoutY="332.0" mnemonicParsing="false" onAction="#handleLogin" opacity="0.94" prefHeight="36.0" prefWidth="212.0" text="Login" />
+            <ImageView fitHeight="36.0" fitWidth="40.0" layoutX="18.0" layoutY="172.0">
+               <image>
+                  <Image url="@/bongz/barbershop/assets/images/Usernameicon.png" />
+               </image>
+            </ImageView>
+            <Circle layoutX="163.0" layoutY="24.0" radius="76.0" strokeType="INSIDE">
+               <stroke>
+                  <LinearGradient endX="0.24621213566173195" endY="0.9128787716229757" startX="0.6439394083890048" startY="1.0">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.8315789699554443" green="0.6833320260047913" blue="0.36343079805374146" opacity="0.6100000143051147" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="0.35789474844932556" green="0.22600390017032623" blue="0.0941130593419075" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </stroke>
+               <fill>
+                  <LinearGradient endX="0.4857954689950653" endY="0.5189394056797026" startX="0.3106060533812552" startY="0.4280303102551084">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.031578946858644485" green="0.01587134413421154" blue="0.0038596491795033216" opacity="0.4300000071525574" />
+                           </color>
+                        </Stop>
+                        <Stop offset="0.006729475100942127">
+                           <color>
+                              <Color red="0.15000000596046448" green="0.07999999821186066" blue="0.029999999329447746" opacity="0.49382975697517395" />
+                           </color>
+                        </Stop>
+                        <Stop offset="0.9975609756097561">
+                           <color>
+                              <Color red="0.04210526496171951" green="0.024007797241210938" blue="0.009200779721140862" opacity="0.4300000071525574" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="0.25999999046325684" green="0.07540000230073929" blue="0.07540000230073929" opacity="0.8054710626602173" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </fill>
+            </Circle>
+            <ImageView fitHeight="36.0" fitWidth="40.0" layoutX="18.0" layoutY="225.0">
+               <image>
+                  <Image url="@/bongz/barbershop/assets/images/Bongzicon.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="169.0" fitWidth="152.0" layoutX="87.0" layoutY="-61.0">
+               <image>
+                  <Image url="@/bongz/barbershop/assets/images/Bongzicon.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <ImageView fitHeight="326.0" fitWidth="307.0" layoutX="94.0" layoutY="-202.0">
+         <image>
+            <Image url="@/bongz/barbershop/assets/images/Redbally.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="254.0" fitWidth="286.0" layoutX="-77.0" layoutY="359.0">
+         <image>
+            <Image url="@/bongz/barbershop/assets/images/Redbally.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="443.0" fitWidth="438.0" layoutX="-296.0" layoutY="-97.0">
+         <image>
+            <Image url="@/bongz/barbershop/assets/images/Redbally.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="254.0" fitWidth="277.0" layoutX="646.0" layoutY="288.0">
+         <image>
+            <Image url="@/bongz/barbershop/assets/images/Redbally.png" />
+         </image>
+      </ImageView>
+   </children>
+</Pane>
