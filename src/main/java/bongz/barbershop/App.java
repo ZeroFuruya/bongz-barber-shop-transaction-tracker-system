@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-import bongz.barbershop.loader.AuthLoader;
+import bongz.barbershop.loader.AppLoader;
 
 /**
  * JavaFX App
@@ -22,9 +22,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("/bongz/barbershop/layout/authentication/AuthenticationView"), 768, 576);
-        stage.setScene(scene);
-        stage.show();
+        initialize_main(stage);
     }
 
     public static void setRoot(String fxml) throws IOException {
@@ -33,7 +31,7 @@ public class App extends Application {
 
     public void initialize_main(Stage mainStage) throws IOException {
         this.mainStage = mainStage;
-        AuthLoader.load_login_window(this, mainStage);
+        AppLoader.load_app_window(this, mainStage);
     }
 
     public void setMainScreen(Pane screen) {

@@ -1,0 +1,81 @@
+.modal-bg {
+    -fx-background-color: rgba(22, 22, 22, 0.897);
+    background-color: rgba(22, 22, 22, 0.897);
+    -fx-border-radius: 16px;
+    border-radius: 16px;
+    -fx-border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    -fx-border-color: rgba(0, 0, 0, 0);
+    border-color: rgba(0, 0, 0, 0);
+    -fx-border-style: solid;
+    border-style: solid;
+    -fx-border-width: 0.5;
+    border-width: 0.5;
+}
+
+.login-card {
+    -fx-background-color: transparent;
+}
+
+.login-card-bg {
+    -fx-arc-width: 16;
+    -fx-arc-height: 16;
+
+    -fx-fill: linear-gradient(to right,
+            rgba(105, 66, 41, 0.65),
+            rgba(11, 6, 2, 0.43));
+
+    -fx-stroke: linear-gradient(to bottom right,
+            rgba(102, 3, 3, 0.61),
+            rgba(156, 71, 2, 0.36));
+}
+
+.login-title {
+    -fx-text-fill: #fff6f6;
+    -fx-font-family: "Constantia";
+    -fx-font-size: 32px;
+}
+
+.login-input {
+    -fx-background-color: rgba(20, 20, 20, 0.65);
+    -fx-background-radius: 8;
+
+    -fx-border-color: rgba(255, 255, 255, 0.25);
+    -fx-border-radius: 8;
+    -fx-border-width: 0.5;
+
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: rgba(255, 255, 255, 0.6);
+}
+
+.login-button {
+    -fx-background-color: linear-gradient(to right,
+            #8a2f1d,
+            #4a1a10);
+    -fx-background-radius: 8;
+
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+
+    -fx-border-color: rgba(255, 255, 255, 0.3);
+    -fx-border-radius: 8;
+    -fx-border-width: 0.5;
+
+    -fx-cursor: hand;
+}
+
+.login-button:hover {
+    -fx-background-color: linear-gradient(to right,
+            #a83b24,
+            #5e2216);
+}
+
+.avatar-ring {
+    -fx-stroke: linear-gradient(to bottom left,
+            rgba(212, 174, 92, 0.61),
+            rgba(91, 58, 24, 1));
+
+    -fx-fill: linear-gradient(to center,
+            rgba(8, 4, 1, 0.43),
+            rgba(66, 20, 20, 0.8));
+}
