@@ -79,3 +79,11 @@
             rgba(8, 4, 1, 0.43),
             rgba(66, 20, 20, 0.8));
 }
+
+.landing-login-btn {
+    -fx-background-color: #22232F;
+    -fx-text-fill: #eeeeee;
+    -fx-background-radius: 10;
+    -fx-padding: 10px 20px;
+    -fx-cursor: hand;
+}
