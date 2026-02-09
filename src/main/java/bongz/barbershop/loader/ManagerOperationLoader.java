@@ -10,7 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class OwnerDashLoader {
+public class ManagerOperationLoader {
     private static FXMLLoader load(String filename) {
         return new FXMLLoader(App.class.getResource("layout/" + filename + ".fxml"));
     }

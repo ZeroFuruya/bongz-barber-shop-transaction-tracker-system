@@ -8,7 +8,7 @@ import java.io.IOException;
 
 import bongz.barbershop.App;
 import bongz.barbershop.layout.MainAppController;
-import bongz.barbershop.loader.AuthLoader;
+import bongz.barbershop.loader.ModalLoader;
 import bongz.barbershop.loader.OwnerDashLoader;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -56,6 +56,7 @@ public class AuthenticationController {
 
         closeModal();
 
+        user.getRole().toString();
         switch (user.getRole()) {
             case "OWNER" -> OwnerDashLoader.load_owner_dashboard_window(app, app.getMainStage());
             // case "MANAGER" -> AuthLoader.load_manager_dashboard();
@@ -68,6 +69,6 @@ public class AuthenticationController {
     }
 
     private void closeModal() {
-        AuthLoader.modal_close(app);
+        ModalLoader.modal_close(app);
     }
 }

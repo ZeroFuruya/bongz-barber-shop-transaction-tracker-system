@@ -12,17 +12,10 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
-public class AuthLoader {
+public class ModalLoader {
 
     static Scene scene;
     static Pane modal;
-
-    public static void load_login_window(App app, MainAppController mainAppController) throws IOException {
-        FXMLLoader loader = load_modal(app, "authentication/AuthenticationView");
-
-        AuthenticationController controller = loader.getController();
-        controller.load(app, mainAppController);
-    }
 
     private static FXMLLoader load_modal(App app, String fxml) throws IOException {
         FXMLLoader loader = new FXMLLoader();
@@ -48,6 +41,13 @@ public class AuthLoader {
         });
 
         return loader;
+    }
+
+    public static void load_login_window(App app, MainAppController mainAppController) throws IOException {
+        FXMLLoader loader = load_modal(app, "authentication/AuthenticationView");
+
+        AuthenticationController controller = loader.getController();
+        controller.load(app, mainAppController);
     }
 
     public static void modal_close(App app) {

@@ -3,7 +3,7 @@ package bongz.barbershop.layout;
 import java.io.IOException;
 
 import bongz.barbershop.App;
-import bongz.barbershop.loader.AuthLoader;
+import bongz.barbershop.loader.ModalLoader;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
@@ -22,7 +22,7 @@ public class MainAppController {
 
     @FXML
     private void handleLogIn() throws IOException {
-        AuthLoader.load_login_window(app, this);
+        ModalLoader.load_login_window(app, this);
     }
 
     @FXML
