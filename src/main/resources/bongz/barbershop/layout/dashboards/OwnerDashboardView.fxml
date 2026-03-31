@@ -10,7 +10,6 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #343131;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bongz.barbershop.layout.dashboards.OwnerDashboardController">
    <children>
       <BorderPane prefHeight="200.0" prefWidth="200.0">
@@ -72,7 +71,19 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
                            <children>
-                              <StackPane prefHeight="55.0" prefWidth="70.0" style="-fx-background-color: #D8A25E; -fx-background-radius: 5px;" />
+                              <StackPane prefHeight="55.0" prefWidth="70.0" style="-fx-background-color: #D8A25E; -fx-background-radius: 5px;">
+                                 <children>
+                                    <ImageView fitHeight="56.0" fitWidth="53.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../assets/images/new-account.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Button mnemonicParsing="false" onAction="#handleNewUser" prefHeight="66.0" prefWidth="84.0" style="-fx-background-color: rgba(245, 39, 145, 0);">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Button>
+                                 </children></StackPane>
                               <StackPane layoutX="744.0" layoutY="15.0" prefHeight="55.0" prefWidth="70.0" style="-fx-background-color: #D8A25E; -fx-background-radius: 5px;">
                                  <children>
                                     <ImageView fitHeight="55.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">

@@ -2,22 +2,20 @@ package bongz.barbershop.layout.authentication;
 
 import bongz.barbershop.model.UserModel;
 import bongz.barbershop.service.authentication.AuthResult;
-import bongz.barbershop.service.authentication.AuthenticatorService;
+import bongz.barbershop.service.authentication.RegistrationService;
 
 import java.io.IOException;
 
 import bongz.barbershop.App;
 import bongz.barbershop.layout.MainAppController;
-import bongz.barbershop.loader.ManagerOperationLoader;
 import bongz.barbershop.loader.ModalLoader;
-import bongz.barbershop.loader.OwnerDashLoader;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
-public class AuthenticationController {
+public class RegistrationController {
 
     private App app;
     private MainAppController mainAppController;
@@ -26,10 +24,11 @@ public class AuthenticationController {
     private TextField usernameField;
     @FXML
     private PasswordField passwordField;
-    @FXML
-    private Button loginButton;
 
-    private final AuthenticatorService authService = new AuthenticatorService();
+    @FXML
+    private Button registerButton;
+
+    private final RegistrationService registrationService = new RegistrationService();
 
     public void load(App app, MainAppController mainAppController) {
         this.app = app;
@@ -37,12 +36,16 @@ public class AuthenticationController {
     }
 
     @FXML
-    private void handleLogin(ActionEvent event) throws IOException {
+    private void handleRegister(ActionEvent event) throws IOException {
 
         load(app, mainAppController);
-        AuthResult result = authService.login(
+
+        String defaultRole = "MANAGER";
+
+        AuthResult result = registrationService.register(
                 usernameField.getText().trim(),
-                passwordField.getText());
+                passwordField.getText(),
+                defaultRole);
 
         if (!result.isSuccess()) {
             showError(result.getMessage());
@@ -51,20 +54,13 @@ public class AuthenticationController {
 
         UserModel user = result.getUser();
 
-        System.out.println("LOGIN SUCCESS: " + user.getUsername() + " (" + user.getRole() + ")");
+        System.out.println("REGISTRATION SUCCESS: " + user.getUsername() + " (" + user.getRole() + ")");
 
         closeModal();
-
-        user.getRole().toString();
-        switch (user.getRole()) {
-            case "OWNER" -> OwnerDashLoader.load_owner_dashboard_window(app, app.getMainStage());
-            case "MANAGER" -> ManagerOperationLoader.load_manager_dashboard_window(app, app.getMainStage());
-            default -> showError("Unauthorized role");
-        }
     }
 
     private void showError(String message) {
-        System.err.println("LOGIN ERROR: " + message);
+        System.err.println("REGISTRATION ERROR: " + message);
     }
 
     private void closeModal() {

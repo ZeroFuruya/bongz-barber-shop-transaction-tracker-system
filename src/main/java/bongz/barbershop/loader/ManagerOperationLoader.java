@@ -18,8 +18,8 @@ public class ManagerOperationLoader {
     static Scene scene;
     private static MainAppController mainAppController;
 
-    public static void load_owner_dashboard_window(App app, Stage mainStage) throws IOException {
-        mainStage.setTitle("Bongz Barbershop Transaction Tracker System");
+    public static void load_manager_dashboard_window(App app, Stage mainStage) throws IOException {
+        mainStage.setTitle("Bongz Barbershop Transaction Tracker System (Manager)");
 
         FXMLLoader loader = load("dashboards/OwnerDashboardView");
         Pane root = loader.load();

@@ -19,7 +19,7 @@ public class OwnerDashLoader {
     private static MainAppController mainAppController;
 
     public static void load_owner_dashboard_window(App app, Stage mainStage) throws IOException {
-        mainStage.setTitle("Bongz Barbershop Transaction Tracker System");
+        mainStage.setTitle("Bongz Barbershop Transaction Tracker System (Owner)");
 
         FXMLLoader loader = load("dashboards/OwnerDashboardView");
         Pane root = loader.load();

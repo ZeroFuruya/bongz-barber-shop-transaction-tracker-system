@@ -87,3 +87,158 @@
     -fx-padding: 10px 20px;
     -fx-cursor: hand;
 }
+
+/* =====================================================
+   TABLEVIEW BASE
+===================================================== */
+.table-view {
+    -fx-background-color: #343131;
+    /* Main table background */
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-border-radius: 10px;
+    /* OUTERMOST CORNER RADIUS */
+    -fx-background-radius: 10px;
+    /* OUTERMOST CORNER RADIUS */
+    -fx-table-cell-border-color: transparent;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 13px;
+    -fx-text-fill: white;
+}
+
+/* =====================================================
+   COLUMN HEADER AREA
+===================================================== */
+.table-view .column-header-background {
+    -fx-background-color: #A04747;
+    /* Header background */
+    -fx-background-insets: 0;
+    -fx-background-radius: 10px 10px 0 0;
+    /* Rounded top corners */
+    -fx-border-color: transparent;
+}
+
+/* =====================================================
+   INDIVIDUAL COLUMN HEADER
+===================================================== */
+.table-view .column-header {
+    -fx-background-color: transparent;
+    -fx-padding: 8 10 8 10;
+    -fx-border-color: transparent;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #eeeeee;
+    /* Header text color */
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-alignment: CENTER_LEFT;
+}
+
+/* =====================================================
+   ROW STYLING
+===================================================== */
+.table-row-cell {
+    -fx-background-color: #343131;
+    /* Base row color */
+    -fx-background-insets: 0;
+    -fx-padding: 5;
+    -fx-border-color: transparent;
+}
+
+/* ODD ROWS */
+.table-row-cell:odd {
+    -fx-background-color: #3e3b3b;
+}
+
+/* EVEN ROWS */
+.table-row-cell:even {
+    -fx-background-color: #343131;
+}
+
+/* HOVER EFFECT */
+.table-row-cell:hover {
+    -fx-background-color: #A04747;
+    /* Hover color */
+}
+
+/* SELECTED ROW */
+.table-row-cell:filled:selected {
+    -fx-background-color: #D8A25E;
+    /* Selected row color */
+    -fx-text-fill: white;
+}
+
+/* FOCUSED ROW */
+.table-row-cell:focused {
+    -fx-background-color: #a65e5e;
+}
+
+/* =====================================================
+   TABLE CELLS
+===================================================== */
+.table-cell {
+    -fx-padding: 8 10 8 10;
+    -fx-alignment: CENTER_LEFT;
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-border-color: transparent;
+}
+
+/* EMPTY CELL */
+.table-cell:empty {
+    -fx-background-color: transparent;
+}
+
+/* =====================================================
+   SCROLL BAR STYLING
+===================================================== */
+.scroll-bar:vertical {
+    -fx-background-color: #343131;
+    -fx-pref-width: 10;
+}
+
+.scroll-bar:horizontal {
+    -fx-background-color: #343131;
+    -fx-pref-height: 10;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #A04747;
+    -fx-background-radius: 5;
+}
+
+.scroll-bar .thumb:hover {
+    -fx-background-color: #D8A25E;
+}
+
+.scroll-bar .track {
+    -fx-background-color: #343131;
+}
+
+/* =====================================================
+   TABLE CORNER (top-right blank corner)
+===================================================== */
+.table-view .corner {
+    -fx-background-color: #A04747;
+    -fx-background-radius: 0 10px 0 0;
+    /* Only top-right rounded */
+}
+
+/* =====================================================
+   PLACEHOLDER (When table is empty)
+===================================================== */
+.table-view .placeholder .label {
+    -fx-text-fill: #eeeeee;
+    -fx-font-size: 14px;
+}
+
+/* =====================================================
+   COLUMN RESIZE LINE
+===================================================== */
+.table-view .column-resize-line {
+    -fx-background-color: #D8A25E;
+    -fx-pref-width: 2;
+}

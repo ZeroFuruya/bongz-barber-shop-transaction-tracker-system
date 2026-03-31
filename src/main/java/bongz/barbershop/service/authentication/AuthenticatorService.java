@@ -1,4 +1,4 @@
-package bongz.barbershop.service;
+package bongz.barbershop.service.authentication;
 
 import bongz.barbershop.model.UserModel;
 import bongz.barbershop.server.dao.UserDAO;
