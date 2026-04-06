@@ -170,7 +170,8 @@ public class UserDAO {
                 rs.getString("username"),
                 rs.getString("password_hash"),
                 rs.getString("role"),
-                rs.getInt("is_active"));
+                rs.getInt("is_active"),
+                rs.getString("created_at"));
     }
 
     private UserModel mapResultSetToUserModelWithoutPassword(ResultSet rs) throws SQLException {
@@ -179,7 +180,8 @@ public class UserDAO {
                 rs.getString("username"),
                 null, // Don't include the password hash
                 rs.getString("role"),
-                rs.getInt("is_active"));
+                rs.getInt("is_active"),
+                rs.getString("created_at"));
     }
 
     private List<UserModel> executeQueryForList(String sql) {

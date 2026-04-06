@@ -6,13 +6,15 @@ public class UserModel {
     private String password;
     private String role;
     private int isActive;
+    private String createdAt;
 
-    public UserModel(int id, String username, String password, String role, int isActive) {
+    public UserModel(int id, String username, String password, String role, int isActive, String createdAt) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.role = role;
         this.isActive = isActive;
+        this.createdAt = createdAt;
     }
 
     public int getId() {
@@ -35,6 +37,10 @@ public class UserModel {
         return isActive;
     }
 
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -55,10 +61,14 @@ public class UserModel {
         this.isActive = isActive;
     }
 
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
     @Override
     public String toString() {
         return "UserModel [username=" + username + ", password=" + password + ", role=" + role + ", isActive="
-                + isActive + "]";
+                + isActive + ", createdAt=" + createdAt + "]";
     }
 
 }

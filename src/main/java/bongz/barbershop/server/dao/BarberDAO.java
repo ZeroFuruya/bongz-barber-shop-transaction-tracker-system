@@ -326,7 +326,10 @@ public class BarberDAO {
         return new BarberModel(
                 rs.getInt("barber_id"), // Get the barber_id column as an integer
                 rs.getString("name"), // Get the name column as a string
-                rs.getInt("is_active") // Get the is_active column as an integer
+                rs.getString("image_path"), // Get the image_path column as a string
+                rs.getInt("display_order"), // Get the display_order column as an integer
+                rs.getInt("is_active"), // Get the is_active column as an integer
+                rs.getString("created_at") // Get the created_at column as a string
         );
     }
 
