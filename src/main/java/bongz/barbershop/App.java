@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 import bongz.barbershop.loader.AppLoader;
+import bongz.barbershop.server.core.DatabaseInitializer;
 
 /**
  * JavaFX App
@@ -22,6 +23,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        DatabaseInitializer.initialize();
         initialize_main(stage);
     }
 

@@ -12,7 +12,26 @@ import java.util.List;
 
 public class UserDAO {
 
-    // Auth
+    public UserModel findById(int userId) {
+        String sql = "SELECT * FROM users WHERE user_id = ?";
+
+        try (Connection conn = JDBC.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, userId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return mapResultSetToUserModel(rs);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     public UserModel findByUsername(String username) {
         String sql = "SELECT * FROM users WHERE username = ?";
 
@@ -26,7 +45,6 @@ public class UserDAO {
                     return mapResultSetToUserModel(rs);
                 }
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -45,7 +63,6 @@ public class UserDAO {
             try (ResultSet rs = ps.executeQuery()) {
                 return rs.next();
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -53,7 +70,6 @@ public class UserDAO {
         return false;
     }
 
-    // C
     public boolean insertUser(String username, String passwordHash, String role) {
         String sql = """
                 INSERT INTO users (username, password_hash, role, is_active)
@@ -68,11 +84,33 @@ public class UserDAO {
             ps.setString(3, role);
 
             return ps.executeUpdate() == 1;
-
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
         }
+
+        return false;
+    }
+
+    public boolean insertUser(UserModel user) {
+        String sql = """
+                INSERT INTO users (username, password_hash, role, is_active)
+                VALUES (?, ?, ?, ?)
+                """;
+
+        try (Connection conn = JDBC.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, user.getUsername());
+            ps.setString(2, user.getPassword());
+            ps.setString(3, user.getRole());
+            ps.setInt(4, user.getIsActive());
+
+            return ps.executeUpdate() == 1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 
     public boolean updateUser(UserModel user) {
@@ -95,11 +133,11 @@ public class UserDAO {
             ps.setInt(5, user.getId());
 
             return ps.executeUpdate() == 1;
-
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
         }
+
+        return false;
     }
 
     public boolean updatePassword(int userId, String newPasswordHash) {
@@ -112,11 +150,11 @@ public class UserDAO {
             ps.setInt(2, userId);
 
             return ps.executeUpdate() == 1;
-
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
         }
+
+        return false;
     }
 
     public boolean setUserActiveStatus(int userId, int isActive) {
@@ -129,41 +167,21 @@ public class UserDAO {
             ps.setInt(2, userId);
 
             return ps.executeUpdate() == 1;
-
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
         }
+
+        return false;
     }
 
-    public boolean deleteUser(int userId) {
-        String sql = "DELETE FROM users WHERE user_id = ?";
-
-        try (Connection conn = JDBC.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setInt(1, userId);
-
-            return ps.executeUpdate() == 1;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    // R
     public List<UserModel> getAllUsers() {
-        String sql = "SELECT * FROM users";
-        return executeQueryForList(sql);
+        return executeQueryForList("SELECT * FROM users ORDER BY username");
     }
 
     public List<UserModel> getAllActiveUsers() {
-        String sql = "SELECT * FROM users WHERE is_active = 1";
-        return executeQueryForList(sql);
+        return executeQueryForList("SELECT * FROM users WHERE is_active = 1 ORDER BY username");
     }
 
-    // H
     private UserModel mapResultSetToUserModel(ResultSet rs) throws SQLException {
         return new UserModel(
                 rs.getInt("user_id"),
@@ -178,7 +196,7 @@ public class UserDAO {
         return new UserModel(
                 rs.getInt("user_id"),
                 rs.getString("username"),
-                null, // Don't include the password hash
+                null,
                 rs.getString("role"),
                 rs.getInt("is_active"),
                 rs.getString("created_at"));
@@ -194,11 +212,10 @@ public class UserDAO {
             while (rs.next()) {
                 users.add(mapResultSetToUserModelWithoutPassword(rs));
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return users;
     }
-
 }
