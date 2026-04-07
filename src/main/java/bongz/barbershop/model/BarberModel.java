@@ -37,6 +37,10 @@ public class BarberModel {
         return isActive;
     }
 
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
     public void setBarberId(int barberId) {
         this.barberId = barberId;
     }
@@ -57,8 +61,13 @@ public class BarberModel {
         this.isActive = isActive;
     }
 
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
     @Override
     public String toString() {
-        return "BarberModel [barberId=" + barberId + ", name=" + name + ", isActive=" + isActive + "]";
+        return "BarberModel [barberId=" + barberId + ", name=" + name + ", imagePath=" + imagePath
+                + ", displayOrder=" + displayOrder + ", isActive=" + isActive + ", createdAt=" + createdAt + "]";
     }
 }
