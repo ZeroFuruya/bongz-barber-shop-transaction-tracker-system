@@ -3,7 +3,7 @@ package bongz.barbershop.loader;
 import java.io.IOException;
 
 import bongz.barbershop.App;
-import bongz.barbershop.layout.MainAppController;
+import bongz.barbershop.model.UserModel;
 import bongz.barbershop.layout.dashboards.OwnerDashboardController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -15,17 +15,15 @@ public class OwnerDashLoader {
         return new FXMLLoader(App.class.getResource("layout/" + filename + ".fxml"));
     }
 
-    static Scene scene;
-    private static MainAppController mainAppController;
-
-    public static void load_owner_dashboard_window(App app, Stage mainStage) throws IOException {
+    public static void load_owner_dashboard_window(App app, Stage mainStage, UserModel currentUser)
+            throws IOException {
         mainStage.setTitle("Bongz Barbershop Transaction Tracker System (Owner)");
 
         FXMLLoader loader = load("dashboards/OwnerDashboardView");
         Pane root = loader.load();
         root.setOnMousePressed(e -> root.requestFocus());
 
-        scene = new Scene(root);
+        Scene scene = new Scene(root);
 
         app.setMainScreen(root);
 
@@ -39,6 +37,6 @@ public class OwnerDashLoader {
         mainStage.show();
 
         OwnerDashboardController controller = loader.getController();
-        controller.load(app, mainAppController);
+        controller.load(app, currentUser);
     }
 }

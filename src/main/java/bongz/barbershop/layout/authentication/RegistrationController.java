@@ -7,7 +7,6 @@ import bongz.barbershop.service.authentication.RegistrationService;
 import java.io.IOException;
 
 import bongz.barbershop.App;
-import bongz.barbershop.layout.MainAppController;
 import bongz.barbershop.loader.ModalLoader;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,7 +17,6 @@ import javafx.scene.control.TextField;
 public class RegistrationController {
 
     private App app;
-    private MainAppController mainAppController;
 
     @FXML
     private TextField usernameField;
@@ -30,16 +28,12 @@ public class RegistrationController {
 
     private final RegistrationService registrationService = new RegistrationService();
 
-    public void load(App app, MainAppController mainAppController) {
+    public void load(App app) {
         this.app = app;
-        this.mainAppController = mainAppController;
     }
 
     @FXML
     private void handleRegister(ActionEvent event) throws IOException {
-
-        load(app, mainAppController);
-
         String defaultRole = "MANAGER";
 
         AuthResult result = registrationService.register(

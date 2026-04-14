@@ -1,12 +1,14 @@
 package bongz.barbershop.server.dao;
 
 import bongz.barbershop.model.TransactionModel;
+import bongz.barbershop.model.enums.TransactionStatus;
 import bongz.barbershop.server.core.JDBC;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +36,7 @@ public class TransactionDAO {
                 """;
 
         try (Connection conn = JDBC.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             ps.setInt(1, transaction.getBarberId());
             ps.setInt(2, transaction.getPricingCategoryId());
@@ -51,7 +53,18 @@ public class TransactionDAO {
             ps.setString(13, transaction.getVoidReason());
             ps.setString(14, transaction.getNote());
 
-            return ps.executeUpdate() == 1;
+            int affectedRows = ps.executeUpdate();
+            if (affectedRows != 1) {
+                return false;
+            }
+
+            try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    transaction.setTransactionId(generatedKeys.getInt(1));
+                }
+            }
+
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -85,6 +98,7 @@ public class TransactionDAO {
                 SET status = 'VOID',
                     void_reason = ?
                 WHERE transaction_id = ?
+                  AND status = 'POSTED'
                 """;
 
         try (Connection conn = JDBC.getConnection();
@@ -174,7 +188,7 @@ public class TransactionDAO {
                 rs.getInt("barber_commission_percent"),
                 rs.getInt("barber_earning_amount_pesos"),
                 rs.getInt("shop_earning_amount_pesos"),
-                rs.getString("status"),
+                TransactionStatus.fromValue(rs.getString("status")).name(),
                 rs.getString("void_reason"),
                 rs.getString("note"));
     }

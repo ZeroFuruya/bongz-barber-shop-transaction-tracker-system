@@ -1,30 +1,28 @@
 package bongz.barbershop.service.authentication;
 
 import bongz.barbershop.model.UserModel;
-import bongz.barbershop.server.dao.UserDAO;
+import bongz.barbershop.model.enums.UserRole;
+import bongz.barbershop.dto.common.ServiceResult;
+import bongz.barbershop.service.user.UserService;
 
 public class RegistrationService {
 
-    private final UserDAO userDAO = new UserDAO();
+    private final UserService userService = new UserService();
 
     public AuthResult register(String username, String password, String role) {
+        UserRole userRole;
 
-        if (username.isBlank() || password.isBlank() || role.isBlank()) {
-            return new AuthResult(false, "Fields cannot be empty", null);
+        try {
+            userRole = UserRole.fromValue(role);
+        } catch (IllegalArgumentException exception) {
+            return new AuthResult(false, "Unsupported role", null);
         }
 
-        if (userDAO.usernameExists(username)) {
-            return new AuthResult(false, "Username already exists", null);
+        ServiceResult<UserModel> result = userService.createUser(username, password, userRole);
+        if (!result.isSuccess()) {
+            return new AuthResult(false, result.getMessage(), null);
         }
 
-        boolean inserted = userDAO.insertUser(username, password, role);
-
-        if (!inserted) {
-            return new AuthResult(false, "Registration failed", null);
-        }
-
-        UserModel user = userDAO.findByUsername(username);
-
-        return new AuthResult(true, null, user);
+        return new AuthResult(true, result.getMessage(), result.getData());
     }
 }

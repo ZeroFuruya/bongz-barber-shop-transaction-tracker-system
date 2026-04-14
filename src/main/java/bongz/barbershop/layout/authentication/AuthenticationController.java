@@ -7,7 +7,6 @@ import bongz.barbershop.service.authentication.AuthenticatorService;
 import java.io.IOException;
 
 import bongz.barbershop.App;
-import bongz.barbershop.layout.MainAppController;
 import bongz.barbershop.loader.ManagerOperationLoader;
 import bongz.barbershop.loader.ModalLoader;
 import bongz.barbershop.loader.OwnerDashLoader;
@@ -20,7 +19,6 @@ import javafx.scene.control.TextField;
 public class AuthenticationController {
 
     private App app;
-    private MainAppController mainAppController;
 
     @FXML
     private TextField usernameField;
@@ -31,15 +29,12 @@ public class AuthenticationController {
 
     private final AuthenticatorService authService = new AuthenticatorService();
 
-    public void load(App app, MainAppController mainAppController) {
+    public void load(App app) {
         this.app = app;
-        this.mainAppController = mainAppController;
     }
 
     @FXML
     private void handleLogin(ActionEvent event) throws IOException {
-
-        load(app, mainAppController);
         AuthResult result = authService.login(
                 usernameField.getText().trim(),
                 passwordField.getText());
@@ -50,15 +45,15 @@ public class AuthenticationController {
         }
 
         UserModel user = result.getUser();
+        app.setCurrentUser(user);
 
         System.out.println("LOGIN SUCCESS: " + user.getUsername() + " (" + user.getRole() + ")");
 
         closeModal();
 
-        user.getRole().toString();
         switch (user.getRole()) {
-            case "OWNER" -> OwnerDashLoader.load_owner_dashboard_window(app, app.getMainStage());
-            case "MANAGER" -> ManagerOperationLoader.load_manager_dashboard_window(app, app.getMainStage());
+            case "OWNER" -> OwnerDashLoader.load_owner_dashboard_window(app, app.getMainStage(), user);
+            case "MANAGER" -> ManagerOperationLoader.load_manager_dashboard_window(app, app.getMainStage(), user);
             default -> showError("Unauthorized role");
         }
     }

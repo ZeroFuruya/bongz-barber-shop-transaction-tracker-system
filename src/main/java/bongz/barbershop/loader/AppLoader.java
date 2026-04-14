@@ -14,8 +14,6 @@ public class AppLoader {
         return new FXMLLoader(App.class.getResource("layout/" + filename + ".fxml"));
     }
 
-    static Scene scene;
-
     public static void load_app_window(App app, Stage mainStage) throws IOException {
         mainStage.setTitle("Bongz Barbershop Transaction Tracker System");
 
@@ -23,7 +21,7 @@ public class AppLoader {
         Pane root = loader.load();
         root.setOnMousePressed(e -> root.requestFocus());
 
-        scene = new Scene(root);
+        Scene scene = new Scene(root);
         scene.getStylesheets().add(
                 App.class.getResource("styles/global.css").toExternalForm());
         app.setMainScreen(root);

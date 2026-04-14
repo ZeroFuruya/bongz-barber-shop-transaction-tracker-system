@@ -3,8 +3,8 @@ package bongz.barbershop.loader;
 import java.io.IOException;
 
 import bongz.barbershop.App;
-import bongz.barbershop.layout.MainAppController;
-import bongz.barbershop.layout.dashboards.OwnerDashboardController;
+import bongz.barbershop.model.UserModel;
+import bongz.barbershop.layout.dashboards.ManagerOperationController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -15,17 +15,15 @@ public class ManagerOperationLoader {
         return new FXMLLoader(App.class.getResource("layout/" + filename + ".fxml"));
     }
 
-    static Scene scene;
-    private static MainAppController mainAppController;
-
-    public static void load_manager_dashboard_window(App app, Stage mainStage) throws IOException {
+    public static void load_manager_dashboard_window(App app, Stage mainStage, UserModel currentUser)
+            throws IOException {
         mainStage.setTitle("Bongz Barbershop Transaction Tracker System (Manager)");
 
-        FXMLLoader loader = load("dashboards/OwnerDashboardView");
+        FXMLLoader loader = load("dashboards/ManagerOperationView");
         Pane root = loader.load();
         root.setOnMousePressed(e -> root.requestFocus());
 
-        scene = new Scene(root);
+        Scene scene = new Scene(root);
 
         app.setMainScreen(root);
 
@@ -38,7 +36,7 @@ public class ManagerOperationLoader {
 
         mainStage.show();
 
-        OwnerDashboardController controller = loader.getController();
-        controller.load(app, mainAppController);
+        ManagerOperationController controller = loader.getController();
+        controller.load(app, currentUser);
     }
 }

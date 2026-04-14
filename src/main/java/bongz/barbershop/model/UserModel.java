@@ -67,7 +67,7 @@ public class UserModel {
 
     @Override
     public String toString() {
-        return "UserModel [username=" + username + ", password=" + password + ", role=" + role + ", isActive="
+        return "UserModel [username=" + username + ", role=" + role + ", isActive="
                 + isActive + ", createdAt=" + createdAt + "]";
     }
 

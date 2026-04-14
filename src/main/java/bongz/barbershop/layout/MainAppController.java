@@ -22,7 +22,7 @@ public class MainAppController {
 
     @FXML
     private void handleLogIn() throws IOException {
-        ModalLoader.load_login_window(app, this);
+        ModalLoader.load_login_window(app);
     }
 
     @FXML
