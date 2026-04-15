@@ -1,10 +1,17 @@
 package bongz.barbershop.loader;
 
 import java.io.IOException;
+import java.util.function.Consumer;
 
 import bongz.barbershop.App;
+import bongz.barbershop.dto.transaction.TransactionViewDTO;
 import bongz.barbershop.layout.authentication.AuthenticationController;
 import bongz.barbershop.layout.authentication.RegistrationController;
+import bongz.barbershop.layout.dashboards.modal.NewTransactionModalController;
+import bongz.barbershop.layout.dashboards.modal.TransactionDetailModalController;
+import bongz.barbershop.layout.dashboards.modal.VoidConfirmationModalController;
+import bongz.barbershop.model.BarberModel;
+import bongz.barbershop.model.UserModel;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -55,8 +62,56 @@ public class ModalLoader {
         controller.load(app);
     }
 
+    public static void load_new_transaction_modal(
+            App app,
+            UserModel currentUser,
+            BarberModel selectedBarber,
+            String businessDate,
+            Consumer<String> onTransactionRecorded) throws IOException {
+        FXMLLoader loader = load_modal(app, "dashboards/modal/NewTransactionModal");
+
+        NewTransactionModalController controller = loader.getController();
+        controller.load(app, currentUser, selectedBarber, businessDate, onTransactionRecorded);
+    }
+
+    public static void load_transaction_detail_modal(
+            App app,
+            UserModel currentUser,
+            TransactionViewDTO selectedTransaction,
+            Consumer<String> onTransactionUpdated) throws IOException {
+        FXMLLoader loader = load_modal(app, "dashboards/modal/TransactionDetailModal");
+
+        TransactionDetailModalController controller = loader.getController();
+        controller.load(app, currentUser, selectedTransaction, onTransactionUpdated);
+    }
+
+    public static void load_void_confirmation_modal(
+            App app,
+            UserModel currentUser,
+            TransactionViewDTO selectedTransaction,
+            Consumer<String> onTransactionVoided) throws IOException {
+        FXMLLoader loader = load_modal(app, "dashboards/modal/VoidConfirmationModal");
+
+        VoidConfirmationModalController controller = loader.getController();
+        controller.load(app, currentUser, selectedTransaction, onTransactionVoided);
+    }
+
     public static void modal_close(App app) {
-        int lastIdx = app.getMainScreen().getChildren().size() - 1;
-        app.getMainScreen().getChildren().remove(lastIdx);
+        modal_close(app, 1);
+    }
+
+    public static void modal_close(App app, int layers) {
+        if (app == null || app.getMainScreen() == null || layers <= 0) {
+            return;
+        }
+
+        for (int i = 0; i < layers; i++) {
+            int childCount = app.getMainScreen().getChildren().size();
+            if (childCount <= 1) {
+                return;
+            }
+
+            app.getMainScreen().getChildren().remove(childCount - 1);
+        }
     }
 }

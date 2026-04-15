@@ -4,130 +4,93 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="557.0" prefWidth="576.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="557.0" prefWidth="576.0" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bongz.barbershop.layout.dashboards.modal.NewTransactionModalController">
    <children>
-      <StackPane prefHeight="561.0" prefWidth="576.0">
+      <StackPane prefHeight="557.0" prefWidth="576.0" style="-fx-background-color: #f5f1ea; -fx-background-radius: 12px;">
          <children>
-            <VBox prefHeight="200.0" prefWidth="576.0">
+            <VBox prefHeight="537.0" prefWidth="536.0" spacing="12.0">
                <children>
-                  <StackPane prefHeight="47.0" prefWidth="576.0">
+                  <Label fx:id="titleLabel" style="-fx-font-size: 20px; -fx-font-weight: bold;" text="New Transaction" />
+                  <HBox spacing="18.0">
                      <children>
-                        <Label text="New Tranaction (Title)" />
-                     </children>
-                  </StackPane>
-                  <HBox layoutX="10.0" layoutY="10.0" prefHeight="85.0" prefWidth="576.0">
-                     <children>
-                        <StackPane prefHeight="185.0" prefWidth="118.0">
+                        <VBox spacing="8.0">
                            <children>
-                              <VBox alignment="CENTER">
-                                 <children>
-                                    <Label text="Barber ID" />
-                                    <Label layoutX="10.0" layoutY="10.0" text="Pricing Category ID" />
-                                    <Label layoutX="10.0" layoutY="27.0" text="Logged By User ID" />
-                                 </children>
-                                 <StackPane.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </StackPane.margin>
-                              </VBox>
+                              <Label text="Barber ID" />
+                              <Label fx:id="barberIdValueLabel" text="-" />
+                              <Label text="Barber Name" />
+                              <Label fx:id="barberNameValueLabel" text="-" />
+                              <Label text="Business Date" />
+                              <Label fx:id="businessDateValueLabel" text="-" />
                            </children>
-                        </StackPane>
-                        <StackPane layoutX="10.0" layoutY="10.0" prefHeight="185.0" prefWidth="118.0">
+                        </VBox>
+                        <VBox spacing="8.0">
                            <children>
-                              <VBox alignment="CENTER">
-                                 <children>
-                                    <Label text="Business Date" />
-                                 </children>
-                                 <StackPane.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </StackPane.margin>
-                              </VBox>
+                              <Label text="Logged By User ID" />
+                              <Label fx:id="loggedByUserIdValueLabel" text="-" />
+                              <Label text="Logged By Username" />
+                              <Label fx:id="loggedByUsernameValueLabel" text="-" />
                            </children>
-                        </StackPane>
+                        </VBox>
                      </children>
                   </HBox>
-                  <HBox layoutX="10.0" layoutY="57.0" prefHeight="117.0" prefWidth="556.0">
+                  <Separator prefWidth="200.0" />
+                  <VBox spacing="8.0">
                      <children>
-                        <StackPane layoutX="10.0" layoutY="10.0" prefHeight="185.0" prefWidth="236.0">
+                        <Label text="Pricing Category" />
+                        <ComboBox fx:id="pricingCategoryComboBox" prefWidth="300.0" promptText="Select pricing category" />
+                     </children>
+                  </VBox>
+                  <HBox spacing="18.0">
+                     <children>
+                        <VBox spacing="8.0">
                            <children>
-                              <VBox alignment="CENTER">
-                                 <children>
-                                    <ComboBox prefHeight="79.0" prefWidth="182.0" promptText="Default Pricing Category" />
-                                 </children>
-                                 <StackPane.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </StackPane.margin>
-                              </VBox>
+                              <Label text="Pricing Category ID" />
+                              <Label fx:id="pricingCategoryIdValueLabel" text="-" />
+                              <Label text="Charged Amount" />
+                              <Label fx:id="chargedAmountValueLabel" text="PHP 0" />
                            </children>
-                        </StackPane>
-                        <StackPane layoutX="10.0" layoutY="10.0" prefHeight="185.0" prefWidth="236.0">
+                        </VBox>
+                        <VBox spacing="8.0">
                            <children>
-                              <VBox alignment="CENTER">
-                                 <StackPane.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </StackPane.margin>
-                                 <children>
-                                    <Label layoutX="78.0" layoutY="64.0" text="CODEX NOTE: All these below labels will depend on the current chosen pricing category" />
-                                    <Label text="Charged Amount" />
-                                    <Label layoutX="78.0" layoutY="89.0" text="Barber Commission Percent" />
-                                    <Label layoutX="78.0" layoutY="98.0" text="Barber Earning Amount Pesos" />
-                                    <Label layoutX="44.0" layoutY="106.0" text="Shop Earning Amount Pesos" />
-                                 </children>
-                              </VBox>
+                              <Label text="Barber Commission Percent" />
+                              <Label fx:id="barberCommissionPercentValueLabel" text="0%" />
+                              <Label text="Barber Earning Amount" />
+                              <Label fx:id="barberEarningAmountValueLabel" text="PHP 0" />
                            </children>
-                        </StackPane>
+                        </VBox>
+                        <VBox spacing="8.0">
+                           <children>
+                              <Label text="Shop Earning Amount" />
+                              <Label fx:id="shopEarningAmountValueLabel" text="PHP 0" />
+                           </children>
+                        </VBox>
                      </children>
                   </HBox>
-                  <HBox layoutX="10.0" layoutY="242.0" prefHeight="185.0" prefWidth="576.0">
+                  <VBox spacing="8.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <StackPane layoutX="10.0" layoutY="10.0" prefHeight="185.0" prefWidth="236.0" HBox.hgrow="ALWAYS">
-                           <children>
-                              <VBox alignment="CENTER">
-                                 <StackPane.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </StackPane.margin>
-                                 <children>
-                                    <Label text="Note Area (Optional)" />
-                                    <TextArea prefHeight="200.0" prefWidth="200.0" />
-                                 </children>
-                              </VBox>
-                           </children>
-                        </StackPane>
+                        <Label text="Note (Optional)" />
+                        <TextArea fx:id="noteTextArea" prefHeight="160.0" promptText="Add an optional note for this transaction" wrapText="true" VBox.vgrow="ALWAYS" />
                      </children>
-                  </HBox>
-                  <HBox layoutX="10.0" layoutY="427.0" prefHeight="94.0" prefWidth="576.0">
+                  </VBox>
+                  <Label fx:id="statusLabel" text="Review the pricing summary before recording." wrapText="true" />
+                  <HBox alignment="CENTER_RIGHT" spacing="10.0">
                      <children>
-                        <StackPane layoutX="10.0" layoutY="10.0" prefHeight="85.0" prefWidth="576.0" HBox.hgrow="ALWAYS">
-                           <children>
-                              <VBox alignment="CENTER" prefHeight="115.0" prefWidth="566.0">
-                                 <StackPane.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </StackPane.margin>
-                                 <children>
-                                    <HBox alignment="CENTER_RIGHT">
-                                       <children>
-                                          <Button mnemonicParsing="false" prefHeight="84.0" prefWidth="111.0" text="Record" />
-                                          <Button disable="true" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="84.0" prefWidth="19.0" visible="false" />
-                                          <Button layoutX="263.0" layoutY="10.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="81.0" text="Cancel" />
-                                       </children>
-                                    </HBox>
-                                 </children>
-                              </VBox>
-                           </children>
-                        </StackPane>
+                        <Button fx:id="recordButton" mnemonicParsing="false" onAction="#handleRecord" prefWidth="120.0" text="Record" />
+                        <Button mnemonicParsing="false" onAction="#handleCancel" prefWidth="120.0" text="Cancel" />
                      </children>
                   </HBox>
                </children>
             </VBox>
          </children>
          <padding>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </padding>
       </StackPane>
    </children>

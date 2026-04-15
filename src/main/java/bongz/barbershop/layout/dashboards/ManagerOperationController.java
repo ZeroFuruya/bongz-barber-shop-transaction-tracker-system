@@ -1,18 +1,17 @@
 package bongz.barbershop.layout.dashboards;
 
+import java.io.IOException;
 import bongz.barbershop.App;
 import bongz.barbershop.dto.report.BarberDashboardCardDTO;
 import bongz.barbershop.dto.report.DailyBarberTotalDTO;
 import bongz.barbershop.dto.report.DailyShopTotalDTO;
 import bongz.barbershop.dto.transaction.TransactionViewDTO;
 import bongz.barbershop.loader.AppLoader;
+import bongz.barbershop.loader.ModalLoader;
 import bongz.barbershop.model.BarberModel;
-import bongz.barbershop.model.PricingCategoryModel;
 import bongz.barbershop.model.UserModel;
 import bongz.barbershop.service.barber.BarberService;
-import bongz.barbershop.service.pricing.PricingCategoryService;
 import bongz.barbershop.service.reporting.ReportService;
-import bongz.barbershop.service.transaction.TransactionService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -22,6 +21,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
@@ -29,7 +29,6 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.util.StringConverter;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -39,8 +38,6 @@ import java.util.stream.Collectors;
 public class ManagerOperationController {
 
     private final BarberService barberService = new BarberService();
-    private final PricingCategoryService pricingCategoryService = new PricingCategoryService();
-    private final TransactionService transactionService = new TransactionService();
     private final ReportService reportService = new ReportService();
 
     private final ToggleGroup navigationToggleGroup = new ToggleGroup();
@@ -95,10 +92,6 @@ public class ManagerOperationController {
     @FXML
     private Label selectedBarberShopShareLabel;
     @FXML
-    private ComboBox<PricingCategoryModel> pricingCategoryComboBox;
-    @FXML
-    private TextField transactionNoteField;
-    @FXML
     private Button newTransactionButton;
     @FXML
     private TableView<TransactionViewDTO> selectedBarberTransactionsTable;
@@ -130,10 +123,6 @@ public class ManagerOperationController {
     @FXML
     private ComboBox<String> filterComboBox;
     @FXML
-    private TextField voidReasonField;
-    @FXML
-    private Button voidSelectedButton;
-    @FXML
     private TableView<TransactionViewDTO> transactionsTable;
     @FXML
     private TableColumn<TransactionViewDTO, Integer> transactionsIdColumn;
@@ -163,7 +152,6 @@ public class ManagerOperationController {
         configureActiveBarbersTable();
         configureSelectedBarberTransactionsTable();
         configureTransactionsTable();
-        configurePricingCategoryComboBox();
         configureTransactionsFilterControls();
         setVisiblePane(overviewPane);
     }
@@ -217,64 +205,31 @@ public class ManagerOperationController {
     }
 
     @FXML
-    private void handleRecordTransaction() {
+    private void handleOpenNewTransactionModal() {
         BarberModel selectedBarber = activeBarbersTable.getSelectionModel().getSelectedItem();
-        PricingCategoryModel selectedCategory = pricingCategoryComboBox.getValue();
 
         if (selectedBarber == null) {
             showStatus("Select a barber first.");
             return;
         }
 
-        if (selectedCategory == null) {
-            showStatus("Select a pricing category first.");
-            return;
+        try {
+            int selectedBarberId = selectedBarber.getBarberId();
+            ModalLoader.load_new_transaction_modal(
+                    app,
+                    currentUser,
+                    selectedBarber,
+                    getBusinessDate(),
+                    message -> {
+                        loadManagerScreenData();
+                        selectBarberById(selectedBarberId);
+                        recordToggle.setSelected(true);
+                        setVisiblePane(recordPane);
+                        showStatus(message);
+                    });
+        } catch (IOException e) {
+            showStatus("Failed to open new transaction modal.");
         }
-
-        String businessDate = getBusinessDate();
-        var result = transactionService.recordTransaction(
-                selectedBarber.getBarberId(),
-                selectedCategory.getPricingCategoryId(),
-                currentUser.getId(),
-                businessDate,
-                transactionNoteField.getText());
-
-        if (!result.isSuccess()) {
-            showStatus(result.getMessage());
-            return;
-        }
-
-        transactionNoteField.clear();
-        showStatus("Recorded " + selectedCategory.getName() + " haircut for " + selectedBarber.getName() + ".");
-        loadManagerScreenData();
-        recordToggle.setSelected(true);
-        setVisiblePane(recordPane);
-    }
-
-    @FXML
-    private void handleVoidSelectedTransaction() {
-        TransactionViewDTO selectedTransaction = transactionsTable.getSelectionModel().getSelectedItem();
-
-        if (selectedTransaction == null) {
-            showStatus("Select a transaction to void.");
-            return;
-        }
-
-        var result = transactionService.voidTransaction(
-                selectedTransaction.getTransactionId(),
-                voidReasonField.getText(),
-                currentUser.getId());
-
-        if (!result.isSuccess()) {
-            showStatus(result.getMessage());
-            return;
-        }
-
-        voidReasonField.clear();
-        showStatus("Voided transaction #" + selectedTransaction.getTransactionId() + ".");
-        loadManagerScreenData();
-        transactionsToggle.setSelected(true);
-        setVisiblePane(transactionsPane);
     }
 
     @FXML
@@ -311,26 +266,13 @@ public class ManagerOperationController {
         List<BarberModel> activeBarbers = barberService.getAllActiveBarbers();
         activeBarbersTable.setItems(FXCollections.observableArrayList(activeBarbers));
 
-        List<PricingCategoryModel> activeCategories = pricingCategoryService.getAllActiveCategories();
-        pricingCategoryComboBox.setItems(FXCollections.observableArrayList(activeCategories));
-
-        PricingCategoryModel defaultCategory = pricingCategoryService.getDefaultCategory();
-        if (defaultCategory != null) {
-            pricingCategoryComboBox.getSelectionModel().select(
-                    activeCategories.stream()
-                            .filter(category -> category.getPricingCategoryId() == defaultCategory.getPricingCategoryId())
-                            .findFirst()
-                            .orElse(defaultCategory));
-        } else if (!activeCategories.isEmpty()) {
-            pricingCategoryComboBox.getSelectionModel().selectFirst();
-        }
-
         BarberModel selectedBarber = activeBarbersTable.getSelectionModel().getSelectedItem();
         if (selectedBarber == null && !activeBarbers.isEmpty()) {
             activeBarbersTable.getSelectionModel().selectFirst();
             selectedBarber = activeBarbersTable.getSelectionModel().getSelectedItem();
         }
 
+        newTransactionButton.setDisable(selectedBarber == null);
         refreshSelectedBarberSection(selectedBarber);
     }
 
@@ -393,7 +335,10 @@ public class ManagerOperationController {
         activeBarberNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
         activeBarbersTable.getSelectionModel().selectedItemProperty()
-                .addListener((observable, oldValue, newValue) -> refreshSelectedBarberSection(newValue));
+                .addListener((observable, oldValue, newValue) -> {
+                    newTransactionButton.setDisable(newValue == null);
+                    refreshSelectedBarberSection(newValue);
+                });
     }
 
     private void configureSelectedBarberTransactionsTable() {
@@ -409,6 +354,28 @@ public class ManagerOperationController {
         selectedStatusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
         selectedVoidReasonColumn.setCellValueFactory(new PropertyValueFactory<>("voidReason"));
         selectedNoteColumn.setCellValueFactory(new PropertyValueFactory<>("note"));
+
+        selectedBarberTransactionsTable.setRowFactory(table -> {
+            TableRow<TransactionViewDTO> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (row.isEmpty() || event.getClickCount() != 1) {
+                    return;
+                }
+
+                int selectedBarberId = activeBarbersTable.getSelectionModel().getSelectedItem() == null
+                        ? -1
+                        : activeBarbersTable.getSelectionModel().getSelectedItem().getBarberId();
+
+                openTransactionDetailModal(row.getItem(), message -> {
+                    loadManagerScreenData();
+                    selectBarberById(selectedBarberId);
+                    recordToggle.setSelected(true);
+                    setVisiblePane(recordPane);
+                    showStatus(message);
+                });
+            });
+            return row;
+        });
     }
 
     private void configureTransactionsTable() {
@@ -422,27 +389,21 @@ public class ManagerOperationController {
         transactionsShopEarningAmountColumn.setCellValueFactory(new PropertyValueFactory<>("shopEarningAmount"));
         transactionsStatusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
 
-        transactionsTable.getSelectionModel().selectedItemProperty()
-                .addListener((observable, oldValue, newValue) -> voidSelectedButton.setDisable(newValue == null));
-
-        voidSelectedButton.setDisable(true);
-    }
-
-    private void configurePricingCategoryComboBox() {
-        pricingCategoryComboBox.setConverter(new StringConverter<>() {
-            @Override
-            public String toString(PricingCategoryModel category) {
-                if (category == null) {
-                    return "";
+        transactionsTable.setRowFactory(table -> {
+            TableRow<TransactionViewDTO> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (row.isEmpty() || event.getClickCount() != 1) {
+                    return;
                 }
 
-                return category.getName() + " (" + formatCurrency(category.getChargedAmountPesos()) + ")";
-            }
-
-            @Override
-            public PricingCategoryModel fromString(String string) {
-                return null;
-            }
+                openTransactionDetailModal(row.getItem(), message -> {
+                    loadManagerScreenData();
+                    transactionsToggle.setSelected(true);
+                    setVisiblePane(transactionsPane);
+                    showStatus(message);
+                });
+            });
+            return row;
         });
     }
 
@@ -538,5 +499,32 @@ public class ManagerOperationController {
 
     private void showStatus(String message) {
         statusLabel.setText(message);
+    }
+
+    private void openTransactionDetailModal(TransactionViewDTO transaction,
+            java.util.function.Consumer<String> onUpdate) {
+        if (transaction == null) {
+            return;
+        }
+
+        try {
+            ModalLoader.load_transaction_detail_modal(app, currentUser, transaction, onUpdate);
+        } catch (IOException e) {
+            showStatus("Failed to open transaction detail modal.");
+        }
+    }
+
+    private void selectBarberById(int barberId) {
+        if (barberId <= 0) {
+            return;
+        }
+
+        for (BarberModel barber : activeBarbersTable.getItems()) {
+            if (barber.getBarberId() == barberId) {
+                activeBarbersTable.getSelectionModel().select(barber);
+                activeBarbersTable.scrollTo(barber);
+                return;
+            }
+        }
     }
 }

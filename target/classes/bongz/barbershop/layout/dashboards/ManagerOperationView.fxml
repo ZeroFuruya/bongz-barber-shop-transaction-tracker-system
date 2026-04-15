@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #343131;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bongz.barbershop.layout.dashboards.ManagerOperationController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #343131;" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bongz.barbershop.layout.dashboards.ManagerOperationController">
    <children>
       <BorderPane prefHeight="768.0" prefWidth="1024.0">
          <top>
@@ -151,9 +151,8 @@
                               </HBox>
                               <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="774.0" spacing="10.0" style="-fx-background-color: white;">
                                  <children>
-                                    <ComboBox fx:id="pricingCategoryComboBox" prefWidth="220.0" promptText="Pricing Category" />
-                                    <TextField fx:id="transactionNoteField" prefWidth="380.0" promptText="Optional note" />
-                                    <Button fx:id="newTransactionButton" mnemonicParsing="false" onAction="#handleRecordTransaction" prefHeight="40.0" prefWidth="140.0" text="New Transaction" />
+                                    <Button fx:id="newTransactionButton" mnemonicParsing="false" onAction="#handleOpenNewTransactionModal" prefHeight="40.0" prefWidth="180.0" text="New Transaction" />
+                                    <Label text="Selected barber will be used in the modal." wrapText="true" />
                                  </children>
                                  <padding>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -191,8 +190,7 @@
                            <children>
                               <TextField fx:id="searchField" prefHeight="25.0" prefWidth="180.0" promptText="Search" />
                               <ComboBox fx:id="filterComboBox" prefHeight="25.0" prefWidth="120.0" promptText="Filter" />
-                              <TextField fx:id="voidReasonField" prefHeight="25.0" prefWidth="280.0" promptText="Void reason for selected transaction" />
-                              <Button fx:id="voidSelectedButton" mnemonicParsing="false" onAction="#handleVoidSelectedTransaction" prefWidth="140.0" text="Void Selected" />
+                              <Label text="Click any transaction row to open its detail modal." wrapText="true" />
                            </children>
                         </HBox>
                         <TableView fx:id="transactionsTable" prefHeight="583.0" prefWidth="596.0" VBox.vgrow="ALWAYS">
