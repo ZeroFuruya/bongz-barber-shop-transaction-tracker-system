@@ -64,6 +64,51 @@ public class ReportService {
         return reportDAO.getTransactionViewsByBarberAndBusinessDate(barberId, normalizedBusinessDate);
     }
 
+    public List<TransactionViewDTO> getTransactionViewsByDateRange(String fromDate, String toDate) {
+        String normalizedFromDate = ServiceValidation.normalizeBusinessDate(fromDate);
+        String normalizedToDate = ServiceValidation.normalizeBusinessDate(toDate);
+
+        if (!isValidDateRange(normalizedFromDate, normalizedToDate)) {
+            return List.of();
+        }
+
+        return reportDAO.getTransactionViewsByDateRange(normalizedFromDate, normalizedToDate);
+    }
+
+    public List<TransactionViewDTO> getTransactionViewsByBarberAndDateRange(int barberId, String fromDate, String toDate) {
+        if (!ServiceValidation.isPositiveId(barberId)) {
+            return List.of();
+        }
+
+        String normalizedFromDate = ServiceValidation.normalizeBusinessDate(fromDate);
+        String normalizedToDate = ServiceValidation.normalizeBusinessDate(toDate);
+
+        if (!isValidDateRange(normalizedFromDate, normalizedToDate)) {
+            return List.of();
+        }
+
+        return reportDAO.getTransactionViewsByBarberAndDateRange(barberId, normalizedFromDate, normalizedToDate);
+    }
+
+    public List<TransactionViewDTO> getTransactionViewsByPricingCategoryAndDateRange(int pricingCategoryId, String fromDate,
+            String toDate) {
+        if (!ServiceValidation.isPositiveId(pricingCategoryId)) {
+            return List.of();
+        }
+
+        String normalizedFromDate = ServiceValidation.normalizeBusinessDate(fromDate);
+        String normalizedToDate = ServiceValidation.normalizeBusinessDate(toDate);
+
+        if (!isValidDateRange(normalizedFromDate, normalizedToDate)) {
+            return List.of();
+        }
+
+        return reportDAO.getTransactionViewsByPricingCategoryAndDateRange(
+                pricingCategoryId,
+                normalizedFromDate,
+                normalizedToDate);
+    }
+
     public List<DailyBarberTotalDTO> getDateRangeBarberTotals(String fromDate, String toDate) {
         String normalizedFromDate = ServiceValidation.normalizeBusinessDate(fromDate);
         String normalizedToDate = ServiceValidation.normalizeBusinessDate(toDate);

@@ -55,6 +55,68 @@ public class UserService {
         return createUser(username, password, UserRole.MANAGER);
     }
 
+    public ServiceResult<UserModel> updateUser(int userId, String username, String password, UserRole role, int isActive) {
+        if (!ServiceValidation.isPositiveId(userId)) {
+            return ServiceResult.fail("Invalid user id");
+        }
+
+        if (!ServiceValidation.isBinaryFlag(isActive)) {
+            return ServiceResult.fail("Active status must be 0 or 1");
+        }
+
+        String normalizedUsername = ServiceValidation.trimToNull(username);
+        if (normalizedUsername == null) {
+            return ServiceResult.fail("Username is required");
+        }
+
+        UserModel existingUser = userDAO.findById(userId);
+        if (existingUser == null) {
+            return ServiceResult.fail("User not found");
+        }
+
+        UserRole resolvedRole = role;
+        if (resolvedRole == null) {
+            try {
+                resolvedRole = UserRole.fromValue(existingUser.getRole());
+            } catch (IllegalArgumentException exception) {
+                return ServiceResult.fail("Unsupported role");
+            }
+        }
+
+        UserModel userWithSameUsername = userDAO.findByUsername(normalizedUsername);
+        if (userWithSameUsername != null && userWithSameUsername.getId() != userId) {
+            return ServiceResult.fail("Username already exists");
+        }
+
+        if (UserRole.OWNER.name().equalsIgnoreCase(existingUser.getRole())) {
+            if (resolvedRole != UserRole.OWNER) {
+                return ServiceResult.fail("Owner role cannot be changed");
+            }
+
+            if (isActive == 0) {
+                return ServiceResult.fail("Owner account cannot be inactive");
+            }
+        }
+
+        String resolvedPassword = ServiceValidation.isBlank(password)
+                ? existingUser.getPassword()
+                : password;
+
+        UserModel updatedUser = new UserModel(
+                userId,
+                normalizedUsername,
+                resolvedPassword,
+                resolvedRole.name(),
+                isActive,
+                existingUser.getCreatedAt());
+
+        if (!userDAO.updateUser(updatedUser)) {
+            return ServiceResult.fail("Failed to update user");
+        }
+
+        return ServiceResult.ok("User updated", userDAO.findById(userId));
+    }
+
     public ServiceResult<UserModel> setUserActiveStatus(int userId, int isActive) {
         if (!ServiceValidation.isPositiveId(userId)) {
             return ServiceResult.fail("Invalid user id");
@@ -67,6 +129,10 @@ public class UserService {
         UserModel existingUser = userDAO.findById(userId);
         if (existingUser == null) {
             return ServiceResult.fail("User not found");
+        }
+
+        if (UserRole.OWNER.name().equalsIgnoreCase(existingUser.getRole()) && isActive == 0) {
+            return ServiceResult.fail("Owner account cannot be inactive");
         }
 
         if (!userDAO.setUserActiveStatus(userId, isActive)) {

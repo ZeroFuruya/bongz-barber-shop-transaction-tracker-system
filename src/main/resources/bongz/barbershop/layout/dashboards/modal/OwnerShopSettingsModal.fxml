@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="340.0" prefWidth="520.0" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bongz.barbershop.layout.dashboards.modal.OwnerShopSettingsModalController">
+   <children>
+      <StackPane prefHeight="340.0" prefWidth="520.0" style="-fx-background-color: #f5f1ea; -fx-background-radius: 12px;">
+         <children>
+            <VBox prefHeight="300.0" prefWidth="480.0" spacing="12.0">
+               <children>
+                  <Label fx:id="titleLabel" style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Edit Shop Settings" />
+                  <Label fx:id="updatedAtLabel" text="Updated At: -" wrapText="true" />
+                  <VBox spacing="6.0">
+                     <children>
+                        <Label text="Shop Name" />
+                        <TextField fx:id="shopNameField" promptText="Bongz Barbershop" />
+                     </children>
+                  </VBox>
+                  <VBox spacing="6.0">
+                     <children>
+                        <Label text="Currency Code" />
+                        <TextField fx:id="currencyCodeField" promptText="PHP" />
+                     </children>
+                  </VBox>
+                  <Label fx:id="statusLabel" text="" wrapText="true" />
+                  <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                     <children>
+                        <Button fx:id="saveButton" mnemonicParsing="false" onAction="#handleSave" prefWidth="120.0" text="Save" />
+                        <Button mnemonicParsing="false" onAction="#handleCancel" prefWidth="120.0" text="Cancel" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+      </StackPane>
+   </children>
+</Pane>

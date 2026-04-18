@@ -24,6 +24,8 @@ public class ManagerOperationLoader {
         root.setOnMousePressed(e -> root.requestFocus());
 
         Scene scene = new Scene(root);
+        scene.getStylesheets().add(
+                App.class.getResource("styles/global.css").toExternalForm());
 
         app.setMainScreen(root);
 

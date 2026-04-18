@@ -9,6 +9,7 @@ import java.io.IOException;
 import bongz.barbershop.loader.AppLoader;
 import bongz.barbershop.model.UserModel;
 import bongz.barbershop.server.core.DatabaseInitializer;
+import bongz.barbershop.storage.AppDataPaths;
 
 /**
  * JavaFX App
@@ -22,6 +23,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         DatabaseInitializer.initialize();
+        AppDataPaths.initializeDirectories();
         initialize_main(stage);
     }
 

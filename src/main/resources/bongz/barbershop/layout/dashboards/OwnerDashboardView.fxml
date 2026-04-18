@@ -3,95 +3,116 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #343131;" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bongz.barbershop.layout.dashboards.OwnerDashboardController">
    <children>
-      <BorderPane prefHeight="200.0" prefWidth="200.0">
+      <BorderPane prefHeight="768.0" prefWidth="1024.0">
          <left>
-            <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <StackPane prefHeight="768.0" prefWidth="220.0" BorderPane.alignment="CENTER">
                <children>
-                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="20.0" style="-fx-background-radius: 10px; -fx-background-color: #A04747;">
-                     <StackPane.margin>
-                        <Insets bottom="10.0" left="10.0" right="5.0" top="10.0" />
-                     </StackPane.margin>
-                     <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </padding>
+                  <VBox prefHeight="748.0" prefWidth="200.0" spacing="12.0" style="-fx-background-color: #A04747; -fx-background-radius: 10px;">
                      <children>
-                        <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" prefHeight="150.0" prefWidth="200.0">
+                        <StackPane prefHeight="140.0" prefWidth="180.0">
                            <children>
-                              <ImageView fitHeight="150.0" fitWidth="175.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="130.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../assets/images/Bongzicon.png" />
                                  </image>
                               </ImageView>
                            </children>
                         </StackPane>
-                        <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" VBox.vgrow="ALWAYS">
+                        <Label style="-fx-text-fill: #eeeeee; -fx-font-size: 18px; -fx-font-weight: bold;" text="Owner Dashboard" />
+                        <StackPane prefHeight="44.0" prefWidth="180.0" style="-fx-background-color: #D8A25E; -fx-background-radius: 5px;">
                            <children>
-                              <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" prefHeight="52.0" prefWidth="175.0" style="-fx-background-color: #D8A25E; -fx-background-radius: 5px;">
-                                 <children>
-                                    <Button mnemonicParsing="false" prefHeight="96.0" prefWidth="175.0" text="Home" StackPane.alignment="CENTER" />
-                                 </children>
-                              </StackPane>
-                              <StackPane layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" prefHeight="52.0" prefWidth="175.0" style="-fx-background-color: #D8A25E; -fx-background-radius: 5px;">
-                                 <children>
-                                    <Button mnemonicParsing="false" prefHeight="96.0" prefWidth="175.0" text="Earnings" />
-                                 </children>
-                              </StackPane>
-                              <StackPane layoutX="10.0" layoutY="67.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" prefHeight="52.0" prefWidth="175.0" style="-fx-background-color: #D8A25E; -fx-background-radius: 5px;">
-                                 <children>
-                                    <Button mnemonicParsing="false" prefHeight="96.0" prefWidth="175.0" text="Barbers" />
-                                 </children>
-                              </StackPane>
+                              <ToggleButton fx:id="overviewNavButton" mnemonicParsing="false" onAction="#handleShowOverview" prefHeight="44.0" prefWidth="180.0" selected="true" style="-fx-background-color: rgba(0, 0, 0, 0); -fx-font-weight: bold;" text="Overview" />
                            </children>
-                        </VBox>
-                        <StackPane layoutX="15.0" layoutY="15.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: #D8A25E; -fx-background-radius: 5px;" />
+                        </StackPane>
+                        <StackPane prefHeight="44.0" prefWidth="180.0" style="-fx-background-color: #D8A25E; -fx-background-radius: 5px;">
+                           <children>
+                              <ToggleButton fx:id="operationsNavButton" mnemonicParsing="false" onAction="#handleShowOperations" prefHeight="44.0" prefWidth="180.0" style="-fx-background-color: rgba(0, 0, 0, 0); -fx-font-weight: bold;" text="Operations" />
+                           </children>
+                        </StackPane>
+                        <StackPane prefHeight="44.0" prefWidth="180.0" style="-fx-background-color: #D8A25E; -fx-background-radius: 5px;">
+                           <children>
+                              <ToggleButton fx:id="earningsNavButton" mnemonicParsing="false" onAction="#handleShowEarnings" prefHeight="44.0" prefWidth="180.0" style="-fx-background-color: rgba(0, 0, 0, 0); -fx-font-weight: bold;" text="Earnings" />
+                           </children>
+                        </StackPane>
+                        <StackPane prefHeight="44.0" prefWidth="180.0" style="-fx-background-color: #D8A25E; -fx-background-radius: 5px;">
+                           <children>
+                              <ToggleButton fx:id="barbersNavButton" mnemonicParsing="false" onAction="#handleShowBarbers" prefHeight="44.0" prefWidth="180.0" style="-fx-background-color: rgba(0, 0, 0, 0); -fx-font-weight: bold;" text="Barbers" />
+                           </children>
+                        </StackPane>
+                        <StackPane prefHeight="44.0" prefWidth="180.0" style="-fx-background-color: #D8A25E; -fx-background-radius: 5px;">
+                           <children>
+                              <ToggleButton fx:id="pricingNavButton" mnemonicParsing="false" onAction="#handleShowPricing" prefHeight="44.0" prefWidth="180.0" style="-fx-background-color: rgba(0, 0, 0, 0); -fx-font-weight: bold;" text="Pricing" />
+                           </children>
+                        </StackPane>
+                        <StackPane prefHeight="44.0" prefWidth="180.0" style="-fx-background-color: #D8A25E; -fx-background-radius: 5px;">
+                           <children>
+                              <ToggleButton fx:id="usersNavButton" mnemonicParsing="false" onAction="#handleShowUsers" prefHeight="44.0" prefWidth="180.0" style="-fx-background-color: rgba(0, 0, 0, 0); -fx-font-weight: bold;" text="Users" />
+                           </children>
+                        </StackPane>
+                        <StackPane prefHeight="44.0" prefWidth="180.0" style="-fx-background-color: #D8A25E; -fx-background-radius: 5px;">
+                           <children>
+                              <ToggleButton fx:id="settingsNavButton" mnemonicParsing="false" onAction="#handleShowSettings" prefHeight="44.0" prefWidth="180.0" style="-fx-background-color: rgba(0, 0, 0, 0); -fx-font-weight: bold;" text="Settings" />
+                           </children>
+                        </StackPane>
+                        <Region prefHeight="40.0" VBox.vgrow="ALWAYS" />
+                        <Label style="-fx-text-fill: #f2e8d8;" text="Manager-style palette and layout." wrapText="true" />
                      </children>
+                     <StackPane.margin>
+                        <Insets bottom="10.0" left="10.0" right="5.0" top="10.0" />
+                     </StackPane.margin>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
                   </VBox>
                </children>
             </StackPane>
          </left>
          <center>
-            <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <BorderPane prefHeight="768.0" prefWidth="804.0" BorderPane.alignment="CENTER">
                <top>
-                  <StackPane prefHeight="80.0" prefWidth="824.0" BorderPane.alignment="CENTER">
+                  <StackPane prefHeight="80.0" prefWidth="804.0" BorderPane.alignment="CENTER">
                      <children>
-                        <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" style="-fx-background-color: #A04747; -fx-background-radius: 10px;">
-                           <StackPane.margin>
-                              <Insets bottom="5.0" left="5.0" right="10.0" top="10.0" />
-                           </StackPane.margin>
-                           <padding>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </padding>
+                        <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="784.0" spacing="10.0" style="-fx-background-color: #A04747; -fx-background-radius: 10px;">
                            <children>
-                              <StackPane prefHeight="55.0" prefWidth="70.0" style="-fx-background-color: #D8A25E; -fx-background-radius: 5px;">
+                              <VBox alignment="CENTER_LEFT" spacing="4.0">
                                  <children>
-                                    <ImageView fitHeight="56.0" fitWidth="53.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../../assets/images/new-account.png" />
-                                       </image>
-                                    </ImageView>
-                                    <Button mnemonicParsing="false" onAction="#handleNewUser" prefHeight="66.0" prefWidth="84.0" style="-fx-background-color: rgba(245, 39, 145, 0);">
-                                       <cursor>
-                                          <Cursor fx:constant="HAND" />
-                                       </cursor>
-                                    </Button>
-                                 </children></StackPane>
-                              <StackPane layoutX="744.0" layoutY="15.0" prefHeight="55.0" prefWidth="70.0" style="-fx-background-color: #D8A25E; -fx-background-radius: 5px;">
+                                    <Label fx:id="pageTitleLabel" style="-fx-text-fill: #eeeeee; -fx-font-size: 20px; -fx-font-weight: bold;" text="Owner Overview" />
+                                    <Label fx:id="signedInAsLabel" style="-fx-text-fill: #f2e8d8;" text="Signed in as owner" />
+                                 </children>
+                              </VBox>
+                              <Region HBox.hgrow="ALWAYS" />
+                              <Label style="-fx-text-fill: #f2e8d8;" text="Business Date" />
+                              <StackPane prefHeight="42.0" prefWidth="180.0" style="-fx-background-color: #D8A25E; -fx-background-radius: 5px;">
                                  <children>
-                                    <ImageView fitHeight="55.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                                    <DatePicker fx:id="businessDatePicker" onAction="#handleBusinessDateChanged" prefWidth="160.0" />
+                                 </children>
+                              </StackPane>
+                              <StackPane prefHeight="42.0" prefWidth="70.0" style="-fx-background-color: #D8A25E; -fx-background-radius: 5px;">
+                                 <children>
+                                    <ImageView fitHeight="42.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../../assets/images/logout.png" />
                                        </image>
                                     </ImageView>
-                                    <Button mnemonicParsing="false" onAction="#handleLogout" prefHeight="66.0" prefWidth="84.0" style="-fx-background-color: rgba(245, 39, 145, 0);">
+                                    <Button mnemonicParsing="false" onAction="#handleLogout" prefHeight="42.0" prefWidth="70.0" style="-fx-background-color: rgba(0, 0, 0, 0);">
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
@@ -99,106 +120,692 @@
                                  </children>
                               </StackPane>
                            </children>
+                           <StackPane.margin>
+                              <Insets bottom="5.0" left="5.0" right="10.0" top="10.0" />
+                           </StackPane.margin>
+                           <padding>
+                              <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                           </padding>
                         </HBox>
                      </children>
                   </StackPane>
                </top>
                <center>
-                  <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                     <children>
-                        <BorderPane prefHeight="200.0" prefWidth="200.0">
-                           <top>
-                              <StackPane minHeight="200.0" prefHeight="200.0" prefWidth="809.0" BorderPane.alignment="CENTER">
-                                 <children>
-                                    <HBox alignment="CENTER" prefHeight="109.0" prefWidth="804.0" spacing="20.0">
-                                       <padding>
-                                          <Insets bottom="10.0" top="10.0" />
-                                       </padding>
-                                       <children>
-                                          <StackPane prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: #D8A25E; -fx-background-radius: 5px;" HBox.hgrow="ALWAYS">
-                                             <padding>
-                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                             </padding>
-                                          </StackPane>
-                                          <StackPane layoutX="312.0" layoutY="15.0" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: #D8A25E; -fx-background-radius: 5px;" HBox.hgrow="ALWAYS">
-                                             <padding>
-                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                             </padding>
-                                          </StackPane>
-                                          <StackPane layoutX="417.0" layoutY="15.0" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: #D8A25E; -fx-background-radius: 5px;" HBox.hgrow="ALWAYS">
-                                             <padding>
-                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                             </padding>
-                                          </StackPane>
-                                          <StackPane layoutX="532.0" layoutY="30.0" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: #D8A25E; -fx-background-radius: 5px;" HBox.hgrow="ALWAYS">
-                                             <padding>
-                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                             </padding>
-                                          </StackPane>
-                                       </children>
-                                    </HBox>
-                                 </children>
-                              </StackPane>
-                           </top>
-                           <center>
-                              <StackPane prefHeight="328.0" prefWidth="809.0" BorderPane.alignment="CENTER">
-                                 <children>
-                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
-                                       <children>
-                                          <StackPane prefHeight="338.0" prefWidth="349.0" style="-fx-background-color: #D8A25E; -fx-background-radius: 5px;" HBox.hgrow="ALWAYS" />
-                                          <StackPane layoutX="246.0" layoutY="20.0" minWidth="325.0" prefHeight="338.0" prefWidth="370.0" style="-fx-background-color: #D8A25E; -fx-background-radius: 5px;" />
-                                       </children>
-                                       <StackPane.margin>
-                                          <Insets />
-                                       </StackPane.margin>
-                                       <padding>
-                                          <Insets bottom="10.0" top="10.0" />
-                                       </padding>
-                                    </HBox>
-                                 </children>
-                              </StackPane>
-                           </center>
-                           <bottom>
-                              <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                                 <children>
-                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
-                                       <StackPane.margin>
-                                          <Insets />
-                                       </StackPane.margin>
-                                       <padding>
-                                          <Insets bottom="10.0" top="10.0" />
-                                       </padding>
-                                       <children>
-                                          <StackPane minWidth="200.0" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: #D8A25E; -fx-background-radius: 5px;" HBox.hgrow="ALWAYS">
-                                             <children>
-                                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" />
-                                             </children>
-                                          </StackPane>
-                                          <StackPane layoutX="312.0" layoutY="20.0" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: #D8A25E; -fx-background-radius: 5px;" HBox.hgrow="ALWAYS">
-                                             <children>
-                                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" />
-                                             </children>
-                                          </StackPane>
-                                          <StackPane layoutX="412.0" layoutY="20.0" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: #D8A25E; -fx-background-radius: 5px;" HBox.hgrow="ALWAYS">
-                                             <children>
-                                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" />
-                                             </children>
-                                          </StackPane>
-                                       </children>
-                                    </HBox>
-                                 </children>
-                              </StackPane>
-                           </bottom>
-                           <StackPane.margin>
-                              <Insets bottom="10.0" left="5.0" right="10.0" top="5.0" />
-                           </StackPane.margin>
-                        </BorderPane>
-                     </children>
+                  <StackPane prefHeight="620.0" prefWidth="804.0" BorderPane.alignment="CENTER">
                      <BorderPane.margin>
-                        <Insets />
+                        <Insets bottom="5.0" left="5.0" right="10.0" top="5.0" />
                      </BorderPane.margin>
+                     <children>
+                        <VBox fx:id="overviewPane" prefHeight="600.0" prefWidth="789.0" spacing="10.0">
+                           <children>
+                              <HBox spacing="10.0">
+                                 <children>
+                                    <StackPane prefHeight="120.0" prefWidth="150.0" style="-fx-background-color: white;" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <VBox alignment="CENTER_LEFT" spacing="6.0">
+                                             <children>
+                                                <Label style="-fx-font-size: 15px; -fx-font-weight: bold;" text="Business Date" />
+                                                <Label fx:id="overviewDateLabel" text="Business Date: -" wrapText="true" />
+                                                <Label fx:id="overviewGreetingLabel" text="Welcome back, owner" wrapText="true" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </StackPane>
+                                    <StackPane prefHeight="120.0" prefWidth="120.0" style="-fx-background-color: white;" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <VBox alignment="CENTER_LEFT" spacing="6.0">
+                                             <children>
+                                                <Label style="-fx-font-size: 15px; -fx-font-weight: bold;" text="Haircuts" />
+                                                <Label fx:id="overviewHaircutsLabel" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="0" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </StackPane>
+                                    <StackPane prefHeight="120.0" prefWidth="140.0" style="-fx-background-color: white;" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <VBox alignment="CENTER_LEFT" spacing="6.0">
+                                             <children>
+                                                <Label style="-fx-font-size: 15px; -fx-font-weight: bold;" text="Gross Sales" />
+                                                <Label fx:id="overviewGrossSalesLabel" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="PHP 0" wrapText="true" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </StackPane>
+                                    <StackPane prefHeight="120.0" prefWidth="160.0" style="-fx-background-color: white;" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <VBox alignment="CENTER_LEFT" spacing="6.0">
+                                             <children>
+                                                <Label style="-fx-font-size: 15px; -fx-font-weight: bold;" text="Barber Commissions" />
+                                                <Label fx:id="overviewBarberCommissionsLabel" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="PHP 0" wrapText="true" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </StackPane>
+                                    <StackPane prefHeight="120.0" prefWidth="160.0" style="-fx-background-color: white;" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <VBox alignment="CENTER_LEFT" spacing="6.0">
+                                             <children>
+                                                <Label style="-fx-font-size: 15px; -fx-font-weight: bold;" text="Shop Earnings" />
+                                                <Label fx:id="overviewShopEarningsLabel" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="PHP 0" wrapText="true" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </StackPane>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-background-color: white;">
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#handleOpenOverviewNewTransaction" prefHeight="36.0" prefWidth="140.0" text="New Transaction" />
+                                    <Button mnemonicParsing="false" onAction="#handleOpenOverviewAddBarber" prefHeight="36.0" prefWidth="110.0" text="Add Barber" />
+                                    <Button mnemonicParsing="false" onAction="#handleOpenOverviewAddPricing" prefHeight="36.0" prefWidth="110.0" text="Add Pricing" />
+                                    <Button mnemonicParsing="false" onAction="#handleOpenOverviewAddManager" prefHeight="36.0" prefWidth="110.0" text="Add Manager" />
+                                    <Button mnemonicParsing="false" onAction="#handleOpenOverviewEditSettings" prefHeight="36.0" prefWidth="110.0" text="Edit Settings" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </HBox>
+                              <StackPane prefHeight="450.0" prefWidth="789.0" style="-fx-background-color: white;" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <VBox spacing="10.0">
+                                       <children>
+                                          <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Recent Transactions" />
+                                          <Label text="Click any transaction row to inspect and optionally void a transaction." wrapText="true" />
+                                          <TableView fx:id="overviewRecentTransactionsTable" prefHeight="380.0" prefWidth="760.0" VBox.vgrow="ALWAYS">
+                                             <columns>
+                                                <TableColumn fx:id="overviewTransactionIdColumn" prefWidth="90.0" text="Transaction ID" />
+                                                <TableColumn fx:id="overviewTransactionBarberColumn" prefWidth="170.0" text="Barber" />
+                                                <TableColumn fx:id="overviewTransactionCategoryColumn" prefWidth="220.0" text="Category" />
+                                                <TableColumn fx:id="overviewTransactionAmountColumn" prefWidth="120.0" text="Charged" />
+                                                <TableColumn fx:id="overviewTransactionStatusColumn" prefWidth="110.0" text="Status" />
+                                             </columns>
+                                          </TableView>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </StackPane>
+                           </children>
+                        </VBox>
+                        <VBox fx:id="operationsPane" managed="false" prefHeight="600.0" prefWidth="789.0" spacing="10.0" visible="false">
+                           <children>
+                              <HBox alignment="CENTER_LEFT" spacing="8.0" style="-fx-background-color: #A04747; -fx-background-radius: 10px;">
+                                 <children>
+                                    <ToggleButton fx:id="operationsOverviewToggle" mnemonicParsing="false" onAction="#handleOperationsOverviewTab" prefHeight="40.0" prefWidth="100.0" selected="true" text="Overview" />
+                                    <ToggleButton fx:id="operationsRecordToggle" mnemonicParsing="false" onAction="#handleOperationsRecordTab" prefHeight="40.0" prefWidth="90.0" text="Record" />
+                                    <ToggleButton fx:id="operationsTransactionsToggle" mnemonicParsing="false" onAction="#handleOperationsTransactionsTab" prefHeight="40.0" prefWidth="110.0" text="Transactions" />
+                                    <Region HBox.hgrow="ALWAYS" />
+                                    <Label style="-fx-text-fill: #f2e8d8;" text="Owner has full manager transaction access here." wrapText="true" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </HBox>
+                              <StackPane prefHeight="540.0" prefWidth="789.0" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <VBox fx:id="operationsOverviewPane" prefHeight="530.0" prefWidth="789.0" spacing="10.0">
+                                       <children>
+                                          <HBox spacing="10.0">
+                                             <children>
+                                                <StackPane prefHeight="160.0" prefWidth="250.0" style="-fx-background-color: white;" HBox.hgrow="ALWAYS">
+                                                   <children>
+                                                      <Label fx:id="operationsTotalCutsLabel" text="Total Cuts Today: 0" wrapText="true" />
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                </StackPane>
+                                                <StackPane prefHeight="160.0" prefWidth="250.0" style="-fx-background-color: white;" HBox.hgrow="ALWAYS">
+                                                   <children>
+                                                      <Label fx:id="operationsGrossSalesLabel" text="Gross Sales Today: PHP 0" wrapText="true" />
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                </StackPane>
+                                                <StackPane prefHeight="160.0" prefWidth="250.0" style="-fx-background-color: white;" HBox.hgrow="ALWAYS">
+                                                   <children>
+                                                      <Label fx:id="operationsShopSalesLabel" text="Shop Earnings Today: PHP 0" wrapText="true" />
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                </StackPane>
+                                             </children>
+                                          </HBox>
+                                          <StackPane prefHeight="350.0" prefWidth="789.0" style="-fx-background-color: white;" VBox.vgrow="ALWAYS">
+                                             <children>
+                                                <VBox spacing="10.0">
+                                                   <children>
+                                                      <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Barber Breakdown" />
+                                                      <Label fx:id="operationsBarberCommissionListLabel" text="No posted haircuts for this date." wrapText="true" />
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                             <padding>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                             </padding>
+                                          </StackPane>
+                                       </children>
+                                    </VBox>
+                                    <HBox fx:id="operationsRecordPane" managed="false" prefHeight="530.0" prefWidth="789.0" spacing="10.0" visible="false">
+                                       <children>
+                                          <StackPane prefHeight="530.0" prefWidth="220.0">
+                                             <children>
+                                                <TableView fx:id="operationsActiveBarbersTable" prefHeight="530.0" prefWidth="220.0">
+                                                   <columns>
+                                                      <TableColumn fx:id="operationsActiveBarberIdColumn" prefWidth="70.0" text="ID" />
+                                                      <TableColumn fx:id="operationsActiveBarberNameColumn" prefWidth="145.0" text="Barber" />
+                                                   </columns>
+                                                </TableView>
+                                             </children>
+                                          </StackPane>
+                                          <VBox prefHeight="530.0" prefWidth="559.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <HBox alignment="CENTER" prefHeight="120.0" prefWidth="559.0" spacing="10.0" style="-fx-background-color: white;">
+                                                   <children>
+                                                      <Label fx:id="operationsSelectedBarberIdLabel" text="Selected Barber ID: -" wrapText="true" />
+                                                      <VBox alignment="CENTER" prefHeight="100.0" prefWidth="210.0" spacing="8.0">
+                                                         <children>
+                                                            <Label fx:id="operationsSelectedBarberImagePathLabel" text="Stored Image: -" wrapText="true" />
+                                                            <Label fx:id="operationsSelectedBarberNameLabel" text="Selected Barber Name: -" wrapText="true" />
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                </HBox>
+                                                <HBox prefHeight="100.0" prefWidth="559.0" spacing="10.0" style="-fx-background-color: white;">
+                                                   <children>
+                                                      <Label fx:id="operationsSelectedBarberHaircutCountLabel" text="Haircut Count Today: 0" wrapText="true" />
+                                                      <Label fx:id="operationsSelectedBarberCommissionLabel" text="Commission Today: PHP 0" wrapText="true" />
+                                                      <Label fx:id="operationsSelectedBarberShopShareLabel" text="Shop Share Today: PHP 0" wrapText="true" />
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                </HBox>
+                                                <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="559.0" spacing="10.0" style="-fx-background-color: white;">
+                                                   <children>
+                                                      <Button fx:id="operationsNewTransactionButton" mnemonicParsing="false" onAction="#handleOpenOperationsNewTransaction" prefHeight="40.0" prefWidth="170.0" text="New Transaction" />
+                                                      <Label text="Selected barber will be used in the modal." wrapText="true" />
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                </HBox>
+                                                <StackPane prefHeight="230.0" prefWidth="559.0" style="-fx-background-color: white;" VBox.vgrow="ALWAYS">
+                                                   <children>
+                                                      <TableView fx:id="operationsSelectedBarberTransactionsTable" prefHeight="210.0" prefWidth="530.0">
+                                                         <columns>
+                                                            <TableColumn fx:id="operationsSelectedTransactionIdColumn" prefWidth="76.0" text="ID" />
+                                                            <TableColumn fx:id="operationsSelectedPricingCategoryIdColumn" prefWidth="125.0" text="Category" />
+                                                            <TableColumn fx:id="operationsSelectedLoggedByUserIdColumn" prefWidth="95.0" text="Logged By" />
+                                                            <TableColumn fx:id="operationsSelectedBusinessDateColumn" prefWidth="92.0" text="Business Date" visible="false" />
+                                                            <TableColumn fx:id="operationsSelectedRecordedAtColumn" prefWidth="105.0" text="Recorded" />
+                                                            <TableColumn fx:id="operationsSelectedPricingCategoryNameColumn" prefWidth="104.0" text="Category" visible="false" />
+                                                            <TableColumn fx:id="operationsSelectedChargedAmountColumn" prefWidth="80.0" text="Charged" />
+                                                            <TableColumn fx:id="operationsSelectedBarberCommissionPercentColumn" prefWidth="72.0" text="Percent" visible="false" />
+                                                            <TableColumn fx:id="operationsSelectedStatusColumn" prefWidth="70.0" text="Status" />
+                                                            <TableColumn fx:id="operationsSelectedVoidReasonColumn" prefWidth="92.0" text="Void Reason" visible="false" />
+                                                            <TableColumn fx:id="operationsSelectedNoteColumn" prefWidth="110.0" text="Note" visible="false" />
+                                                         </columns>
+                                                      </TableView>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                </StackPane>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
+                                    <VBox fx:id="operationsTransactionsPane" managed="false" prefHeight="530.0" prefWidth="789.0" spacing="10.0" visible="false">
+                                       <children>
+                                          <HBox spacing="10.0">
+                                             <children>
+                                                <TextField fx:id="operationsSearchField" prefHeight="25.0" prefWidth="180.0" promptText="Search" />
+                                                <ComboBox fx:id="operationsFilterComboBox" prefHeight="25.0" prefWidth="120.0" promptText="Filter" />
+                                                <Label text="Click any transaction row to open its detail modal." wrapText="true" />
+                                             </children>
+                                          </HBox>
+                                          <TableView fx:id="operationsTransactionsTable" prefHeight="500.0" prefWidth="789.0" VBox.vgrow="ALWAYS">
+                                             <columns>
+                                                <TableColumn fx:id="operationsTransactionsIdColumn" prefWidth="74.0" text="ID" />
+                                                <TableColumn fx:id="operationsTransactionsBarberIdColumn" prefWidth="130.0" text="Barber" />
+                                                <TableColumn fx:id="operationsTransactionsPricingCategoryIdColumn" prefWidth="155.0" text="Category" />
+                                                <TableColumn fx:id="operationsTransactionsLoggedByUserIdColumn" prefWidth="105.0" text="Logged By" />
+                                                <TableColumn fx:id="operationsTransactionsBusinessDateColumn" prefWidth="95.0" text="Date" />
+                                                <TableColumn fx:id="operationsTransactionsRecordedAtColumn" prefWidth="110.0" text="Recorded" visible="false" />
+                                                <TableColumn fx:id="operationsTransactionsPricingCategoryNameColumn" prefWidth="150.0" text="Category" visible="false" />
+                                                <TableColumn fx:id="operationsTransactionsShopEarningAmountColumn" prefWidth="95.0" text="Shop" />
+                                                <TableColumn fx:id="operationsTransactionsStatusColumn" prefWidth="75.0" text="Status" />
+                                             </columns>
+                                          </TableView>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </StackPane>
+                           </children>
+                        </VBox>
+                        <VBox fx:id="earningsPane" managed="false" prefHeight="600.0" prefWidth="789.0" spacing="10.0" visible="false">
+                           <children>
+                              <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-background-color: white;">
+                                 <children>
+                                    <Label text="From" />
+                                    <DatePicker fx:id="earningsFromDatePicker" prefWidth="135.0" />
+                                    <Label text="To" />
+                                    <DatePicker fx:id="earningsToDatePicker" prefWidth="135.0" />
+                                    <Button mnemonicParsing="false" onAction="#handleApplyEarningsRange" prefHeight="36.0" prefWidth="90.0" text="Apply" />
+                                    <Region HBox.hgrow="ALWAYS" />
+                                    <Button mnemonicParsing="false" onAction="#handleOpenEarningsAllTransactions" prefHeight="36.0" prefWidth="170.0" text="View All Transactions" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </HBox>
+                              <HBox spacing="10.0">
+                                 <children>
+                                    <StackPane prefHeight="100.0" prefWidth="170.0" style="-fx-background-color: white;" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <VBox alignment="CENTER_LEFT" spacing="6.0">
+                                             <children>
+                                                <Label style="-fx-font-size: 15px; -fx-font-weight: bold;" text="Range" />
+                                                <Label fx:id="earningsRangeLabel" text="Range: -" wrapText="true" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </StackPane>
+                                    <StackPane prefHeight="100.0" prefWidth="110.0" style="-fx-background-color: white;" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <VBox alignment="CENTER_LEFT" spacing="6.0">
+                                             <children>
+                                                <Label style="-fx-font-size: 15px; -fx-font-weight: bold;" text="Haircuts" />
+                                                <Label fx:id="earningsHaircutsLabel" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="0" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </StackPane>
+                                    <StackPane prefHeight="100.0" prefWidth="150.0" style="-fx-background-color: white;" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <VBox alignment="CENTER_LEFT" spacing="6.0">
+                                             <children>
+                                                <Label style="-fx-font-size: 15px; -fx-font-weight: bold;" text="Gross Sales" />
+                                                <Label fx:id="earningsGrossSalesLabel" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="PHP 0" wrapText="true" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </StackPane>
+                                    <StackPane prefHeight="100.0" prefWidth="160.0" style="-fx-background-color: white;" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <VBox alignment="CENTER_LEFT" spacing="6.0">
+                                             <children>
+                                                <Label style="-fx-font-size: 15px; -fx-font-weight: bold;" text="Barber Commissions" />
+                                                <Label fx:id="earningsBarberCommissionsLabel" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="PHP 0" wrapText="true" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </StackPane>
+                                    <StackPane prefHeight="100.0" prefWidth="160.0" style="-fx-background-color: white;" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <VBox alignment="CENTER_LEFT" spacing="6.0">
+                                             <children>
+                                                <Label style="-fx-font-size: 15px; -fx-font-weight: bold;" text="Shop Earnings" />
+                                                <Label fx:id="earningsShopEarningsLabel" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="PHP 0" wrapText="true" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </StackPane>
+                                 </children>
+                              </HBox>
+                              <VBox spacing="10.0" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <StackPane prefHeight="128.0" prefWidth="789.0" style="-fx-background-color: white;" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <VBox spacing="10.0">
+                                             <children>
+                                                <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Daily Shop Totals" />
+                                                <Label text="Click a day to see transactions." wrapText="true" />
+                                                <TableView fx:id="earningsShopTotalsTable" prefHeight="82.0" prefWidth="759.0" VBox.vgrow="ALWAYS">
+                                                   <columns>
+                                                      <TableColumn fx:id="earningsShopDateColumn" prefWidth="140.0" text="Date" />
+                                                      <TableColumn fx:id="earningsShopHaircutsColumn" prefWidth="90.0" text="Cuts" />
+                                                      <TableColumn fx:id="earningsShopGrossColumn" prefWidth="170.0" text="Gross" />
+                                                      <TableColumn fx:id="earningsShopBarberColumn" prefWidth="170.0" text="Barber" />
+                                                      <TableColumn fx:id="earningsShopNetColumn" prefWidth="170.0" text="Shop" />
+                                                   </columns>
+                                                </TableView>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </StackPane>
+                                    <StackPane prefHeight="128.0" prefWidth="789.0" style="-fx-background-color: white;" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <VBox spacing="10.0">
+                                             <children>
+                                                <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Barber Totals" />
+                                                <Label text="Click a barber to drill into their transactions." wrapText="true" />
+                                                <TableView fx:id="earningsBarberTotalsTable" prefHeight="82.0" prefWidth="759.0" VBox.vgrow="ALWAYS">
+                                                   <columns>
+                                                      <TableColumn fx:id="earningsBarberIdColumn" prefWidth="56.0" text="ID" visible="false" />
+                                                      <TableColumn fx:id="earningsBarberNameColumn" prefWidth="190.0" text="Barber" />
+                                                      <TableColumn fx:id="earningsBarberHaircutsColumn" prefWidth="90.0" text="Cuts" />
+                                                      <TableColumn fx:id="earningsBarberGrossColumn" prefWidth="160.0" text="Gross" />
+                                                      <TableColumn fx:id="earningsBarberCommissionColumn" prefWidth="150.0" text="Barber" />
+                                                      <TableColumn fx:id="earningsBarberShopShareColumn" prefWidth="150.0" text="Shop" />
+                                                   </columns>
+                                                </TableView>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </StackPane>
+                                    <StackPane prefHeight="128.0" prefWidth="789.0" style="-fx-background-color: white;" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <VBox spacing="10.0">
+                                             <children>
+                                                <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Pricing Summary" />
+                                                <Label text="Click a category to view supporting transactions." wrapText="true" />
+                                                <TableView fx:id="earningsPricingSummaryTable" prefHeight="82.0" prefWidth="759.0" VBox.vgrow="ALWAYS">
+                                                   <columns>
+                                                      <TableColumn fx:id="earningsPricingIdColumn" prefWidth="54.0" text="ID" visible="false" />
+                                                      <TableColumn fx:id="earningsPricingCodeColumn" prefWidth="90.0" text="Code" />
+                                                      <TableColumn fx:id="earningsPricingNameColumn" prefWidth="180.0" text="Name" />
+                                                      <TableColumn fx:id="earningsPricingHaircutsColumn" prefWidth="90.0" text="Cuts" />
+                                                      <TableColumn fx:id="earningsPricingGrossColumn" prefWidth="150.0" text="Gross" />
+                                                      <TableColumn fx:id="earningsPricingCommissionColumn" prefWidth="140.0" text="Barber" />
+                                                      <TableColumn fx:id="earningsPricingShopShareColumn" prefWidth="140.0" text="Shop" />
+                                                   </columns>
+                                                </TableView>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </StackPane>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </VBox>
+                        <VBox fx:id="barbersPane" managed="false" prefHeight="600.0" prefWidth="789.0" spacing="10.0" visible="false">
+                           <children>
+                              <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-background-color: white;">
+                                 <children>
+                                    <TextField fx:id="barberSearchField" prefHeight="25.0" prefWidth="180.0" promptText="Search barbers" />
+                                    <ComboBox fx:id="barberStatusFilterComboBox" prefHeight="25.0" prefWidth="120.0" promptText="Status" />
+                                    <Region HBox.hgrow="ALWAYS" />
+                                    <Button mnemonicParsing="false" onAction="#handleOpenCreateBarberModal" prefHeight="36.0" prefWidth="110.0" text="Add Barber" />
+                                    <Button fx:id="editBarberButton" mnemonicParsing="false" onAction="#handleOpenEditBarberModal" prefHeight="36.0" prefWidth="100.0" text="Edit" />
+                                    <Button fx:id="toggleBarberStatusButton" mnemonicParsing="false" onAction="#handleToggleBarberStatus" prefHeight="36.0" prefWidth="120.0" text="Toggle Status" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </HBox>
+                              <HBox spacing="10.0" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <StackPane prefHeight="520.0" prefWidth="360.0" style="-fx-background-color: white;" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <VBox spacing="10.0">
+                                             <children>
+                                                <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Barber Directory" />
+                                                <TableView fx:id="barbersTable" prefHeight="460.0" prefWidth="330.0" VBox.vgrow="ALWAYS">
+                                                   <columns>
+                                                      <TableColumn fx:id="barbersIdColumn" prefWidth="60.0" text="ID" />
+                                                      <TableColumn fx:id="barbersNameColumn" prefWidth="150.0" text="Name" />
+                                                      <TableColumn fx:id="barbersDisplayOrderColumn" prefWidth="100.0" text="Order" />
+                                                      <TableColumn fx:id="barbersStatusColumn" prefWidth="100.0" text="Status" />
+                                                   </columns>
+                                                </TableView>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </StackPane>
+                                    <StackPane prefHeight="520.0" prefWidth="419.0" style="-fx-background-color: white;" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <VBox spacing="10.0">
+                                             <children>
+                                                <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Selected Barber" />
+                                                <Label fx:id="barbersDetailIdLabel" text="ID: -" />
+                                                <Label fx:id="barbersDetailNameLabel" text="Name: -" />
+                                                <Label fx:id="barbersDetailImagePathLabel" text="Stored Image: -" wrapText="true" />
+                                                <Label fx:id="barbersDetailDisplayOrderLabel" text="Display Order: -" />
+                                                <Label fx:id="barbersDetailStatusLabel" text="Status: -" />
+                                                <Label fx:id="barbersDetailCreatedAtLabel" text="Created At: -" wrapText="true" />
+                                                <Label text="Use the modal form to change name, image, display order, and active state." wrapText="true" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </StackPane>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                        <VBox fx:id="pricingPane" managed="false" prefHeight="600.0" prefWidth="789.0" spacing="10.0" visible="false">
+                           <children>
+                              <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-background-color: white;">
+                                 <children>
+                                    <TextField fx:id="pricingSearchField" prefHeight="25.0" prefWidth="180.0" promptText="Search pricing" />
+                                    <ComboBox fx:id="pricingStatusFilterComboBox" prefHeight="25.0" prefWidth="120.0" promptText="Status" />
+                                    <Region HBox.hgrow="ALWAYS" />
+                                    <Button mnemonicParsing="false" onAction="#handleOpenCreatePricingModal" prefHeight="36.0" prefWidth="110.0" text="Add Pricing" />
+                                    <Button fx:id="editPricingButton" mnemonicParsing="false" onAction="#handleOpenEditPricingModal" prefHeight="36.0" prefWidth="100.0" text="Edit" />
+                                    <Button fx:id="setDefaultPricingButton" mnemonicParsing="false" onAction="#handleSetDefaultPricing" prefHeight="36.0" prefWidth="110.0" text="Set Default" />
+                                    <Button fx:id="togglePricingStatusButton" mnemonicParsing="false" onAction="#handleTogglePricingStatus" prefHeight="36.0" prefWidth="120.0" text="Toggle Status" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </HBox>
+                              <HBox spacing="10.0" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <StackPane prefHeight="520.0" prefWidth="380.0" style="-fx-background-color: white;" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <VBox spacing="10.0">
+                                             <children>
+                                                <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Pricing Categories" />
+                                                <TableView fx:id="pricingTable" prefHeight="460.0" prefWidth="350.0" VBox.vgrow="ALWAYS">
+                                                   <columns>
+                                                      <TableColumn fx:id="pricingIdColumn" prefWidth="54.0" text="ID" visible="false" />
+                                                      <TableColumn fx:id="pricingCodeColumn" prefWidth="80.0" text="Code" />
+                                                      <TableColumn fx:id="pricingNameColumn" prefWidth="155.0" text="Name" />
+                                                      <TableColumn fx:id="pricingAmountColumn" prefWidth="90.0" text="Amount" />
+                                                      <TableColumn fx:id="pricingCommissionPercentColumn" prefWidth="80.0" text="Percent" visible="false" />
+                                                      <TableColumn fx:id="pricingDefaultColumn" prefWidth="68.0" text="Default" visible="false" />
+                                                      <TableColumn fx:id="pricingStatusColumn" prefWidth="90.0" text="Status" />
+                                                   </columns>
+                                                </TableView>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </StackPane>
+                                    <StackPane prefHeight="520.0" prefWidth="399.0" style="-fx-background-color: white;" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <VBox spacing="10.0">
+                                             <children>
+                                                <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Selected Pricing Category" />
+                                                <Label fx:id="pricingDetailIdLabel" text="ID: -" />
+                                                <Label fx:id="pricingDetailCodeLabel" text="Code: -" />
+                                                <Label fx:id="pricingDetailNameLabel" text="Name: -" />
+                                                <Label fx:id="pricingDetailDescriptionLabel" text="Description: -" wrapText="true" />
+                                                <Label fx:id="pricingDetailAmountLabel" text="Charged Amount: PHP 0" />
+                                                <Label fx:id="pricingDetailCommissionLabel" text="Commission Percent: -" />
+                                                <Label fx:id="pricingDetailDefaultLabel" text="Default: -" />
+                                                <Label fx:id="pricingDetailSortOrderLabel" text="Sort Order: -" />
+                                                <Label fx:id="pricingDetailStatusLabel" text="Status: -" />
+                                                <Label text="Use 'Set Default' separately so the default state stays explicit and safe." wrapText="true" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </StackPane>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                        <VBox fx:id="usersPane" managed="false" prefHeight="600.0" prefWidth="789.0" spacing="10.0" visible="false">
+                           <children>
+                              <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-background-color: white;">
+                                 <children>
+                                    <TextField fx:id="userSearchField" prefHeight="25.0" prefWidth="180.0" promptText="Search users" />
+                                    <ComboBox fx:id="userStatusFilterComboBox" prefHeight="25.0" prefWidth="120.0" promptText="Status" />
+                                    <Region HBox.hgrow="ALWAYS" />
+                                    <Button mnemonicParsing="false" onAction="#handleOpenCreateUserModal" prefHeight="36.0" prefWidth="120.0" text="Add Manager" />
+                                    <Button fx:id="editUserButton" mnemonicParsing="false" onAction="#handleOpenEditUserModal" prefHeight="36.0" prefWidth="100.0" text="Edit" />
+                                    <Button fx:id="toggleUserStatusButton" mnemonicParsing="false" onAction="#handleToggleUserStatus" prefHeight="36.0" prefWidth="120.0" text="Toggle Status" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </HBox>
+                              <HBox spacing="10.0" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <StackPane prefHeight="520.0" prefWidth="380.0" style="-fx-background-color: white;" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <VBox spacing="10.0">
+                                             <children>
+                                                <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Users" />
+                                                <TableView fx:id="usersTable" prefHeight="460.0" prefWidth="350.0" VBox.vgrow="ALWAYS">
+                                                   <columns>
+                                                      <TableColumn fx:id="usersIdColumn" prefWidth="60.0" text="ID" />
+                                                      <TableColumn fx:id="usersUsernameColumn" prefWidth="150.0" text="Username" />
+                                                      <TableColumn fx:id="usersRoleColumn" prefWidth="92.0" text="Role" />
+                                                      <TableColumn fx:id="usersStatusColumn" prefWidth="100.0" text="Status" />
+                                                   </columns>
+                                                </TableView>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </StackPane>
+                                    <StackPane prefHeight="520.0" prefWidth="399.0" style="-fx-background-color: white;" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <VBox spacing="10.0">
+                                             <children>
+                                                <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Selected User" />
+                                                <Label fx:id="usersDetailIdLabel" text="ID: -" />
+                                                <Label fx:id="usersDetailUsernameLabel" text="Username: -" />
+                                                <Label fx:id="usersDetailRoleLabel" text="Role: -" />
+                                                <Label fx:id="usersDetailStatusLabel" text="Status: -" />
+                                                <Label fx:id="usersDetailCreatedAtLabel" text="Created At: -" wrapText="true" />
+                                                <Label text="Owner accounts remain read-only in this screen. Manager accounts can be edited or deactivated." wrapText="true" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </StackPane>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                        <VBox fx:id="settingsPane" managed="false" prefHeight="600.0" prefWidth="789.0" spacing="10.0" visible="false">
+                           <children>
+                              <StackPane prefHeight="230.0" prefWidth="789.0" style="-fx-background-color: white;">
+                                 <children>
+                                    <VBox spacing="10.0">
+                                       <children>
+                                          <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Shop Settings" />
+                                          <Label fx:id="settingsShopNameLabel" text="Shop Name: -" />
+                                          <Label fx:id="settingsCurrencyCodeLabel" text="Currency: -" />
+                                          <Label fx:id="settingsUpdatedAtLabel" text="Updated At: -" wrapText="true" />
+                                          <HBox spacing="10.0">
+                                             <children>
+                                                <Button mnemonicParsing="false" onAction="#handleOpenEditSettingsModal" prefHeight="36.0" prefWidth="120.0" text="Edit Settings" />
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </StackPane>
+                              <StackPane prefHeight="360.0" prefWidth="789.0" style="-fx-background-color: white;" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <VBox spacing="10.0">
+                                       <children>
+                                          <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Owner Notes" />
+                                          <Label text="Settings changes should be rare and intentional. Currency updates affect every financial label in the Owner dashboard." wrapText="true" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </StackPane>
+                           </children>
+                        </VBox>
+                     </children>
                   </StackPane>
                </center>
+               <bottom>
+                  <StackPane prefHeight="63.0" prefWidth="804.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <ToolBar prefHeight="54.0" prefWidth="784.0" style="-fx-border-radius: 5px; -fx-background-radius: 5px; -fx-background-color: #A04747;">
+                           <items>
+                              <Label fx:id="statusLabel" text="Ready." />
+                           </items>
+                           <StackPane.margin>
+                              <Insets bottom="5.0" left="5.0" right="10.0" top="5.0" />
+                           </StackPane.margin>
+                        </ToolBar>
+                     </children>
+                  </StackPane>
+               </bottom>
             </BorderPane>
          </center>
       </BorderPane>

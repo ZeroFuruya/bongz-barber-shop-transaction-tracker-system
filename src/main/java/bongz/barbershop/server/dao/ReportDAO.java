@@ -268,6 +268,36 @@ public class ReportDAO {
         return transactions;
     }
 
+    public List<TransactionViewDTO> getTransactionViewsByDateRange(String fromDate, String toDate) {
+        String sql = baseTransactionViewSql() + """
+                WHERE t.business_date BETWEEN ? AND ?
+                ORDER BY t.business_date, t.recorded_at, t.transaction_id
+                """;
+
+        return executeTransactionViewsQuery(sql, fromDate, toDate);
+    }
+
+    public List<TransactionViewDTO> getTransactionViewsByBarberAndDateRange(int barberId, String fromDate, String toDate) {
+        String sql = baseTransactionViewSql() + """
+                WHERE t.barber_id = ?
+                  AND t.business_date BETWEEN ? AND ?
+                ORDER BY t.business_date, t.recorded_at, t.transaction_id
+                """;
+
+        return executeTransactionViewsQuery(sql, barberId, fromDate, toDate);
+    }
+
+    public List<TransactionViewDTO> getTransactionViewsByPricingCategoryAndDateRange(int pricingCategoryId, String fromDate,
+            String toDate) {
+        String sql = baseTransactionViewSql() + """
+                WHERE t.pricing_category_id = ?
+                  AND t.business_date BETWEEN ? AND ?
+                ORDER BY t.business_date, t.recorded_at, t.transaction_id
+                """;
+
+        return executeTransactionViewsQuery(sql, pricingCategoryId, fromDate, toDate);
+    }
+
     private List<DailyBarberTotalDTO> executeDailyBarberTotalsQuery(String sql, String... params) {
         List<DailyBarberTotalDTO> totals = new ArrayList<>();
 
@@ -342,5 +372,32 @@ public class ReportDAO {
                 rs.getString("status"),
                 rs.getString("void_reason"),
                 rs.getString("note"));
+    }
+
+    private List<TransactionViewDTO> executeTransactionViewsQuery(String sql, Object... params) {
+        List<TransactionViewDTO> transactions = new ArrayList<>();
+
+        try (Connection conn = JDBC.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            for (int i = 0; i < params.length; i++) {
+                Object value = params[i];
+                if (value instanceof Integer integerValue) {
+                    ps.setInt(i + 1, integerValue);
+                } else {
+                    ps.setString(i + 1, String.valueOf(value));
+                }
+            }
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    transactions.add(mapTransactionView(rs));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return transactions;
     }
 }

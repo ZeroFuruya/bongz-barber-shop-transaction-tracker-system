@@ -1,16 +1,27 @@
 package bongz.barbershop.loader;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import bongz.barbershop.App;
+import bongz.barbershop.dto.common.ServiceResult;
 import bongz.barbershop.dto.transaction.TransactionViewDTO;
 import bongz.barbershop.layout.authentication.AuthenticationController;
 import bongz.barbershop.layout.authentication.RegistrationController;
 import bongz.barbershop.layout.dashboards.modal.NewTransactionModalController;
+import bongz.barbershop.layout.dashboards.modal.OwnerBarberFormModalController;
+import bongz.barbershop.layout.dashboards.modal.OwnerConfirmActionModalController;
+import bongz.barbershop.layout.dashboards.modal.OwnerPricingCategoryFormModalController;
+import bongz.barbershop.layout.dashboards.modal.OwnerShopSettingsModalController;
+import bongz.barbershop.layout.dashboards.modal.OwnerTransactionsListModalController;
+import bongz.barbershop.layout.dashboards.modal.OwnerUserFormModalController;
 import bongz.barbershop.layout.dashboards.modal.TransactionDetailModalController;
 import bongz.barbershop.layout.dashboards.modal.VoidConfirmationModalController;
 import bongz.barbershop.model.BarberModel;
+import bongz.barbershop.model.PricingCategoryModel;
+import bongz.barbershop.model.ShopSettingsModel;
 import bongz.barbershop.model.UserModel;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -94,6 +105,72 @@ public class ModalLoader {
 
         VoidConfirmationModalController controller = loader.getController();
         controller.load(app, currentUser, selectedTransaction, onTransactionVoided);
+    }
+
+    public static void load_owner_barber_form_modal(
+            App app,
+            BarberModel selectedBarber,
+            Consumer<String> onBarberSaved) throws IOException {
+        FXMLLoader loader = load_modal(app, "dashboards/modal/OwnerBarberFormModal");
+
+        OwnerBarberFormModalController controller = loader.getController();
+        controller.load(app, selectedBarber, onBarberSaved);
+    }
+
+    public static void load_owner_pricing_category_form_modal(
+            App app,
+            PricingCategoryModel selectedCategory,
+            Consumer<String> onCategorySaved) throws IOException {
+        FXMLLoader loader = load_modal(app, "dashboards/modal/OwnerPricingCategoryFormModal");
+
+        OwnerPricingCategoryFormModalController controller = loader.getController();
+        controller.load(app, selectedCategory, onCategorySaved);
+    }
+
+    public static void load_owner_user_form_modal(
+            App app,
+            UserModel selectedUser,
+            Consumer<String> onUserSaved) throws IOException {
+        FXMLLoader loader = load_modal(app, "dashboards/modal/OwnerUserFormModal");
+
+        OwnerUserFormModalController controller = loader.getController();
+        controller.load(app, selectedUser, onUserSaved);
+    }
+
+    public static void load_owner_shop_settings_modal(
+            App app,
+            ShopSettingsModel settings,
+            Consumer<String> onSettingsSaved) throws IOException {
+        FXMLLoader loader = load_modal(app, "dashboards/modal/OwnerShopSettingsModal");
+
+        OwnerShopSettingsModalController controller = loader.getController();
+        controller.load(app, settings, onSettingsSaved);
+    }
+
+    public static void load_owner_confirm_action_modal(
+            App app,
+            String title,
+            String summary,
+            String confirmButtonText,
+            Supplier<ServiceResult<?>> confirmAction,
+            Consumer<String> onActionCompleted) throws IOException {
+        FXMLLoader loader = load_modal(app, "dashboards/modal/OwnerConfirmActionModal");
+
+        OwnerConfirmActionModalController controller = loader.getController();
+        controller.load(app, title, summary, confirmButtonText, confirmAction, onActionCompleted);
+    }
+
+    public static void load_owner_transactions_list_modal(
+            App app,
+            UserModel currentUser,
+            String title,
+            String summary,
+            Supplier<List<TransactionViewDTO>> reloadSupplier,
+            Consumer<String> onTransactionUpdated) throws IOException {
+        FXMLLoader loader = load_modal(app, "dashboards/modal/OwnerTransactionsListModal");
+
+        OwnerTransactionsListModalController controller = loader.getController();
+        controller.load(app, currentUser, title, summary, reloadSupplier, onTransactionUpdated);
     }
 
     public static void modal_close(App app) {
