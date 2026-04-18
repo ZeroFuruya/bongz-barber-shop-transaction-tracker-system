@@ -12,6 +12,7 @@ import bongz.barbershop.model.BarberModel;
 import bongz.barbershop.model.UserModel;
 import bongz.barbershop.service.barber.BarberService;
 import bongz.barbershop.service.reporting.ReportService;
+import bongz.barbershop.ui.AnimationSupport;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -449,9 +450,17 @@ public class ManagerOperationController {
     }
 
     private void setVisiblePane(Node targetPane) {
-        setPaneState(overviewPane, targetPane == overviewPane);
-        setPaneState(recordPane, targetPane == recordPane);
-        setPaneState(transactionsPane, targetPane == transactionsPane);
+        List<Node> panes = List.of(overviewPane, recordPane, transactionsPane);
+        Node currentPane = panes.stream()
+                .filter(Node::isVisible)
+                .findFirst()
+                .orElse(null);
+
+        panes.stream()
+                .filter(pane -> pane != currentPane && pane != targetPane)
+                .forEach(pane -> setPaneState(pane, false));
+
+        AnimationSupport.switchVisiblePane(currentPane, targetPane);
     }
 
     private void setPaneState(Node pane, boolean visible) {

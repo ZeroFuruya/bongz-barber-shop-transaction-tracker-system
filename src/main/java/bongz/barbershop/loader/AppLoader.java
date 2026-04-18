@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import bongz.barbershop.App;
 import bongz.barbershop.layout.MainAppController;
+import bongz.barbershop.ui.AnimationSupport;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -20,6 +21,7 @@ public class AppLoader {
         FXMLLoader loader = load("MainAppView");
         Pane root = loader.load();
         root.setOnMousePressed(e -> root.requestFocus());
+        AnimationSupport.installInteractiveControls(root);
 
         Scene scene = new Scene(root);
         scene.getStylesheets().add(
@@ -34,6 +36,7 @@ public class AppLoader {
         mainStage.setFullScreen(false);
 
         mainStage.show();
+        AnimationSupport.playRootEntrance(root);
 
         MainAppController controller = loader.getController();
         controller.load(app);

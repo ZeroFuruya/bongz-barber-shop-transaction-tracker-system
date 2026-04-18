@@ -1,6 +1,7 @@
 G:\JavaFX Projects\bongz-barbershop-transaction-tracker-system\src\main\java\bongz\barbershop\dto\report\BarberDashboardCardDTO.java
 G:\JavaFX Projects\bongz-barbershop-transaction-tracker-system\src\main\java\bongz\barbershop\server\dao\TransactionDAO.java
 G:\JavaFX Projects\bongz-barbershop-transaction-tracker-system\src\main\java\bongz\barbershop\service\reporting\ReportService.java
+G:\JavaFX Projects\bongz-barbershop-transaction-tracker-system\src\main\java\bongz\barbershop\ui\AnimationSupport.java
 G:\JavaFX Projects\bongz-barbershop-transaction-tracker-system\src\main\java\bongz\barbershop\layout\authentication\RegistrationController.java
 G:\JavaFX Projects\bongz-barbershop-transaction-tracker-system\src\main\java\bongz\barbershop\service\transaction\TransactionService.java
 G:\JavaFX Projects\bongz-barbershop-transaction-tracker-system\src\main\java\bongz\barbershop\server\core\DatabaseInitializer.java

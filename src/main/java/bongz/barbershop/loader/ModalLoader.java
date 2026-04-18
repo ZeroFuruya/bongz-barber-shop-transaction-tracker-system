@@ -23,23 +23,24 @@ import bongz.barbershop.model.BarberModel;
 import bongz.barbershop.model.PricingCategoryModel;
 import bongz.barbershop.model.ShopSettingsModel;
 import bongz.barbershop.model.UserModel;
+import bongz.barbershop.ui.AnimationSupport;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
 public class ModalLoader {
-
-    static Pane modal;
 
     private static FXMLLoader load_modal(App app, String fxml) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(App.class.getResource("layout/" + fxml + ".fxml"));
 
         Pane pane = loader.load();
+        AnimationSupport.installInteractiveControls(pane);
 
-        modal = new StackPane(pane);
+        StackPane modal = new StackPane(pane);
         modal.getStyleClass().add("modal-bg");
         modal.setPadding(new Insets(0, 0, 50, 0));
 
@@ -55,6 +56,7 @@ public class ModalLoader {
                 modal_close(app);
             }
         });
+        AnimationSupport.playModalEntrance(modal, pane);
 
         return loader;
     }
@@ -182,13 +184,38 @@ public class ModalLoader {
             return;
         }
 
-        for (int i = 0; i < layers; i++) {
-            int childCount = app.getMainScreen().getChildren().size();
-            if (childCount <= 1) {
-                return;
-            }
+        closeTopModalLayers(app, layers);
+    }
 
-            app.getMainScreen().getChildren().remove(childCount - 1);
+    private static void closeTopModalLayers(App app, int remainingLayers) {
+        if (remainingLayers <= 0) {
+            return;
         }
+
+        Pane topModal = findTopModalLayer(app);
+        if (topModal == null) {
+            return;
+        }
+
+        Node modalContent = topModal.getChildren().isEmpty() ? null : topModal.getChildren().get(0);
+        AnimationSupport.playModalExit(topModal, modalContent, () -> {
+            app.getMainScreen().getChildren().remove(topModal);
+            closeTopModalLayers(app, remainingLayers - 1);
+        });
+    }
+
+    private static Pane findTopModalLayer(App app) {
+        if (app == null || app.getMainScreen() == null) {
+            return null;
+        }
+
+        for (int index = app.getMainScreen().getChildren().size() - 1; index >= 0; index--) {
+            Node child = app.getMainScreen().getChildren().get(index);
+            if (child instanceof Pane pane && pane.getStyleClass().contains("modal-bg")) {
+                return pane;
+            }
+        }
+
+        return null;
     }
 }

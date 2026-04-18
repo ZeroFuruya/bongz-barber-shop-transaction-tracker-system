@@ -5,6 +5,7 @@ import java.io.IOException;
 import bongz.barbershop.App;
 import bongz.barbershop.model.UserModel;
 import bongz.barbershop.layout.dashboards.OwnerDashboardController;
+import bongz.barbershop.ui.AnimationSupport;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -22,6 +23,7 @@ public class OwnerDashLoader {
         FXMLLoader loader = load("dashboards/OwnerDashboardView");
         Pane root = loader.load();
         root.setOnMousePressed(e -> root.requestFocus());
+        AnimationSupport.installInteractiveControls(root);
 
         Scene scene = new Scene(root);
         scene.getStylesheets().add(
@@ -37,6 +39,7 @@ public class OwnerDashLoader {
         mainStage.setFullScreen(false);
 
         mainStage.show();
+        AnimationSupport.playRootEntrance(root);
 
         OwnerDashboardController controller = loader.getController();
         controller.load(app, currentUser);

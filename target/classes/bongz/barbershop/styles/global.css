@@ -89,26 +89,99 @@
 }
 
 /* =====================================================
-   FIX: TEXT VISIBILITY FOR ALL STATES
+   TABLE BASE (LIGHT)
 ===================================================== */
+.table-view {
+    -fx-background-color: #f5f7fa;
+    -fx-control-inner-background: #ffffff;
+    -fx-table-cell-border-color: transparent;
+    -fx-padding: 6;
+}
 
-/* DEFAULT (UNHOVERED / NORMAL) */
+/* =====================================================
+   ROW DEFAULT
+===================================================== */
+.table-row-cell {
+    -fx-background-color: #ffffff;
+}
+
+/* Zebra striping */
+.table-row-cell:odd {
+    -fx-background-color: #f2f4f7;
+}
+
+/* =====================================================
+   TEXT DEFAULT
+===================================================== */
 .table-row-cell .table-cell {
-    -fx-text-fill: #eeeeee;
+    -fx-text-fill: #1f2933;
+    /* dark gray, not pure black */
+    -fx-font-size: 13px;
 }
 
-/* HOVER */
+/* =====================================================
+   HOVER STATE
+===================================================== */
+.table-row-cell:hover {
+    -fx-background-color: #e8f0fe;
+    /* subtle blue hover */
+}
+
 .table-row-cell:hover .table-cell {
-    -fx-text-fill: #ffffff;
+    -fx-text-fill: #111827;
 }
 
-/* SELECTED */
+/* =====================================================
+   SELECTED STATE
+===================================================== */
+.table-row-cell:filled:selected {
+    -fx-background-color: #2563eb;
+    /* strong blue */
+}
+
 .table-row-cell:filled:selected .table-cell {
-    -fx-text-fill: #000000;
-    /* dark text for light gold background */
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
 }
 
-/* FOCUSED */
+/* =====================================================
+   FOCUS STATE
+===================================================== */
+.table-row-cell:focused {
+    -fx-border-color: #2563eb;
+    -fx-border-width: 0 0 0 3;
+}
+
 .table-row-cell:focused .table-cell {
-    -fx-text-fill: #ffffff;
+    -fx-text-fill: #111827;
+}
+
+/* =====================================================
+   COLUMN HEADER
+===================================================== */
+.column-header-background {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #e5e7eb;
+    -fx-border-width: 0 0 1 0;
+}
+
+.column-header .label {
+    -fx-text-fill: #374151;
+    -fx-font-weight: bold;
+}
+
+/* =====================================================
+   TABLE GRID (subtle separation)
+===================================================== */
+.table-row-cell {
+    -fx-border-color: transparent transparent #e5e7eb transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+/* =====================================================
+   SCROLLBAR (clean minimal)
+===================================================== */
+.scroll-bar:vertical,
+.scroll-bar:horizontal {
+    -fx-background-color: transparent;
 }

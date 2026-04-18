@@ -62,6 +62,10 @@ public final class AppDataPaths {
         }
     }
 
+    public static Path resolveAppDataPath(String relativePath) throws IOException {
+        return resolveInAppData(relativePath);
+    }
+
     private static Path resolveInAppData(String relativePath) throws IOException {
         if (relativePath == null || relativePath.isBlank()) {
             throw new IOException("A relative app data path is required.");

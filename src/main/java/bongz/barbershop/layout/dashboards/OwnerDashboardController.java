@@ -1,6 +1,8 @@
 package bongz.barbershop.layout.dashboards;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
@@ -30,11 +32,18 @@ import bongz.barbershop.service.pricing.PricingCategoryService;
 import bongz.barbershop.service.reporting.ReportService;
 import bongz.barbershop.service.settings.ShopSettingsService;
 import bongz.barbershop.service.user.UserService;
+import bongz.barbershop.storage.AppDataPaths;
+import bongz.barbershop.ui.AnimationSupport;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.PieChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -47,6 +56,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -57,6 +68,7 @@ public class OwnerDashboardController {
     private final ShopSettingsService shopSettingsService = new ShopSettingsService();
     private final UserService userService = new UserService();
     private final ReportService reportService = new ReportService();
+    private final Image defaultBarberImage = loadDefaultBarberImage();
 
     private final ToggleGroup mainNavigationGroup = new ToggleGroup();
     private final ToggleGroup operationsNavigationGroup = new ToggleGroup();
@@ -124,6 +136,14 @@ public class OwnerDashboardController {
     @FXML
     private Label overviewShopEarningsLabel;
     @FXML
+    private PieChart overviewRevenueSplitChart;
+    @FXML
+    private BarChart<String, Number> overviewPricingMixChart;
+    @FXML
+    private CategoryAxis overviewPricingMixCategoryAxis;
+    @FXML
+    private NumberAxis overviewPricingMixValueAxis;
+    @FXML
     private TableView<TransactionViewDTO> overviewRecentTransactionsTable;
     @FXML
     private TableColumn<TransactionViewDTO, Integer> overviewTransactionIdColumn;
@@ -157,6 +177,12 @@ public class OwnerDashboardController {
     @FXML
     private Label operationsGrossSalesLabel;
     @FXML
+    private BarChart<String, Number> operationsBarberBreakdownChart;
+    @FXML
+    private CategoryAxis operationsBarberBreakdownCategoryAxis;
+    @FXML
+    private NumberAxis operationsBarberBreakdownValueAxis;
+    @FXML
     private TableView<BarberModel> operationsActiveBarbersTable;
     @FXML
     private TableColumn<BarberModel, Integer> operationsActiveBarberIdColumn;
@@ -165,7 +191,7 @@ public class OwnerDashboardController {
     @FXML
     private Label operationsSelectedBarberIdLabel;
     @FXML
-    private Label operationsSelectedBarberImagePathLabel;
+    private ImageView operationsSelectedBarberImageView;
     @FXML
     private Label operationsSelectedBarberNameLabel;
     @FXML
@@ -297,11 +323,11 @@ public class OwnerDashboardController {
     @FXML
     private TableColumn<BarberModel, String> barbersStatusColumn;
     @FXML
+    private ImageView barbersDetailImageView;
+    @FXML
     private Label barbersDetailIdLabel;
     @FXML
     private Label barbersDetailNameLabel;
-    @FXML
-    private Label barbersDetailImagePathLabel;
     @FXML
     private Label barbersDetailDisplayOrderLabel;
     @FXML
@@ -405,6 +431,8 @@ public class OwnerDashboardController {
         configurePricingPane();
         configureUsersPane();
         configureFilterControls();
+        configureReadableTables();
+        configureCharts();
         setVisiblePane(overviewPane);
         setVisibleOperationsPane(operationsOverviewPane);
     }
@@ -801,6 +829,7 @@ public class OwnerDashboardController {
     private void loadOverviewData() {
         OwnerDashboardDTO dashboard = reportService.getOwnerDashboard(getBusinessDate());
         DailyShopTotalDTO shopTotals = dashboard.getShopTotals();
+        List<PricingCategorySummaryDTO> pricingSummaries = reportService.getPricingCategorySummary(getBusinessDate(), getBusinessDate());
 
         overviewGreetingLabel.setText("Welcome back, " + currentUser.getUsername());
         overviewDateLabel.setText("Business Date: " + getBusinessDate());
@@ -808,6 +837,8 @@ public class OwnerDashboardController {
         overviewGrossSalesLabel.setText(formatCurrency(shopTotals.getGrossSales()));
         overviewBarberCommissionsLabel.setText(formatCurrency(shopTotals.getBarberCommissionTotal()));
         overviewShopEarningsLabel.setText(formatCurrency(shopTotals.getShopShareTotal()));
+        populateOverviewRevenueSplitChart(shopTotals);
+        populateOverviewPricingMixChart(pricingSummaries);
 
         List<TransactionViewDTO> recentTransactions = dashboard.getRecentTransactions();
         int startIndex = Math.max(0, recentTransactions.size() - 12);
@@ -828,7 +859,8 @@ public class OwnerDashboardController {
         operationsTotalCutsLabel.setText("Total Cuts Today: " + shopTotal.getHaircutCount());
         operationsShopSalesLabel.setText("Shop Earnings Today: " + formatCurrency(shopTotal.getShopShareTotal()));
         operationsGrossSalesLabel.setText("Gross Sales Today: " + formatCurrency(shopTotal.getGrossSales()));
-        operationsBarberCommissionListLabel.setText(buildBarberBreakdown(barberTotals));
+        operationsBarberCommissionListLabel.setText(buildBarberBreakdownSummary(barberTotals));
+        populateOperationsBarberBreakdownChart(barberTotals);
     }
 
     private void loadOperationsRecordData() {
@@ -1237,10 +1269,58 @@ public class OwnerDashboardController {
         userStatusFilterComboBox.valueProperty().addListener((observable, oldValue, newValue) -> applyUserFilter());
     }
 
+    private void configureReadableTables() {
+        for (TableView<?> table : List.of(
+                overviewRecentTransactionsTable,
+                operationsActiveBarbersTable,
+                operationsSelectedBarberTransactionsTable,
+                operationsTransactionsTable,
+                earningsShopTotalsTable,
+                earningsBarberTotalsTable,
+                earningsPricingSummaryTable,
+                barbersTable,
+                pricingTable,
+                usersTable)) {
+            configureReadableTable(table);
+        }
+    }
+
+    private void configureReadableTable(TableView<?> table) {
+        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        table.setFixedCellSize(28);
+        table.setStyle("-fx-font-size: 13px;");
+    }
+
+    private void configureCharts() {
+        overviewRevenueSplitChart.setLabelsVisible(true);
+        overviewRevenueSplitChart.setLegendVisible(true);
+        overviewRevenueSplitChart.setClockwise(true);
+
+        overviewPricingMixChart.setAnimated(false);
+        overviewPricingMixChart.setLegendVisible(false);
+        overviewPricingMixChart.setHorizontalGridLinesVisible(false);
+        overviewPricingMixChart.setVerticalGridLinesVisible(false);
+        overviewPricingMixChart.setAlternativeColumnFillVisible(false);
+        overviewPricingMixChart.setAlternativeRowFillVisible(false);
+        overviewPricingMixCategoryAxis.setLabel("Pricing Category");
+        overviewPricingMixValueAxis.setLabel("Gross Sales");
+        overviewPricingMixValueAxis.setForceZeroInRange(true);
+
+        operationsBarberBreakdownChart.setAnimated(false);
+        operationsBarberBreakdownChart.setLegendVisible(true);
+        operationsBarberBreakdownChart.setHorizontalGridLinesVisible(false);
+        operationsBarberBreakdownChart.setVerticalGridLinesVisible(false);
+        operationsBarberBreakdownChart.setAlternativeColumnFillVisible(false);
+        operationsBarberBreakdownChart.setAlternativeRowFillVisible(false);
+        operationsBarberBreakdownCategoryAxis.setLabel("Barber");
+        operationsBarberBreakdownValueAxis.setLabel("Amount");
+        operationsBarberBreakdownValueAxis.setForceZeroInRange(true);
+    }
+
     private void refreshOperationsSelectedBarberSection(BarberModel selectedBarber) {
         if (selectedBarber == null) {
             operationsSelectedBarberIdLabel.setText("Selected Barber ID: -");
-            operationsSelectedBarberImagePathLabel.setText("Stored Image: -");
+            setBarberPreviewImage(operationsSelectedBarberImageView, null);
             operationsSelectedBarberNameLabel.setText("Selected Barber Name: -");
             operationsSelectedBarberHaircutCountLabel.setText("Haircut Count Today: 0");
             operationsSelectedBarberCommissionLabel.setText("Commission Today: " + formatCurrency(0));
@@ -1256,7 +1336,7 @@ public class OwnerDashboardController {
                 .orElse(new DailyBarberTotalDTO(businessDate, selectedBarber.getBarberId(), selectedBarber.getName(), 0, 0, 0, 0));
 
         operationsSelectedBarberIdLabel.setText("Selected Barber ID: " + selectedBarber.getBarberId());
-        operationsSelectedBarberImagePathLabel.setText("Stored Image: " + valueOrPlaceholder(selectedBarber.getImagePath()));
+        setBarberPreviewImage(operationsSelectedBarberImageView, selectedBarber.getImagePath());
         operationsSelectedBarberNameLabel.setText("Selected Barber Name: " + selectedBarber.getName());
         operationsSelectedBarberHaircutCountLabel.setText("Haircut Count Today: " + card.getHaircutCount());
         operationsSelectedBarberCommissionLabel.setText("Commission Today: " + formatCurrency(card.getBarberCommissionTotal()));
@@ -1271,9 +1351,9 @@ public class OwnerDashboardController {
         toggleBarberStatusButton.setDisable(barber == null);
 
         if (barber == null) {
+            setBarberPreviewImage(barbersDetailImageView, null);
             barbersDetailIdLabel.setText("ID: -");
             barbersDetailNameLabel.setText("Name: -");
-            barbersDetailImagePathLabel.setText("Stored Image: -");
             barbersDetailDisplayOrderLabel.setText("Display Order: -");
             barbersDetailStatusLabel.setText("Status: -");
             barbersDetailCreatedAtLabel.setText("Created At: -");
@@ -1281,9 +1361,9 @@ public class OwnerDashboardController {
             return;
         }
 
+        setBarberPreviewImage(barbersDetailImageView, barber.getImagePath());
         barbersDetailIdLabel.setText("ID: " + barber.getBarberId());
         barbersDetailNameLabel.setText("Name: " + barber.getName());
-        barbersDetailImagePathLabel.setText("Stored Image: " + valueOrPlaceholder(barber.getImagePath()));
         barbersDetailDisplayOrderLabel.setText("Display Order: " + barber.getDisplayOrder());
         barbersDetailStatusLabel.setText("Status: " + statusText(barber.getIsActive()));
         barbersDetailCreatedAtLabel.setText("Created At: " + valueOrPlaceholder(barber.getCreatedAt()));
@@ -1579,19 +1659,41 @@ public class OwnerDashboardController {
     }
 
     private void setVisiblePane(Node targetPane) {
-        setPaneState(overviewPane, targetPane == overviewPane);
-        setPaneState(operationsPane, targetPane == operationsPane);
-        setPaneState(earningsPane, targetPane == earningsPane);
-        setPaneState(barbersPane, targetPane == barbersPane);
-        setPaneState(pricingPane, targetPane == pricingPane);
-        setPaneState(usersPane, targetPane == usersPane);
-        setPaneState(settingsPane, targetPane == settingsPane);
+        List<Node> panes = List.of(
+                overviewPane,
+                operationsPane,
+                earningsPane,
+                barbersPane,
+                pricingPane,
+                usersPane,
+                settingsPane);
+        Node currentPane = panes.stream()
+                .filter(Node::isVisible)
+                .findFirst()
+                .orElse(null);
+
+        panes.stream()
+                .filter(pane -> pane != currentPane && pane != targetPane)
+                .forEach(pane -> setPaneState(pane, false));
+
+        AnimationSupport.switchVisiblePane(currentPane, targetPane);
     }
 
     private void setVisibleOperationsPane(Node targetPane) {
-        setPaneState(operationsOverviewPane, targetPane == operationsOverviewPane);
-        setPaneState(operationsRecordPane, targetPane == operationsRecordPane);
-        setPaneState(operationsTransactionsPane, targetPane == operationsTransactionsPane);
+        List<Node> panes = List.of(
+                operationsOverviewPane,
+                operationsRecordPane,
+                operationsTransactionsPane);
+        Node currentPane = panes.stream()
+                .filter(Node::isVisible)
+                .findFirst()
+                .orElse(null);
+
+        panes.stream()
+                .filter(pane -> pane != currentPane && pane != targetPane)
+                .forEach(pane -> setPaneState(pane, false));
+
+        AnimationSupport.switchVisiblePane(currentPane, targetPane);
     }
 
     private void setPaneState(Node pane, boolean visible) {
@@ -1601,6 +1703,31 @@ public class OwnerDashboardController {
 
     private void setPageTitle(String title) {
         pageTitleLabel.setText(title);
+    }
+
+    private void setBarberPreviewImage(ImageView imageView, String storedImagePath) {
+        imageView.setImage(loadBarberPreviewImage(storedImagePath));
+    }
+
+    private Image loadBarberPreviewImage(String storedImagePath) {
+        if (storedImagePath == null || storedImagePath.isBlank()) {
+            return defaultBarberImage;
+        }
+
+        try {
+            Path resolvedImagePath = AppDataPaths.resolveAppDataPath(storedImagePath);
+            if (Files.exists(resolvedImagePath)) {
+                return new Image(resolvedImagePath.toUri().toString(), true);
+            }
+        } catch (IOException ignored) {
+        }
+
+        return defaultBarberImage;
+    }
+
+    private Image loadDefaultBarberImage() {
+        var placeholderResource = App.class.getResource("assets/images/Usernameicon.png");
+        return placeholderResource == null ? null : new Image(placeholderResource.toExternalForm(), true);
     }
 
     private <T> void configureTextColumn(TableColumn<T, String> column, Function<T, String> valueProvider) {
@@ -1628,20 +1755,59 @@ public class OwnerDashboardController {
         });
     }
 
-    private String buildBarberBreakdown(List<DailyBarberTotalDTO> barberTotals) {
+    private void populateOverviewRevenueSplitChart(DailyShopTotalDTO shopTotals) {
+        ObservableList<PieChart.Data> chartData = FXCollections.observableArrayList();
+
+        if (shopTotals.getBarberCommissionTotal() > 0) {
+            chartData.add(new PieChart.Data("Barber " + formatCurrency(shopTotals.getBarberCommissionTotal()),
+                    shopTotals.getBarberCommissionTotal()));
+        }
+
+        if (shopTotals.getShopShareTotal() > 0) {
+            chartData.add(new PieChart.Data("Shop " + formatCurrency(shopTotals.getShopShareTotal()),
+                    shopTotals.getShopShareTotal()));
+        }
+
+        overviewRevenueSplitChart.setData(chartData);
+    }
+
+    private void populateOverviewPricingMixChart(List<PricingCategorySummaryDTO> pricingSummaries) {
+        XYChart.Series<String, Number> pricingMixSeries = new XYChart.Series<>();
+        pricingMixSeries.setName("Gross Sales");
+
+        pricingSummaries.stream()
+                .filter(summary -> summary.getGrossSales() > 0)
+                .forEach(summary -> pricingMixSeries.getData().add(
+                        new XYChart.Data<>(summary.getName(), summary.getGrossSales())));
+
+        overviewPricingMixChart.getData().setAll(pricingMixSeries);
+    }
+
+    private void populateOperationsBarberBreakdownChart(List<DailyBarberTotalDTO> barberTotals) {
+        XYChart.Series<String, Number> barberSeries = new XYChart.Series<>();
+        barberSeries.setName("Barber");
+
+        XYChart.Series<String, Number> shopSeries = new XYChart.Series<>();
+        shopSeries.setName("Shop");
+
+        barberTotals.forEach(total -> {
+            barberSeries.getData().add(new XYChart.Data<>(total.getBarberName(), total.getBarberCommissionTotal()));
+            shopSeries.getData().add(new XYChart.Data<>(total.getBarberName(), total.getShopShareTotal()));
+        });
+
+        operationsBarberBreakdownChart.getData().setAll(barberSeries, shopSeries);
+    }
+
+    private String buildBarberBreakdownSummary(List<DailyBarberTotalDTO> barberTotals) {
         if (barberTotals.isEmpty()) {
             return "No posted haircuts for this date.";
         }
 
-        return barberTotals.stream()
-                .map(total -> total.getBarberName()
-                        + ": "
-                        + total.getHaircutCount()
-                        + " cuts, barber "
-                        + formatCurrency(total.getBarberCommissionTotal())
-                        + ", shop "
-                        + formatCurrency(total.getShopShareTotal()))
-                .collect(Collectors.joining("\n"));
+        return barberTotals.size() + " barber"
+                + (barberTotals.size() == 1 ? "" : "s")
+                + " posted haircuts on "
+                + getBusinessDate()
+                + ". The chart compares barber earnings against shop share per barber.";
     }
 
     private String getBusinessDate() {
