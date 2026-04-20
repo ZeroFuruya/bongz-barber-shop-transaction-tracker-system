@@ -66,10 +66,12 @@ public final class DatabaseSeeder {
                             role,
                             is_active
                         ) VALUES
+                            (-99, 'qwe', 'qweqwe`', 'OWNER', 1),
                             (1, 'owner_bongz', 'owner123', 'OWNER', 1),
                             (2, 'mila_manager', 'manager123', 'MANAGER', 1),
                             (3, 'dave_manager', 'manager456', 'MANAGER', 1),
-                            (4, 'old_manager', 'oldmanager', 'MANAGER', 0)
+                            (4, 'old_manager', 'oldmanager', 'MANAGER', 0),
+                            (1001, 'owner_prince', 'asdasd', 'OWNER', 1)
                         """,
                 """
                         INSERT OR IGNORE INTO barbers (
