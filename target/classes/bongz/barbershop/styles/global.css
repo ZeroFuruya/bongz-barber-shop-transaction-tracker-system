@@ -1,187 +1,498 @@
-.modal-bg {
-    -fx-background-color: rgba(22, 22, 22, 0.897);
-    background-color: rgba(22, 22, 22, 0.897);
-    -fx-border-radius: 16px;
-    border-radius: 16px;
-    -fx-border: 1px solid rgba(255, 255, 255, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    -fx-border-color: rgba(0, 0, 0, 0);
-    border-color: rgba(0, 0, 0, 0);
-    -fx-border-style: solid;
-    border-style: solid;
-    -fx-border-width: 0.5;
-    border-width: 0.5;
+.root {
+    -fx-font-family: "Segoe UI";
 }
 
-.login-card {
-    -fx-background-color: transparent;
-}
-
-.login-card-bg {
-    -fx-arc-width: 16;
-    -fx-arc-height: 16;
-
-    -fx-fill: linear-gradient(to right,
-            rgba(105, 66, 41, 0.65),
-            rgba(11, 6, 2, 0.43));
-
-    -fx-stroke: linear-gradient(to bottom right,
-            rgba(102, 3, 3, 0.61),
-            rgba(156, 71, 2, 0.36));
-}
-
-.login-title {
-    -fx-text-fill: #fff6f6;
-    -fx-font-family: "Constantia";
-    -fx-font-size: 32px;
-}
-
-.login-input {
-    -fx-background-color: rgba(20, 20, 20, 0.65);
-    -fx-background-radius: 8;
-
-    -fx-border-color: rgba(255, 255, 255, 0.25);
-    -fx-border-radius: 8;
-    -fx-border-width: 0.5;
-
-    -fx-text-fill: white;
-    -fx-prompt-text-fill: rgba(255, 255, 255, 0.6);
-}
-
-.login-button {
-    -fx-background-color: linear-gradient(to right,
-            #8a2f1d,
-            #4a1a10);
-    -fx-background-radius: 8;
-
-    -fx-text-fill: white;
-    -fx-font-weight: bold;
-
-    -fx-border-color: rgba(255, 255, 255, 0.3);
-    -fx-border-radius: 8;
-    -fx-border-width: 0.5;
-
-    -fx-cursor: hand;
-}
-
-.login-button:hover {
-    -fx-background-color: linear-gradient(to right,
-            #a83b24,
-            #5e2216);
-}
-
-.avatar-ring {
-    -fx-stroke: linear-gradient(to bottom left,
-            rgba(212, 174, 92, 0.61),
-            rgba(91, 58, 24, 1));
-
-    -fx-fill: linear-gradient(to center,
-            rgba(8, 4, 1, 0.43),
-            rgba(66, 20, 20, 0.8));
-}
-
-.landing-login-btn {
-    -fx-background-color: #22232F;
-    -fx-text-fill: #eeeeee;
-    -fx-background-radius: 10;
-    -fx-padding: 10px 20px;
-    -fx-cursor: hand;
-}
-
-/* =====================================================
-   TABLE BASE (LIGHT)
-===================================================== */
-.table-view {
-    -fx-background-color: #f5f7fa;
-    -fx-control-inner-background: #ffffff;
-    -fx-table-cell-border-color: transparent;
-    -fx-padding: 6;
-}
-
-/* =====================================================
-   ROW DEFAULT
-===================================================== */
-.table-row-cell {
-    -fx-background-color: #ffffff;
-}
-
-/* Zebra striping */
-.table-row-cell:odd {
-    -fx-background-color: #f2f4f7;
-}
-
-/* =====================================================
-   TEXT DEFAULT
-===================================================== */
-.table-row-cell .table-cell {
-    -fx-text-fill: #1f2933;
-    /* dark gray, not pure black */
+.label {
+    -fx-text-fill: #2d211a;
+    -fx-font-family: "Segoe UI";
     -fx-font-size: 13px;
 }
 
-/* =====================================================
-   HOVER STATE
-===================================================== */
-.table-row-cell:hover {
-    -fx-background-color: #e8f0fe;
-    /* subtle blue hover */
+.app-shell {
+    -fx-background-color:
+        radial-gradient(center 18% 14%, radius 60%, rgba(222, 177, 116, 0.12), transparent 55%),
+        linear-gradient(to bottom right, #1d1513 0%, #261917 48%, #140e0d 100%);
 }
 
-.table-row-cell:hover .table-cell {
-    -fx-text-fill: #111827;
+.chrome-panel {
+    -fx-background-color: linear-gradient(to bottom right, #713934 0%, #4d2522 100%);
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-color: rgba(244, 223, 196, 0.18);
+    -fx-border-width: 1px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.34), 26, 0.18, 0, 9);
 }
 
-/* =====================================================
-   SELECTED STATE
-===================================================== */
-.table-row-cell:filled:selected {
-    -fx-background-color: #2563eb;
-    /* strong blue */
+.status-bar {
+    -fx-background-color: linear-gradient(to right, #6a342f 0%, #4b2422 100%);
+    -fx-background-radius: 18px;
+    -fx-border-radius: 18px;
+    -fx-border-color: rgba(244, 223, 196, 0.16);
+    -fx-border-width: 1px;
 }
 
-.table-row-cell:filled:selected .table-cell {
-    -fx-text-fill: #ffffff;
-    -fx-font-weight: bold;
+.status-bar .label {
+    -fx-text-fill: #f8ecda;
+    -fx-font-size: 12.5px;
 }
 
-/* =====================================================
-   FOCUS STATE
-===================================================== */
-.table-row-cell:focused {
-    -fx-border-color: #2563eb;
-    -fx-border-width: 0 0 0 3;
+.sidebar-title {
+    -fx-text-fill: #fff6ec;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 19px;
 }
 
-.table-row-cell:focused .table-cell {
-    -fx-text-fill: #111827;
+.page-heading {
+    -fx-text-fill: #fff6ec;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 20px;
 }
 
-/* =====================================================
-   COLUMN HEADER
-===================================================== */
+.shell-note {
+    -fx-text-fill: #f4e4cf;
+    -fx-font-size: 12px;
+}
+
+.accent-slot {
+    -fx-background-color: linear-gradient(to bottom, rgba(233, 199, 149, 0.98), rgba(198, 144, 82, 0.98));
+    -fx-background-radius: 14px;
+    -fx-border-radius: 14px;
+    -fx-border-color: rgba(88, 49, 25, 0.2);
+    -fx-border-width: 1px;
+}
+
+.nav-button {
+    -fx-background-color: rgba(255, 255, 255, 0.08);
+    -fx-background-radius: 14px;
+    -fx-border-radius: 14px;
+    -fx-text-fill: #f7ead8;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 12.5px;
+    -fx-padding: 0 10px;
+    -fx-cursor: hand;
+}
+
+.nav-button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.14);
+}
+
+.nav-button:selected {
+    -fx-background-color: linear-gradient(to bottom, #2f1917 0%, #1f100f 100%);
+    -fx-text-fill: #fff1df;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.24), 12, 0.18, 0, 4);
+}
+
+.accent-slot .nav-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #392417;
+}
+
+.accent-slot .nav-button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.18);
+}
+
+.icon-ghost-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 14px;
+    -fx-border-radius: 14px;
+    -fx-cursor: hand;
+}
+
+.icon-ghost-button:hover {
+    -fx-background-color: rgba(58, 29, 23, 0.16);
+}
+
+.surface-card {
+    -fx-background-color: linear-gradient(to bottom, #fffaf4 0%, #f6ebdd 100%);
+    -fx-background-radius: 22px;
+    -fx-border-radius: 22px;
+    -fx-border-color: rgba(140, 95, 57, 0.16);
+    -fx-border-width: 1px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.13), 20, 0.12, 0, 7);
+}
+
+.surface-card .label {
+    -fx-text-fill: #32251d;
+}
+
+.card-kicker {
+    -fx-text-fill: #654d3d;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 12px;
+}
+
+.metric-value {
+    -fx-text-fill: #261511;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 18px;
+}
+
+.section-title {
+    -fx-text-fill: #2c1b16;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 15px;
+}
+
+.media-frame {
+    -fx-background-color: linear-gradient(to bottom, #f8efe3 0%, #eedcc5 100%);
+    -fx-background-radius: 18px;
+    -fx-border-radius: 18px;
+    -fx-border-color: rgba(183, 134, 72, 0.35);
+    -fx-border-width: 1px;
+}
+
+.record-name {
+    -fx-text-fill: #281714;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 18px;
+}
+
+.manager-overview-name {
+    -fx-text-fill: #281714;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 18px;
+}
+
+.manager-overview-value {
+    -fx-text-fill: #281714;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 18px;
+}
+
+.record-metric-label {
+    -fx-text-fill: #725847;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 11.5px;
+}
+
+.record-metric-value {
+    -fx-text-fill: #281714;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 17px;
+}
+
+.manager-summary-copy {
+    -fx-text-fill: #4c382b;
+    -fx-font-size: 12px;
+    -fx-line-spacing: 2px;
+}
+
+.button {
+    -fx-background-color: linear-gradient(to bottom, #c58343 0%, #8d4a25 100%);
+    -fx-background-radius: 14px;
+    -fx-border-radius: 14px;
+    -fx-border-color: rgba(95, 50, 23, 0.25);
+    -fx-border-width: 1px;
+    -fx-text-fill: #fff8f1;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 12.5px;
+    -fx-padding: 8px 12px;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: linear-gradient(to bottom, #d19151 0%, #9a5228 100%);
+}
+
+.button:pressed {
+    -fx-background-color: linear-gradient(to bottom, #9d5d2f 0%, #7d401e 100%);
+}
+
+.text-field,
+.password-field,
+.combo-box,
+.date-picker {
+    -fx-background-color: #fffaf4;
+    -fx-background-radius: 14px;
+    -fx-border-color: #dcc7af;
+    -fx-border-radius: 14px;
+    -fx-border-width: 1px;
+    -fx-text-fill: #2d2018;
+    -fx-prompt-text-fill: #8d7461;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 12.5px;
+}
+
+.text-field:focused,
+.password-field:focused,
+.combo-box:focused,
+.date-picker:focused {
+    -fx-border-color: #bd7a3a;
+    -fx-effect: dropshadow(gaussian, rgba(193, 123, 58, 0.16), 10, 0.18, 0, 2);
+}
+
+.combo-box-base .list-cell,
+.date-picker .text-field {
+    -fx-text-fill: #2d2018;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 12.5px;
+}
+
+.combo-box-base .arrow-button,
+.date-picker .arrow-button {
+    -fx-background-color: rgba(141, 89, 47, 0.12);
+    -fx-background-radius: 12px;
+}
+
+.combo-box-base .arrow,
+.date-picker .arrow {
+    -fx-background-color: #6a3d27;
+}
+
+.combo-box-popup .list-view {
+    -fx-background-color: #fffaf4;
+    -fx-border-color: #dcc7af;
+}
+
+.combo-box-popup .list-cell {
+    -fx-background-color: #fffaf4;
+    -fx-text-fill: #2d2018;
+}
+
+.combo-box-popup .list-cell:hover {
+    -fx-background-color: #f3e4d0;
+}
+
+.accent-slot .combo-box,
+.accent-slot .date-picker {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.accent-slot .combo-box-base .list-cell,
+.accent-slot .date-picker .text-field {
+    -fx-background-color: transparent;
+    -fx-text-fill: #3e2415;
+    -fx-font-family: "Segoe UI Semibold";
+}
+
+.accent-slot .combo-box-base .arrow-button,
+.accent-slot .date-picker .arrow-button {
+    -fx-background-color: rgba(88, 49, 25, 0.12);
+}
+
+.table-view {
+    -fx-background-color: transparent;
+    -fx-control-inner-background: rgba(255, 250, 244, 0.98);
+    -fx-background-radius: 18px;
+    -fx-border-radius: 18px;
+    -fx-border-color: rgba(151, 112, 78, 0.18);
+    -fx-border-width: 1px;
+    -fx-padding: 6px;
+    -fx-table-cell-border-color: transparent;
+}
+
+.table-view .filler,
+.table-view .corner {
+    -fx-background-color: transparent;
+}
+
 .column-header-background {
-    -fx-background-color: #ffffff;
-    -fx-border-color: #e5e7eb;
-    -fx-border-width: 0 0 1 0;
+    -fx-background-color: rgba(112, 58, 46, 0.08);
+    -fx-background-radius: 14px 14px 0 0;
+    -fx-border-color: transparent transparent rgba(130, 97, 70, 0.18) transparent;
+    -fx-border-width: 0 0 1px 0;
+}
+
+.column-header {
+    -fx-background-color: transparent;
 }
 
 .column-header .label {
-    -fx-text-fill: #374151;
-    -fx-font-weight: bold;
+    -fx-text-fill: #4f382b;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 12px;
 }
 
-/* =====================================================
-   TABLE GRID (subtle separation)
-===================================================== */
 .table-row-cell {
-    -fx-border-color: transparent transparent #e5e7eb transparent;
-    -fx-border-width: 0 0 1 0;
+    -fx-background-color: rgba(255, 250, 244, 0.94);
+    -fx-border-color: transparent transparent rgba(173, 141, 112, 0.18) transparent;
+    -fx-border-width: 0 0 1px 0;
 }
 
-/* =====================================================
-   SCROLLBAR (clean minimal)
-===================================================== */
+.table-row-cell:odd {
+    -fx-background-color: rgba(247, 239, 230, 0.95);
+}
+
+.table-row-cell .table-cell {
+    -fx-text-fill: #2f231b;
+    -fx-font-size: 12.5px;
+    -fx-alignment: center-left;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: #f2dfca;
+}
+
+.table-row-cell:filled:selected {
+    -fx-background-color: linear-gradient(to right, #7a4032 0%, #5a2f29 100%);
+}
+
+.table-row-cell:filled:selected .table-cell {
+    -fx-text-fill: #fff8f2;
+    -fx-font-family: "Segoe UI Semibold";
+}
+
+.table-row-cell:focused {
+    -fx-border-color: transparent transparent rgba(173, 141, 112, 0.18) #c58143;
+    -fx-border-width: 0 0 1px 3px;
+}
+
+.chart {
+    -fx-padding: 6px 0 0 0;
+}
+
+.chart-plot-background {
+    -fx-background-color: transparent;
+}
+
+.chart-vertical-grid-lines,
+.chart-horizontal-grid-lines {
+    -fx-stroke: rgba(122, 97, 73, 0.16);
+}
+
+.axis {
+    -fx-tick-label-fill: #6c5948;
+    -fx-font-size: 11px;
+}
+
+.axis-label,
+.chart-legend .label,
+.chart-pie-label {
+    -fx-text-fill: #4c372a;
+    -fx-font-size: 11px;
+}
+
+.default-color0.chart-bar {
+    -fx-bar-fill: linear-gradient(to top, #975227 0%, #c88947 100%);
+}
+
+.default-color1.chart-bar {
+    -fx-bar-fill: linear-gradient(to top, #6c372d 0%, #965446 100%);
+}
+
+.default-color0.chart-pie {
+    -fx-pie-color: #bf7b3d;
+}
+
+.default-color1.chart-pie {
+    -fx-pie-color: #6d372d;
+}
+
+.default-color2.chart-pie {
+    -fx-pie-color: #d2a15d;
+}
+
 .scroll-bar:vertical,
 .scroll-bar:horizontal {
     -fx-background-color: transparent;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: rgba(127, 84, 52, 0.4);
+    -fx-background-radius: 999px;
+}
+
+.scroll-bar .track {
+    -fx-background-color: transparent;
+}
+
+.landing-root {
+    -fx-background-color: #120d0c;
+}
+
+.landing-login-btn {
+    -fx-background-color: linear-gradient(to right, rgba(24, 16, 14, 0.88), rgba(78, 39, 26, 0.92));
+    -fx-background-radius: 26px;
+    -fx-border-radius: 26px;
+    -fx-border-color: rgba(244, 223, 196, 0.28);
+    -fx-border-width: 1px;
+    -fx-text-fill: #fff2e2;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 19px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 28, 0.16, 0, 8);
+}
+
+.landing-login-btn:hover {
+    -fx-background-color: linear-gradient(to right, rgba(36, 22, 18, 0.92), rgba(98, 49, 32, 0.96));
+}
+
+.landing-exit-btn {
+    -fx-background-color: rgba(22, 14, 12, 0.72);
+    -fx-background-radius: 16px;
+    -fx-border-radius: 16px;
+    -fx-border-color: rgba(244, 223, 196, 0.2);
+    -fx-border-width: 1px;
+    -fx-text-fill: #f6ead7;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 13px;
+}
+
+.auth-card {
+    -fx-background-color: linear-gradient(to bottom, rgba(25, 16, 13, 0.84) 0%, rgba(49, 29, 22, 0.78) 100%);
+    -fx-background-radius: 28px;
+    -fx-border-radius: 28px;
+    -fx-border-color: rgba(244, 223, 196, 0.16);
+    -fx-border-width: 1px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.38), 30, 0.2, 0, 10);
+}
+
+.auth-label {
+    -fx-text-fill: #f6ecdd;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 13px;
+}
+
+.auth-input {
+    -fx-background-color: rgba(18, 12, 10, 0.82);
+    -fx-background-radius: 12px;
+    -fx-border-color: rgba(244, 223, 196, 0.22);
+    -fx-border-radius: 12px;
+    -fx-border-width: 1px;
+    -fx-text-fill: #fff7ef;
+    -fx-prompt-text-fill: rgba(255, 247, 239, 0.55);
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 13px;
+}
+
+.auth-input:focused {
+    -fx-border-color: #cf8b4a;
+    -fx-effect: dropshadow(gaussian, rgba(207, 139, 74, 0.18), 12, 0.18, 0, 2);
+}
+
+.auth-button {
+    -fx-background-color: linear-gradient(to right, #c9894a 0%, #87411f 100%);
+    -fx-background-radius: 12px;
+    -fx-border-radius: 12px;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 13px;
+}
+
+.auth-title {
+    -fx-text-fill: #fff4e5;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 24px;
+}
+
+.modal-bg {
+    -fx-background-color: rgba(16, 11, 9, 0.76);
+}
+
+.modal-card {
+    -fx-background-color: linear-gradient(to bottom, #fffaf4 0%, #f3e8db 100%);
+    -fx-background-radius: 24px;
+    -fx-border-radius: 24px;
+    -fx-border-color: rgba(138, 97, 58, 0.18);
+    -fx-border-width: 1px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.24), 26, 0.16, 0, 10);
+}
+
+.modal-card .label {
+    -fx-text-fill: #32251d;
+}
+
+.modal-title {
+    -fx-text-fill: #261612;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 20px;
 }

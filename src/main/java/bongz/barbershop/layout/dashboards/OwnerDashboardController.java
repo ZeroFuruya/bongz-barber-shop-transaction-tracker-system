@@ -80,7 +80,8 @@ public class OwnerDashboardController {
     private final ObservableList<UserModel> allUsers = FXCollections.observableArrayList();
     private final ObservableList<DailyShopTotalDTO> earningsDailyShopTotals = FXCollections.observableArrayList();
     private final ObservableList<DailyBarberTotalDTO> earningsBarberTotals = FXCollections.observableArrayList();
-    private final ObservableList<PricingCategorySummaryDTO> earningsPricingSummaries = FXCollections.observableArrayList();
+    private final ObservableList<PricingCategorySummaryDTO> earningsPricingSummaries = FXCollections
+            .observableArrayList();
 
     private App app;
     private UserModel currentUser;
@@ -446,7 +447,8 @@ public class OwnerDashboardController {
             return;
         }
 
-        signedInAsLabel.setText("Signed in as " + this.currentUser.getUsername() + " (" + this.currentUser.getRole() + ")");
+        signedInAsLabel
+                .setText("Signed in as " + this.currentUser.getUsername() + " (" + this.currentUser.getRole() + ")");
 
         if (businessDatePicker.getValue() == null) {
             businessDatePicker.setValue(LocalDate.now());
@@ -737,7 +739,8 @@ public class OwnerDashboardController {
                 actionLabel,
                 selectedCategory.getName() + " will become " + (nextStatus == 1 ? "active" : "inactive") + ".",
                 actionLabel,
-                () -> pricingCategoryService.setCategoryActiveStatus(selectedCategory.getPricingCategoryId(), nextStatus));
+                () -> pricingCategoryService.setCategoryActiveStatus(selectedCategory.getPricingCategoryId(),
+                        nextStatus));
     }
 
     @FXML
@@ -829,7 +832,8 @@ public class OwnerDashboardController {
     private void loadOverviewData() {
         OwnerDashboardDTO dashboard = reportService.getOwnerDashboard(getBusinessDate());
         DailyShopTotalDTO shopTotals = dashboard.getShopTotals();
-        List<PricingCategorySummaryDTO> pricingSummaries = reportService.getPricingCategorySummary(getBusinessDate(), getBusinessDate());
+        List<PricingCategorySummaryDTO> pricingSummaries = reportService.getPricingCategorySummary(getBusinessDate(),
+                getBusinessDate());
 
         overviewGreetingLabel.setText("Welcome back, " + currentUser.getUsername());
         overviewDateLabel.setText("Business Date: " + getBusinessDate());
@@ -1039,10 +1043,11 @@ public class OwnerDashboardController {
         operationsActiveBarberIdColumn.setCellValueFactory(new PropertyValueFactory<>("barberId"));
         operationsActiveBarberNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
-        operationsActiveBarbersTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            operationsNewTransactionButton.setDisable(newValue == null);
-            refreshOperationsSelectedBarberSection(newValue);
-        });
+        operationsActiveBarbersTable.getSelectionModel().selectedItemProperty()
+                .addListener((observable, oldValue, newValue) -> {
+                    operationsNewTransactionButton.setDisable(newValue == null);
+                    refreshOperationsSelectedBarberSection(newValue);
+                });
 
         operationsSelectedTransactionIdColumn.setCellValueFactory(new PropertyValueFactory<>("transactionId"));
         configureTextColumn(operationsSelectedPricingCategoryIdColumn,
@@ -1051,9 +1056,11 @@ public class OwnerDashboardController {
                 transaction -> valueOrPlaceholder(transaction.getLoggedByUsername()));
         operationsSelectedBusinessDateColumn.setCellValueFactory(new PropertyValueFactory<>("businessDate"));
         operationsSelectedRecordedAtColumn.setCellValueFactory(new PropertyValueFactory<>("recordedAt"));
-        operationsSelectedPricingCategoryNameColumn.setCellValueFactory(new PropertyValueFactory<>("pricingCategoryName"));
+        operationsSelectedPricingCategoryNameColumn
+                .setCellValueFactory(new PropertyValueFactory<>("pricingCategoryName"));
         operationsSelectedChargedAmountColumn.setCellValueFactory(new PropertyValueFactory<>("chargedAmount"));
-        operationsSelectedBarberCommissionPercentColumn.setCellValueFactory(new PropertyValueFactory<>("barberCommissionPercent"));
+        operationsSelectedBarberCommissionPercentColumn
+                .setCellValueFactory(new PropertyValueFactory<>("barberCommissionPercent"));
         operationsSelectedStatusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
         operationsSelectedVoidReasonColumn.setCellValueFactory(new PropertyValueFactory<>("voidReason"));
         operationsSelectedNoteColumn.setCellValueFactory(new PropertyValueFactory<>("note"));
@@ -1086,8 +1093,10 @@ public class OwnerDashboardController {
                 transaction -> valueOrPlaceholder(transaction.getLoggedByUsername()));
         operationsTransactionsBusinessDateColumn.setCellValueFactory(new PropertyValueFactory<>("businessDate"));
         operationsTransactionsRecordedAtColumn.setCellValueFactory(new PropertyValueFactory<>("recordedAt"));
-        operationsTransactionsPricingCategoryNameColumn.setCellValueFactory(new PropertyValueFactory<>("pricingCategoryName"));
-        operationsTransactionsShopEarningAmountColumn.setCellValueFactory(new PropertyValueFactory<>("shopEarningAmount"));
+        operationsTransactionsPricingCategoryNameColumn
+                .setCellValueFactory(new PropertyValueFactory<>("pricingCategoryName"));
+        operationsTransactionsShopEarningAmountColumn
+                .setCellValueFactory(new PropertyValueFactory<>("shopEarningAmount"));
         operationsTransactionsStatusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
         configureCurrencyColumn(operationsTransactionsShopEarningAmountColumn);
 
@@ -1205,7 +1214,8 @@ public class OwnerDashboardController {
         barbersIdColumn.setCellValueFactory(new PropertyValueFactory<>("barberId"));
         barbersNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         barbersDisplayOrderColumn.setCellValueFactory(new PropertyValueFactory<>("displayOrder"));
-        barbersStatusColumn.setCellValueFactory(cellData -> new SimpleStringProperty(statusText(cellData.getValue().getIsActive())));
+        barbersStatusColumn.setCellValueFactory(
+                cellData -> new SimpleStringProperty(statusText(cellData.getValue().getIsActive())));
 
         barbersTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             refreshBarberDetails(newValue);
@@ -1218,8 +1228,10 @@ public class OwnerDashboardController {
         pricingNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         pricingAmountColumn.setCellValueFactory(new PropertyValueFactory<>("chargedAmountPesos"));
         pricingCommissionPercentColumn.setCellValueFactory(new PropertyValueFactory<>("barberCommissionPercent"));
-        pricingDefaultColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIsDefault() == 1 ? "Yes" : "No"));
-        pricingStatusColumn.setCellValueFactory(cellData -> new SimpleStringProperty(statusText(cellData.getValue().getIsActive())));
+        pricingDefaultColumn.setCellValueFactory(
+                cellData -> new SimpleStringProperty(cellData.getValue().getIsDefault() == 1 ? "Yes" : "No"));
+        pricingStatusColumn.setCellValueFactory(
+                cellData -> new SimpleStringProperty(statusText(cellData.getValue().getIsActive())));
         configureCurrencyColumn(pricingAmountColumn);
         configurePercentColumn(pricingCommissionPercentColumn);
 
@@ -1240,7 +1252,8 @@ public class OwnerDashboardController {
         usersIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         usersUsernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
         usersRoleColumn.setCellValueFactory(new PropertyValueFactory<>("role"));
-        usersStatusColumn.setCellValueFactory(cellData -> new SimpleStringProperty(statusText(cellData.getValue().getIsActive())));
+        usersStatusColumn.setCellValueFactory(
+                cellData -> new SimpleStringProperty(statusText(cellData.getValue().getIsActive())));
 
         usersTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             refreshUserDetails(newValue);
@@ -1250,8 +1263,10 @@ public class OwnerDashboardController {
     private void configureFilterControls() {
         operationsFilterComboBox.setItems(FXCollections.observableArrayList("ALL", "POSTED", "VOID"));
         operationsFilterComboBox.getSelectionModel().selectFirst();
-        operationsSearchField.textProperty().addListener((observable, oldValue, newValue) -> applyOperationsTransactionsFilter());
-        operationsFilterComboBox.valueProperty().addListener((observable, oldValue, newValue) -> applyOperationsTransactionsFilter());
+        operationsSearchField.textProperty()
+                .addListener((observable, oldValue, newValue) -> applyOperationsTransactionsFilter());
+        operationsFilterComboBox.valueProperty()
+                .addListener((observable, oldValue, newValue) -> applyOperationsTransactionsFilter());
 
         barberStatusFilterComboBox.setItems(FXCollections.observableArrayList("ALL", "ACTIVE", "INACTIVE"));
         barberStatusFilterComboBox.getSelectionModel().selectFirst();
@@ -1261,7 +1276,8 @@ public class OwnerDashboardController {
         pricingStatusFilterComboBox.setItems(FXCollections.observableArrayList("ALL", "ACTIVE", "INACTIVE"));
         pricingStatusFilterComboBox.getSelectionModel().selectFirst();
         pricingSearchField.textProperty().addListener((observable, oldValue, newValue) -> applyPricingFilter());
-        pricingStatusFilterComboBox.valueProperty().addListener((observable, oldValue, newValue) -> applyPricingFilter());
+        pricingStatusFilterComboBox.valueProperty()
+                .addListener((observable, oldValue, newValue) -> applyPricingFilter());
 
         userStatusFilterComboBox.setItems(FXCollections.observableArrayList("ALL", "ACTIVE", "INACTIVE"));
         userStatusFilterComboBox.getSelectionModel().selectFirst();
@@ -1287,14 +1303,14 @@ public class OwnerDashboardController {
 
     private void configureReadableTable(TableView<?> table) {
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        table.setFixedCellSize(28);
-        table.setStyle("-fx-font-size: 13px;");
+        table.setFixedCellSize(32);
     }
 
     private void configureCharts() {
         overviewRevenueSplitChart.setLabelsVisible(true);
         overviewRevenueSplitChart.setLegendVisible(true);
         overviewRevenueSplitChart.setClockwise(true);
+        overviewRevenueSplitChart.setLabelLineLength(12);
 
         overviewPricingMixChart.setAnimated(false);
         overviewPricingMixChart.setLegendVisible(false);
@@ -1303,6 +1319,7 @@ public class OwnerDashboardController {
         overviewPricingMixChart.setAlternativeColumnFillVisible(false);
         overviewPricingMixChart.setAlternativeRowFillVisible(false);
         overviewPricingMixCategoryAxis.setLabel("Pricing Category");
+        overviewPricingMixCategoryAxis.setTickLabelRotation(-28);
         overviewPricingMixValueAxis.setLabel("Gross Sales");
         overviewPricingMixValueAxis.setForceZeroInRange(true);
 
@@ -1313,6 +1330,7 @@ public class OwnerDashboardController {
         operationsBarberBreakdownChart.setAlternativeColumnFillVisible(false);
         operationsBarberBreakdownChart.setAlternativeRowFillVisible(false);
         operationsBarberBreakdownCategoryAxis.setLabel("Barber");
+        operationsBarberBreakdownCategoryAxis.setTickLabelRotation(-24);
         operationsBarberBreakdownValueAxis.setLabel("Amount");
         operationsBarberBreakdownValueAxis.setForceZeroInRange(true);
     }
@@ -1333,13 +1351,15 @@ public class OwnerDashboardController {
         DailyBarberTotalDTO card = reportService.getDailyBarberTotals(businessDate).stream()
                 .filter(item -> item.getBarberId() == selectedBarber.getBarberId())
                 .findFirst()
-                .orElse(new DailyBarberTotalDTO(businessDate, selectedBarber.getBarberId(), selectedBarber.getName(), 0, 0, 0, 0));
+                .orElse(new DailyBarberTotalDTO(businessDate, selectedBarber.getBarberId(), selectedBarber.getName(), 0,
+                        0, 0, 0));
 
         operationsSelectedBarberIdLabel.setText("Selected Barber ID: " + selectedBarber.getBarberId());
         setBarberPreviewImage(operationsSelectedBarberImageView, selectedBarber.getImagePath());
         operationsSelectedBarberNameLabel.setText("Selected Barber Name: " + selectedBarber.getName());
         operationsSelectedBarberHaircutCountLabel.setText("Haircut Count Today: " + card.getHaircutCount());
-        operationsSelectedBarberCommissionLabel.setText("Commission Today: " + formatCurrency(card.getBarberCommissionTotal()));
+        operationsSelectedBarberCommissionLabel
+                .setText("Commission Today: " + formatCurrency(card.getBarberCommissionTotal()));
         operationsSelectedBarberShopShareLabel.setText("Shop Share Today: " + formatCurrency(card.getShopShareTotal()));
 
         operationsSelectedBarberTransactionsTable.setItems(FXCollections.observableArrayList(
@@ -1491,7 +1511,8 @@ public class OwnerDashboardController {
         }
     }
 
-    private void openTransactionsListModal(String title, String summary, Supplier<List<TransactionViewDTO>> reloadSupplier) {
+    private void openTransactionsListModal(String title, String summary,
+            Supplier<List<TransactionViewDTO>> reloadSupplier) {
         try {
             ModalLoader.load_owner_transactions_list_modal(
                     app,
@@ -1759,13 +1780,22 @@ public class OwnerDashboardController {
         ObservableList<PieChart.Data> chartData = FXCollections.observableArrayList();
 
         if (shopTotals.getBarberCommissionTotal() > 0) {
-            chartData.add(new PieChart.Data("Barber " + formatCurrency(shopTotals.getBarberCommissionTotal()),
+            chartData.add(new PieChart.Data("Barber",
                     shopTotals.getBarberCommissionTotal()));
         }
 
         if (shopTotals.getShopShareTotal() > 0) {
-            chartData.add(new PieChart.Data("Shop " + formatCurrency(shopTotals.getShopShareTotal()),
+            chartData.add(new PieChart.Data("Shop",
                     shopTotals.getShopShareTotal()));
+        }
+
+        if (chartData.isEmpty()) {
+            chartData.add(new PieChart.Data("No Data", 1));
+            overviewRevenueSplitChart.setLabelsVisible(false);
+            overviewRevenueSplitChart.setLegendVisible(false);
+        } else {
+            overviewRevenueSplitChart.setLabelsVisible(true);
+            overviewRevenueSplitChart.setLegendVisible(true);
         }
 
         overviewRevenueSplitChart.setData(chartData);
@@ -1780,10 +1810,24 @@ public class OwnerDashboardController {
                 .forEach(summary -> pricingMixSeries.getData().add(
                         new XYChart.Data<>(summary.getName(), summary.getGrossSales())));
 
+        if (pricingMixSeries.getData().isEmpty()) {
+            overviewPricingMixChart.getData().clear();
+            overviewPricingMixChart.setTitle("No pricing activity for the selected date");
+            return;
+        }
+
+        overviewPricingMixChart.setTitle(null);
         overviewPricingMixChart.getData().setAll(pricingMixSeries);
     }
 
     private void populateOperationsBarberBreakdownChart(List<DailyBarberTotalDTO> barberTotals) {
+        if (barberTotals.isEmpty()) {
+            operationsBarberBreakdownChart.getData().clear();
+            operationsBarberBreakdownChart.setLegendVisible(false);
+            operationsBarberBreakdownChart.setTitle("No barber earnings for the selected date");
+            return;
+        }
+
         XYChart.Series<String, Number> barberSeries = new XYChart.Series<>();
         barberSeries.setName("Barber");
 
@@ -1795,6 +1839,8 @@ public class OwnerDashboardController {
             shopSeries.getData().add(new XYChart.Data<>(total.getBarberName(), total.getShopShareTotal()));
         });
 
+        operationsBarberBreakdownChart.setLegendVisible(true);
+        operationsBarberBreakdownChart.setTitle(null);
         operationsBarberBreakdownChart.getData().setAll(barberSeries, shopSeries);
     }
 
@@ -1805,9 +1851,9 @@ public class OwnerDashboardController {
 
         return barberTotals.size() + " barber"
                 + (barberTotals.size() == 1 ? "" : "s")
-                + " posted haircuts on "
+                + " recorded earnings on "
                 + getBusinessDate()
-                + ". The chart compares barber earnings against shop share per barber.";
+                + ".";
     }
 
     private String getBusinessDate() {
