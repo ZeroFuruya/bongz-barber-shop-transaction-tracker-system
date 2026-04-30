@@ -15,16 +15,17 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #343131;" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bongz.barbershop.layout.dashboards.ManagerOperationController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" styleClass="app-shell" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bongz.barbershop.layout.dashboards.ManagerOperationController">
    <children>
       <BorderPane prefHeight="768.0" prefWidth="1024.0">
          <top>
             <StackPane prefHeight="80.0" prefWidth="1024.0" BorderPane.alignment="CENTER">
                <children>
-                  <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="8.0" style="-fx-background-color: #A04747; -fx-background-radius: 10px;">
+                  <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="8.0" styleClass="chrome-panel">
                      <StackPane.margin>
                         <Insets bottom="5.0" left="10.0" right="10.0" top="10.0" />
                      </StackPane.margin>
@@ -32,27 +33,27 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>
                      <children>
-                        <HBox alignment="CENTER_LEFT" prefHeight="55.0" prefWidth="311.0" spacing="8.0" HBox.hgrow="ALWAYS">
+                        <HBox alignment="CENTER_LEFT" prefHeight="55.0" prefWidth="334.0" spacing="8.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <ToggleButton fx:id="overviewToggle" mnemonicParsing="false" onAction="#handleOverviewTab" prefHeight="40.0" prefWidth="90.0" selected="true" text="Overview" />
-                              <ToggleButton fx:id="recordToggle" mnemonicParsing="false" onAction="#handleRecordTab" prefHeight="40.0" prefWidth="90.0" text="Record" />
-                              <ToggleButton fx:id="transactionsToggle" mnemonicParsing="false" onAction="#handleTransactionsTab" prefHeight="40.0" prefWidth="110.0" text="Transactions" />
+                              <ToggleButton fx:id="overviewToggle" mnemonicParsing="false" onAction="#handleOverviewTab" prefHeight="40.0" prefWidth="96.0" selected="true" styleClass="nav-button" text="Overview" />
+                              <ToggleButton fx:id="recordToggle" mnemonicParsing="false" onAction="#handleRecordTab" prefHeight="40.0" prefWidth="90.0" styleClass="nav-button" text="Record" />
+                              <ToggleButton fx:id="transactionsToggle" mnemonicParsing="false" onAction="#handleTransactionsTab" prefHeight="40.0" prefWidth="128.0" styleClass="nav-button" text="Transactions" />
                            </children>
                         </HBox>
                         <VBox prefHeight="55.0" prefWidth="485.0" HBox.hgrow="ALWAYS" />
-                        <StackPane prefHeight="55.0" prefWidth="190.0" style="-fx-background-color: #D8A25E; -fx-background-radius: 5px;">
+                        <StackPane prefHeight="55.0" prefWidth="190.0" styleClass="accent-slot">
                            <children>
                               <DatePicker fx:id="businessDatePicker" onAction="#handleBusinessDateChanged" prefWidth="170.0" />
                            </children>
                         </StackPane>
-                        <StackPane prefHeight="55.0" prefWidth="70.0" style="-fx-background-color: #D8A25E; -fx-background-radius: 5px;">
+                        <StackPane prefHeight="55.0" prefWidth="70.0" styleClass="accent-slot">
                            <children>
                               <ImageView fitHeight="55.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../assets/images/logout.png" />
                                  </image>
                               </ImageView>
-                              <Button mnemonicParsing="false" onAction="#handleLogout" prefHeight="66.0" prefWidth="84.0" style="-fx-background-color: rgba(245, 39, 145, 0);">
+                              <Button mnemonicParsing="false" onAction="#handleLogout" prefHeight="66.0" prefWidth="84.0" styleClass="icon-ghost-button">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
@@ -74,37 +75,81 @@
                      <children>
                         <VBox prefHeight="583.0" prefWidth="312.0" spacing="10.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <StackPane prefHeight="180.0" prefWidth="320.0" style="-fx-background-color: white;">
+                              <StackPane prefHeight="180.0" prefWidth="320.0" styleClass="surface-card">
                                  <children>
-                                    <Label fx:id="greetingLabel" text="Hello, manager" wrapText="true" />
+                                    <VBox alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="288.0" spacing="6.0">
+                                       <children>
+                                          <Label styleClass="card-kicker" text="Signed In" />
+                                          <Label fx:id="greetingLabel" styleClass="manager-overview-name" text="Manager" wrapText="true" />
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                       </padding>
+                                    </VBox>
                                  </children>
                               </StackPane>
-                              <StackPane prefHeight="180.0" prefWidth="320.0" style="-fx-background-color: white;">
+                              <StackPane prefHeight="180.0" prefWidth="320.0" styleClass="surface-card">
                                  <children>
-                                    <Label fx:id="totalCutsTodayLabel" text="Total Cuts Today: 0" wrapText="true" />
+                                    <VBox alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="288.0" spacing="6.0">
+                                       <children>
+                                          <Label styleClass="card-kicker" text="Haircuts Today" />
+                                          <Label fx:id="totalCutsTodayLabel" styleClass="manager-overview-value" text="0" wrapText="true" />
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                       </padding>
+                                    </VBox>
                                  </children>
                               </StackPane>
                            </children>
                         </VBox>
                         <VBox prefHeight="583.0" prefWidth="312.0" spacing="10.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <StackPane prefHeight="370.0" prefWidth="320.0" style="-fx-background-color: white;">
+                              <StackPane prefHeight="370.0" prefWidth="320.0" styleClass="surface-card">
                                  <children>
-                                    <Label fx:id="barberCommissionListLabel" text="Barber totals will appear here." wrapText="true" />
+                                    <VBox alignment="CENTER" prefHeight="330.0" prefWidth="288.0" spacing="8.0">
+                                       <children>
+                                          <VBox>
+                                             <children>
+                                                <Label styleClass="section-title" text="Barber Totals" />
+                                                <Label fx:id="barberCommissionListLabel" styleClass="manager-summary-copy" text="Barber totals will appear here." wrapText="true" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                       </padding>
+                                    </VBox>
                                  </children>
                               </StackPane>
                            </children>
                         </VBox>
                         <VBox prefHeight="583.0" prefWidth="312.0" spacing="10.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <StackPane prefHeight="180.0" prefWidth="320.0" style="-fx-background-color: white;">
+                              <StackPane prefHeight="180.0" prefWidth="320.0" styleClass="surface-card">
                                  <children>
-                                    <Label fx:id="shopSalesTodayLabel" text="Shop Earnings Today: PHP 0" wrapText="true" />
+                                    <VBox alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="288.0" spacing="6.0">
+                                       <children>
+                                          <Label styleClass="card-kicker" text="Shop Earnings" />
+                                          <Label fx:id="shopSalesTodayLabel" styleClass="manager-overview-value" text="PHP 0" wrapText="true" />
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                       </padding>
+                                    </VBox>
                                  </children>
                               </StackPane>
-                              <StackPane prefHeight="180.0" prefWidth="320.0" style="-fx-background-color: white;">
+                              <StackPane prefHeight="180.0" prefWidth="320.0" styleClass="surface-card">
                                  <children>
-                                    <Label fx:id="grossSalesTodayLabel" text="Gross Sales Today: PHP 0" wrapText="true" />
+                                    <VBox alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="288.0" spacing="6.0">
+                                       <children>
+                                          <Label styleClass="card-kicker" text="Gross Sales" />
+                                          <Label fx:id="grossSalesTodayLabel" styleClass="manager-overview-value" text="PHP 0" wrapText="true" />
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                       </padding>
+                                    </VBox>
                                  </children>
                               </StackPane>
                            </children>
@@ -113,7 +158,7 @@
                   </HBox>
                   <HBox fx:id="recordPane" alignment="CENTER" managed="false" prefHeight="100.0" prefWidth="200.0" spacing="10.0" visible="false">
                      <children>
-                        <StackPane prefHeight="583.0" prefWidth="230.0">
+                        <StackPane prefHeight="583.0" prefWidth="230.0" styleClass="surface-card">
                            <children>
                               <TableView fx:id="activeBarbersTable" prefHeight="583.0" prefWidth="220.0">
                                  <columns>
@@ -125,13 +170,21 @@
                         </StackPane>
                         <VBox prefHeight="583.0" prefWidth="774.0" spacing="10.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <HBox alignment="CENTER" prefHeight="180.0" prefWidth="774.0" spacing="10.0" style="-fx-background-color: white;">
+                              <HBox alignment="CENTER" prefHeight="180.0" prefWidth="774.0" spacing="10.0" styleClass="surface-card">
                                  <children>
-                                    <Label fx:id="selectedBarberIdLabel" text="Selected Barber ID: -" wrapText="true" />
-                                    <VBox alignment="CENTER" prefHeight="160.0" prefWidth="230.0" spacing="8.0">
+                                    <StackPane prefHeight="120.0" prefWidth="120.0" styleClass="media-frame">
                                        <children>
-                                          <Label fx:id="selectedBarberImagePathLabel" text="Image Path: -" wrapText="true" />
-                                          <Label fx:id="selectedBarberNameLabel" text="Selected Barber Name: -" wrapText="true" />
+                                          <ImageView fx:id="selectedBarberImageView" fitHeight="98.0" fitWidth="98.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../assets/images/Usernameicon.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </StackPane>
+                                    <VBox alignment="CENTER_LEFT" prefHeight="140.0" prefWidth="260.0" spacing="8.0" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <Label styleClass="card-kicker" text="Selected Barber" />
+                                          <Label fx:id="selectedBarberNameLabel" styleClass="record-name" text="No barber selected" wrapText="true" />
                                        </children>
                                     </VBox>
                                  </children>
@@ -139,40 +192,55 @@
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </padding>
                               </HBox>
-                              <HBox prefHeight="120.0" prefWidth="774.0" spacing="10.0" style="-fx-background-color: white;">
+                              <HBox alignment="CENTER_LEFT" prefHeight="120.0" prefWidth="774.0" spacing="20.0" styleClass="surface-card">
                                  <children>
-                                    <Label fx:id="selectedBarberHaircutCountLabel" text="Haircut Count Today: 0" wrapText="true" />
-                                    <Label fx:id="selectedBarberCommissionLabel" text="Commission Today: PHP 0" wrapText="true" />
-                                    <Label fx:id="selectedBarberShopShareLabel" text="Shop Share Today: PHP 0" wrapText="true" />
+                                    <VBox alignment="CENTER_LEFT" spacing="6.0" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <Label styleClass="record-metric-label" text="Cuts Today" />
+                                          <Label fx:id="selectedBarberHaircutCountLabel" styleClass="record-metric-value" text="0" wrapText="true" />
+                                       </children>
+                                    </VBox>
+                                    <VBox alignment="CENTER_LEFT" spacing="6.0" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <Label styleClass="record-metric-label" text="Commission" />
+                                          <Label fx:id="selectedBarberCommissionLabel" styleClass="record-metric-value" text="PHP 0" wrapText="true" />
+                                       </children>
+                                    </VBox>
+                                    <VBox alignment="CENTER_LEFT" spacing="6.0" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <Label styleClass="record-metric-label" text="Shop Share" />
+                                          <Label fx:id="selectedBarberShopShareLabel" styleClass="record-metric-value" text="PHP 0" wrapText="true" />
+                                       </children>
+                                    </VBox>
                                  </children>
                                  <padding>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </padding>
                               </HBox>
-                              <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="774.0" spacing="10.0" style="-fx-background-color: white;">
+                              <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="774.0" spacing="10.0" styleClass="surface-card">
                                  <children>
-                                    <Button fx:id="newTransactionButton" mnemonicParsing="false" onAction="#handleOpenNewTransactionModal" prefHeight="40.0" prefWidth="180.0" text="New Transaction" />
-                                    <Label text="Selected barber will be used in the modal." wrapText="true" />
+                                    <Button fx:id="newTransactionButton" mnemonicParsing="false" onAction="#handleOpenNewTransactionModal" prefHeight="40.0" prefWidth="196.0" text="New Transaction" />
+                                    <Region HBox.hgrow="ALWAYS" />
                                  </children>
                                  <padding>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </padding>
                               </HBox>
-                              <StackPane prefHeight="213.0" prefWidth="774.0" style="-fx-background-color: white;" VBox.vgrow="ALWAYS">
+                              <StackPane prefHeight="213.0" prefWidth="774.0" styleClass="surface-card" VBox.vgrow="ALWAYS">
                                  <children>
                                     <TableView fx:id="selectedBarberTransactionsTable" prefHeight="200.0" prefWidth="760.0">
                                        <columns>
-                                          <TableColumn fx:id="selectedTransactionIdColumn" prefWidth="75.0" text="Transaction ID" />
-                                          <TableColumn fx:id="selectedPricingCategoryIdColumn" prefWidth="95.0" text="Category ID" />
+                                          <TableColumn fx:id="selectedTransactionIdColumn" prefWidth="75.0" text="ID" />
+                                          <TableColumn fx:id="selectedPricingCategoryIdColumn" prefWidth="125.0" text="Category" />
                                           <TableColumn fx:id="selectedLoggedByUserIdColumn" prefWidth="95.0" text="Logged By" />
-                                          <TableColumn fx:id="selectedBusinessDateColumn" prefWidth="90.0" text="Business Date" />
-                                          <TableColumn fx:id="selectedRecordedAtColumn" prefWidth="115.0" text="Recorded At" />
-                                          <TableColumn fx:id="selectedPricingCategoryNameColumn" prefWidth="95.0" text="Category Name" />
+                                          <TableColumn fx:id="selectedBusinessDateColumn" prefWidth="90.0" text="Business Date" visible="false" />
+                                          <TableColumn fx:id="selectedRecordedAtColumn" prefWidth="105.0" text="Recorded" />
+                                          <TableColumn fx:id="selectedPricingCategoryNameColumn" prefWidth="95.0" text="Category" visible="false" />
                                           <TableColumn fx:id="selectedChargedAmountColumn" prefWidth="90.0" text="Charged" />
-                                          <TableColumn fx:id="selectedBarberCommissionPercentColumn" prefWidth="80.0" text="Commission %" />
+                                          <TableColumn fx:id="selectedBarberCommissionPercentColumn" prefWidth="80.0" text="Percent" visible="false" />
                                           <TableColumn fx:id="selectedStatusColumn" prefWidth="70.0" text="Status" />
-                                          <TableColumn fx:id="selectedVoidReasonColumn" prefWidth="90.0" text="Void Reason" />
-                                          <TableColumn fx:id="selectedNoteColumn" prefWidth="95.0" text="Note" />
+                                          <TableColumn fx:id="selectedVoidReasonColumn" prefWidth="90.0" text="Void Reason" visible="false" />
+                                          <TableColumn fx:id="selectedNoteColumn" prefWidth="95.0" text="Note" visible="false" />
                                        </columns>
                                     </TableView>
                                  </children>
@@ -186,26 +254,33 @@
                   </HBox>
                   <VBox fx:id="transactionsPane" managed="false" prefHeight="583.0" prefWidth="1004.0" spacing="10.0" visible="false">
                      <children>
-                        <HBox spacing="10.0">
+                        <HBox spacing="10.0" styleClass="surface-card">
                            <children>
-                              <TextField fx:id="searchField" prefHeight="25.0" prefWidth="180.0" promptText="Search" />
-                              <ComboBox fx:id="filterComboBox" prefHeight="25.0" prefWidth="120.0" promptText="Filter" />
-                              <Label text="Click any transaction row to open its detail modal." wrapText="true" />
+                              <TextField fx:id="searchField" prefHeight="25.0" prefWidth="180.0" promptText="Search transactions" />
+                              <ComboBox fx:id="filterComboBox" prefHeight="25.0" prefWidth="120.0" promptText="Status" />
+                              <Region HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
-                        <TableView fx:id="transactionsTable" prefHeight="583.0" prefWidth="596.0" VBox.vgrow="ALWAYS">
-                           <columns>
-                              <TableColumn fx:id="transactionsIdColumn" prefWidth="75.0" text="transaction_id" />
-                              <TableColumn fx:id="transactionsBarberIdColumn" prefWidth="75.0" text="barber_id" />
-                              <TableColumn fx:id="transactionsPricingCategoryIdColumn" prefWidth="90.0" text="pricing_category_id" />
-                              <TableColumn fx:id="transactionsLoggedByUserIdColumn" prefWidth="90.0" text="logged_by_user_id" />
-                              <TableColumn fx:id="transactionsBusinessDateColumn" prefWidth="90.0" text="business_date" />
-                              <TableColumn fx:id="transactionsRecordedAtColumn" prefWidth="110.0" text="recorded_at" />
-                              <TableColumn fx:id="transactionsPricingCategoryNameColumn" prefWidth="120.0" text="pricing_category_name" />
-                              <TableColumn fx:id="transactionsShopEarningAmountColumn" prefWidth="120.0" text="shop_earning_amount" />
-                              <TableColumn fx:id="transactionsStatusColumn" prefWidth="75.0" text="status" />
-                           </columns>
-                        </TableView>
+                        <StackPane prefHeight="583.0" prefWidth="1004.0" styleClass="surface-card" VBox.vgrow="ALWAYS">
+                           <children>
+                              <TableView fx:id="transactionsTable" prefHeight="545.0" prefWidth="970.0">
+                                 <columns>
+                                    <TableColumn fx:id="transactionsIdColumn" prefWidth="74.0" text="ID" />
+                                    <TableColumn fx:id="transactionsBarberIdColumn" prefWidth="130.0" text="Barber" />
+                                    <TableColumn fx:id="transactionsPricingCategoryIdColumn" prefWidth="155.0" text="Category" />
+                                    <TableColumn fx:id="transactionsLoggedByUserIdColumn" prefWidth="105.0" text="Logged By" />
+                                    <TableColumn fx:id="transactionsBusinessDateColumn" prefWidth="95.0" text="Date" />
+                                    <TableColumn fx:id="transactionsRecordedAtColumn" prefWidth="110.0" text="Recorded" visible="false" />
+                                    <TableColumn fx:id="transactionsPricingCategoryNameColumn" prefWidth="120.0" text="Category" visible="false" />
+                                    <TableColumn fx:id="transactionsShopEarningAmountColumn" prefWidth="95.0" text="Shop" />
+                                    <TableColumn fx:id="transactionsStatusColumn" prefWidth="75.0" text="Status" />
+                                 </columns>
+                              </TableView>
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </StackPane>
                      </children>
                   </VBox>
                </children>
@@ -214,7 +289,7 @@
          <bottom>
             <StackPane prefHeight="63.0" prefWidth="1024.0" BorderPane.alignment="CENTER">
                <children>
-                  <ToolBar prefHeight="65.0" prefWidth="1004.0" style="-fx-border-radius: 5px; -fx-background-radius: 5px; -fx-background-color: #A04747;">
+                  <ToolBar prefHeight="65.0" prefWidth="1004.0" styleClass="status-bar">
                      <items>
                         <Label fx:id="statusLabel" text="Ready." />
                      </items>

@@ -14,11 +14,11 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="720.0" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bongz.barbershop.layout.dashboards.modal.OwnerTransactionsListModalController">
    <children>
-      <StackPane prefHeight="560.0" prefWidth="720.0" style="-fx-background-color: #f5f1ea; -fx-background-radius: 12px;">
+      <StackPane prefHeight="560.0" prefWidth="720.0" styleClass="modal-card">
          <children>
             <VBox prefHeight="520.0" prefWidth="680.0" spacing="12.0">
                <children>
-                  <Label fx:id="titleLabel" style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Transactions" />
+                  <Label fx:id="titleLabel" styleClass="modal-title" text="Transactions" />
                   <Label fx:id="summaryLabel" text="Click any row to inspect details." wrapText="true" />
                   <HBox spacing="10.0">
                      <children>

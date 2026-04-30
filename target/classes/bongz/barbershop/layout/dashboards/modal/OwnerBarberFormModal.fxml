@@ -12,11 +12,11 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0" prefWidth="560.0" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bongz.barbershop.layout.dashboards.modal.OwnerBarberFormModalController">
    <children>
-      <StackPane prefHeight="470.0" prefWidth="560.0" style="-fx-background-color: #f5f1ea; -fx-background-radius: 12px;">
+      <StackPane prefHeight="470.0" prefWidth="560.0" styleClass="modal-card">
          <children>
             <VBox prefHeight="430.0" prefWidth="520.0" spacing="12.0">
                <children>
-                  <Label fx:id="titleLabel" style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Add Barber" />
+                  <Label fx:id="titleLabel" styleClass="modal-title" text="Add Barber" />
                   <HBox spacing="12.0">
                      <children>
                         <Label fx:id="barberIdLabel" text="Barber ID: New" />

@@ -6,20 +6,15 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bongz.barbershop.layout.MainAppController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="landing-root" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bongz.barbershop.layout.MainAppController">
    <children>
       <Pane prefHeight="768.0" prefWidth="1024.0">
          <children>
             <VBox layoutX="877.0" layoutY="451.0" prefHeight="303.0" prefWidth="133.0">
                <children>
                   <Pane prefHeight="80.0" prefWidth="133.0" />
-                  <Button fx:id="exitButton" layoutX="10.0" layoutY="108.0" mnemonicParsing="false" onAction="#handleExit" prefHeight="98.0" prefWidth="150.0" text="(Exit)">
-                     <font>
-                        <Font name="Montserrat Regular" size="12.0" />
-                     </font>
-                  </Button>
+                  <Button fx:id="exitButton" layoutX="10.0" layoutY="108.0" mnemonicParsing="false" prefHeight="98.0" prefWidth="150.0" styleClass="landing-exit-btn" onAction="#handleExit" text="(Exit)" />
                </children>
             </VBox>
          </children>
@@ -29,10 +24,6 @@
             <Image url="@../assets/images/BONGZ%20BARBERSHOP.png" />
          </image>
       </ImageView>
-      <Button id="logInButton_landing_window" fx:id="logInButton" ellipsisString="" mnemonicParsing="false" onAction="#handleLogIn" prefHeight="46.0" prefWidth="428.0" style="-fx-background-color: #22232F;" styleClass="landing-login-btn" stylesheets="@../styles/global.css" text="B O N G Z  B A R B E R  S H O P " textFill="#eeeeee">
-         <font>
-            <Font name="Montserrat Regular" size="20.0" />
-         </font>
-      </Button>
+      <Button id="logInButton_landing_window" fx:id="logInButton" ellipsisString="" mnemonicParsing="false" onAction="#handleLogIn" prefHeight="46.0" prefWidth="428.0" styleClass="landing-login-btn" text="B O N G Z  B A R B E R  S H O P " />
    </children>
 </StackPane>
