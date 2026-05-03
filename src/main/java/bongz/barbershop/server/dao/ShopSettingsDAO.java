@@ -32,6 +32,7 @@ public class ShopSettingsDAO {
                 UPDATE shop_settings
                 SET shop_name = ?,
                     currency_code = ?,
+                    owner_notes = ?,
                     updated_at = CURRENT_TIMESTAMP
                 WHERE settings_id = 1
                 """;
@@ -41,6 +42,7 @@ public class ShopSettingsDAO {
 
             ps.setString(1, settings.getShopName());
             ps.setString(2, settings.getCurrencyCode());
+            ps.setString(3, settings.getOwnerNotes());
 
             return ps.executeUpdate() == 1;
         } catch (SQLException e) {
@@ -55,6 +57,7 @@ public class ShopSettingsDAO {
                 rs.getInt("settings_id"),
                 rs.getString("shop_name"),
                 rs.getString("currency_code"),
+                rs.getString("owner_notes"),
                 rs.getString("updated_at"));
     }
 }
