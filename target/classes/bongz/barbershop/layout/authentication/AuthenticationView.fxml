@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="576.0" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bongz.barbershop.layout.authentication.AuthenticationController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="576.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bongz.barbershop.layout.authentication.AuthenticationController">
    <children>
       <ImageView fitHeight="768.0" fitWidth="576.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -24,12 +24,14 @@
                <children>
                   <Label prefHeight="23.0" prefWidth="102.0" styleClass="auth-label" text="Username" />
                   <TextField fx:id="usernameField" opacity="0.91" prefHeight="36.0" prefWidth="284.0" promptText="Username" styleClass="auth-input" />
+                  <Label fx:id="userErrorLabel" layoutX="10.0" layoutY="10.0" prefHeight="21.0" prefWidth="253.0" styleClass="error-label" text="Invalid Username / Username not found" textFill="RED" visible="false" />
                </children>
             </VBox>
             <VBox layoutX="10.0" layoutY="10.0" prefHeight="74.0" prefWidth="284.0">
                <children>
                   <Label prefHeight="23.0" prefWidth="102.0" styleClass="auth-label" text="Password" />
                   <PasswordField fx:id="passwordField" prefHeight="36.0" prefWidth="284.0" promptText="Password" styleClass="auth-input" />
+                  <Label fx:id="passErrorLabel" layoutX="10.0" layoutY="10.0" prefHeight="23.0" prefWidth="102.0" styleClass="error-label" text="Invalid Password" textFill="RED" visible="false" />
                </children>
             </VBox>
             <VBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="84.0" prefHeight="40.0" prefWidth="284.0">

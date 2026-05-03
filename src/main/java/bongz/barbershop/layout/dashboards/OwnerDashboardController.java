@@ -34,20 +34,18 @@ import bongz.barbershop.service.settings.ShopSettingsService;
 import bongz.barbershop.service.user.UserService;
 import bongz.barbershop.storage.AppDataPaths;
 import bongz.barbershop.ui.AnimationSupport;
+import javafx.geometry.Pos;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.chart.BarChart;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.PieChart;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
@@ -59,6 +57,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 public class OwnerDashboardController {
@@ -137,13 +137,13 @@ public class OwnerDashboardController {
     @FXML
     private Label overviewShopEarningsLabel;
     @FXML
-    private PieChart overviewRevenueSplitChart;
+    private ScrollPane overviewRevenueSplitScroll;
     @FXML
-    private BarChart<String, Number> overviewPricingMixChart;
+    private VBox overviewRevenueSplitContent;
     @FXML
-    private CategoryAxis overviewPricingMixCategoryAxis;
+    private ScrollPane overviewPricingMixScroll;
     @FXML
-    private NumberAxis overviewPricingMixValueAxis;
+    private VBox overviewPricingMixContent;
     @FXML
     private TableView<TransactionViewDTO> overviewRecentTransactionsTable;
     @FXML
@@ -178,11 +178,9 @@ public class OwnerDashboardController {
     @FXML
     private Label operationsGrossSalesLabel;
     @FXML
-    private BarChart<String, Number> operationsBarberBreakdownChart;
+    private ScrollPane operationsBarberBreakdownScroll;
     @FXML
-    private CategoryAxis operationsBarberBreakdownCategoryAxis;
-    @FXML
-    private NumberAxis operationsBarberBreakdownValueAxis;
+    private VBox operationsBarberBreakdownContent;
     @FXML
     private TableView<BarberModel> operationsActiveBarbersTable;
     @FXML
@@ -420,6 +418,8 @@ public class OwnerDashboardController {
     private Label settingsCurrencyCodeLabel;
     @FXML
     private Label settingsUpdatedAtLabel;
+    @FXML
+    private TextArea settingsOwnerNotesArea;
 
     @FXML
     private void initialize() {
@@ -433,7 +433,7 @@ public class OwnerDashboardController {
         configureUsersPane();
         configureFilterControls();
         configureReadableTables();
-        configureCharts();
+        configureDataViz();
         setVisiblePane(overviewPane);
         setVisibleOperationsPane(operationsOverviewPane);
     }
@@ -455,12 +455,14 @@ public class OwnerDashboardController {
         }
 
         if (earningsFromDatePicker.getValue() == null) {
-            earningsFromDatePicker.setValue(LocalDate.now().minusDays(6));
+            earningsFromDatePicker.setValue(LocalDate.now().minusDays(13));
         }
 
         if (earningsToDatePicker.getValue() == null) {
             earningsToDatePicker.setValue(LocalDate.now());
         }
+
+        alignOwnerDashboardDatesWithLedger();
 
         overviewNavButton.setSelected(true);
         setPageTitle("Owner Overview");
@@ -760,11 +762,6 @@ public class OwnerDashboardController {
             return;
         }
 
-        if (UserRole.OWNER.name().equalsIgnoreCase(selectedUser.getRole())) {
-            showStatus("Owner accounts are read-only in this screen.");
-            return;
-        }
-
         try {
             ModalLoader.load_owner_user_form_modal(app, selectedUser, this::refreshAllData);
         } catch (IOException e) {
@@ -841,13 +838,48 @@ public class OwnerDashboardController {
         overviewGrossSalesLabel.setText(formatCurrency(shopTotals.getGrossSales()));
         overviewBarberCommissionsLabel.setText(formatCurrency(shopTotals.getBarberCommissionTotal()));
         overviewShopEarningsLabel.setText(formatCurrency(shopTotals.getShopShareTotal()));
-        populateOverviewRevenueSplitChart(shopTotals);
-        populateOverviewPricingMixChart(pricingSummaries);
+        populateOverviewRevenueSplitViz(shopTotals);
+        populateOverviewPricingMixViz(pricingSummaries);
 
         List<TransactionViewDTO> recentTransactions = dashboard.getRecentTransactions();
         int startIndex = Math.max(0, recentTransactions.size() - 12);
         overviewRecentTransactions.setAll(recentTransactions.subList(startIndex, recentTransactions.size()));
         overviewRecentTransactionsTable.setItems(overviewRecentTransactions);
+    }
+
+    /**
+     * When "today" or the default earnings window has no POSTED rows but the ledger does,
+     * snap pickers to the latest activity so charts and tables match seeded or historical data.
+     */
+    private void alignOwnerDashboardDatesWithLedger() {
+        String latest = reportService.getLatestPostedBusinessDate();
+        if (latest == null) {
+            return;
+        }
+
+        LocalDate latestLd = LocalDate.parse(latest);
+        LocalDate today = LocalDate.now();
+
+        LocalDate businessDate = businessDatePicker.getValue();
+        if (businessDate != null && businessDate.equals(today)) {
+            DailyShopTotalDTO todayTotals = reportService.getDailyShopTotal(businessDate.toString());
+            if (todayTotals.getHaircutCount() == 0 && latestLd.isBefore(today)) {
+                businessDatePicker.setValue(latestLd);
+            }
+        }
+
+        LocalDate from = earningsFromDatePicker.getValue();
+        LocalDate to = earningsToDatePicker.getValue();
+        if (from == null || to == null) {
+            return;
+        }
+
+        List<DailyShopTotalDTO> windowTotals = reportService.getDateRangeShopTotals(from.toString(), to.toString());
+        int cutsInWindow = windowTotals.stream().mapToInt(DailyShopTotalDTO::getHaircutCount).sum();
+        if (cutsInWindow == 0) {
+            earningsToDatePicker.setValue(latestLd);
+            earningsFromDatePicker.setValue(latestLd.minusDays(13));
+        }
     }
 
     private void loadOperationsData() {
@@ -864,7 +896,7 @@ public class OwnerDashboardController {
         operationsShopSalesLabel.setText("Shop Earnings Today: " + formatCurrency(shopTotal.getShopShareTotal()));
         operationsGrossSalesLabel.setText("Gross Sales Today: " + formatCurrency(shopTotal.getGrossSales()));
         operationsBarberCommissionListLabel.setText(buildBarberBreakdownSummary(barberTotals));
-        populateOperationsBarberBreakdownChart(barberTotals);
+        populateOperationsBarberBreakdownViz(barberTotals);
     }
 
     private void loadOperationsRecordData() {
@@ -982,12 +1014,42 @@ public class OwnerDashboardController {
             settingsShopNameLabel.setText("Shop Name: (missing)");
             settingsCurrencyCodeLabel.setText("Currency: PHP");
             settingsUpdatedAtLabel.setText("Updated At: (missing)");
+            if (settingsOwnerNotesArea != null) {
+                settingsOwnerNotesArea.clear();
+                settingsOwnerNotesArea.setDisable(true);
+            }
             return;
         }
 
         settingsShopNameLabel.setText("Shop Name: " + valueOrPlaceholder(currentSettings.getShopName()));
         settingsCurrencyCodeLabel.setText("Currency: " + valueOrPlaceholder(currentSettings.getCurrencyCode()));
         settingsUpdatedAtLabel.setText("Updated At: " + valueOrPlaceholder(currentSettings.getUpdatedAt()));
+        if (settingsOwnerNotesArea != null) {
+            settingsOwnerNotesArea.setDisable(false);
+            String notes = currentSettings.getOwnerNotes();
+            settingsOwnerNotesArea.setText(notes == null ? "" : notes);
+        }
+    }
+
+    @FXML
+    private void handleSaveOwnerNotes() {
+        if (currentSettings == null) {
+            showStatus("Shop settings not loaded.");
+            return;
+        }
+
+        ServiceResult<ShopSettingsModel> result = shopSettingsService.updateShopSettings(
+                currentSettings.getShopName(),
+                currentSettings.getCurrencyCode(),
+                settingsOwnerNotesArea.getText());
+
+        if (!result.isSuccess()) {
+            showStatus(result.getMessage());
+            return;
+        }
+
+        loadSettingsData();
+        showStatus("Owner notes saved.");
     }
 
     private void configureMainNavigation() {
@@ -1306,33 +1368,10 @@ public class OwnerDashboardController {
         table.setFixedCellSize(32);
     }
 
-    private void configureCharts() {
-        overviewRevenueSplitChart.setLabelsVisible(true);
-        overviewRevenueSplitChart.setLegendVisible(true);
-        overviewRevenueSplitChart.setClockwise(true);
-        overviewRevenueSplitChart.setLabelLineLength(12);
-
-        overviewPricingMixChart.setAnimated(false);
-        overviewPricingMixChart.setLegendVisible(false);
-        overviewPricingMixChart.setHorizontalGridLinesVisible(false);
-        overviewPricingMixChart.setVerticalGridLinesVisible(false);
-        overviewPricingMixChart.setAlternativeColumnFillVisible(false);
-        overviewPricingMixChart.setAlternativeRowFillVisible(false);
-        overviewPricingMixCategoryAxis.setLabel("Pricing Category");
-        overviewPricingMixCategoryAxis.setTickLabelRotation(-28);
-        overviewPricingMixValueAxis.setLabel("Gross Sales");
-        overviewPricingMixValueAxis.setForceZeroInRange(true);
-
-        operationsBarberBreakdownChart.setAnimated(false);
-        operationsBarberBreakdownChart.setLegendVisible(true);
-        operationsBarberBreakdownChart.setHorizontalGridLinesVisible(false);
-        operationsBarberBreakdownChart.setVerticalGridLinesVisible(false);
-        operationsBarberBreakdownChart.setAlternativeColumnFillVisible(false);
-        operationsBarberBreakdownChart.setAlternativeRowFillVisible(false);
-        operationsBarberBreakdownCategoryAxis.setLabel("Barber");
-        operationsBarberBreakdownCategoryAxis.setTickLabelRotation(-24);
-        operationsBarberBreakdownValueAxis.setLabel("Amount");
-        operationsBarberBreakdownValueAxis.setForceZeroInRange(true);
+    private void configureDataViz() {
+        overviewRevenueSplitScroll.setFitToWidth(true);
+        overviewPricingMixScroll.setFitToWidth(true);
+        operationsBarberBreakdownScroll.setFitToWidth(true);
     }
 
     private void refreshOperationsSelectedBarberSection(BarberModel selectedBarber) {
@@ -1423,7 +1462,7 @@ public class OwnerDashboardController {
 
     private void refreshUserDetails(UserModel user) {
         boolean isOwner = user != null && UserRole.OWNER.name().equalsIgnoreCase(user.getRole());
-        editUserButton.setDisable(user == null || isOwner);
+        editUserButton.setDisable(user == null);
         toggleUserStatusButton.setDisable(user == null || isOwner);
 
         if (user == null) {
@@ -1776,72 +1815,191 @@ public class OwnerDashboardController {
         });
     }
 
-    private void populateOverviewRevenueSplitChart(DailyShopTotalDTO shopTotals) {
-        ObservableList<PieChart.Data> chartData = FXCollections.observableArrayList();
+    private void populateOverviewRevenueSplitViz(DailyShopTotalDTO shopTotals) {
+        overviewRevenueSplitContent.getChildren().clear();
 
-        if (shopTotals.getBarberCommissionTotal() > 0) {
-            chartData.add(new PieChart.Data("Barber",
-                    shopTotals.getBarberCommissionTotal()));
+        int barber = shopTotals.getBarberCommissionTotal();
+        int shopAmt = shopTotals.getShopShareTotal();
+        int sum = barber + shopAmt;
+
+        if (sum <= 0) {
+            Label empty = new Label("No posted revenue for this date.");
+            empty.getStyleClass().add("shell-note");
+            empty.setWrapText(true);
+            overviewRevenueSplitContent.getChildren().add(empty);
+            return;
         }
 
-        if (shopTotals.getShopShareTotal() > 0) {
-            chartData.add(new PieChart.Data("Shop",
-                    shopTotals.getShopShareTotal()));
-        }
+        double barberRatio = barber / (double) sum;
+        double shopRatio = shopAmt / (double) sum;
 
-        if (chartData.isEmpty()) {
-            chartData.add(new PieChart.Data("No Data", 1));
-            overviewRevenueSplitChart.setLabelsVisible(false);
-            overviewRevenueSplitChart.setLegendVisible(false);
-        } else {
-            overviewRevenueSplitChart.setLabelsVisible(true);
-            overviewRevenueSplitChart.setLegendVisible(true);
-        }
+        HBox segments = new HBox();
+        segments.setAlignment(Pos.CENTER_LEFT);
+        segments.setMinHeight(28);
+        segments.setPrefHeight(28);
+        segments.setMaxWidth(Double.MAX_VALUE);
+        segments.getStyleClass().add("viz-stacked-bar");
 
-        overviewRevenueSplitChart.setData(chartData);
+        Region barberSeg = new Region();
+        barberSeg.setMinHeight(24);
+        barberSeg.prefWidthProperty().bind(segments.widthProperty().multiply(barberRatio));
+        barberSeg.getStyleClass().addAll("viz-bar-segment", "viz-bar-barber");
+
+        Region shopSeg = new Region();
+        shopSeg.setMinHeight(24);
+        shopSeg.prefWidthProperty().bind(segments.widthProperty().multiply(shopRatio));
+        shopSeg.getStyleClass().addAll("viz-bar-segment", "viz-bar-shop");
+
+        segments.getChildren().addAll(barberSeg, shopSeg);
+
+        Label pct = new Label(String.format(Locale.US, "%.0f%% barber · %.0f%% shop",
+                barberRatio * 100, shopRatio * 100));
+        pct.getStyleClass().add("shell-note");
+
+        HBox legend = new HBox(20);
+        legend.setAlignment(Pos.CENTER_LEFT);
+        legend.getChildren().addAll(
+                buildVizLegendChip("Barber", formatCurrency(barber), "viz-legend-swatch-barber"),
+                buildVizLegendChip("Shop", formatCurrency(shopAmt), "viz-legend-swatch-shop"));
+
+        overviewRevenueSplitContent.getChildren().addAll(segments, pct, legend);
     }
 
-    private void populateOverviewPricingMixChart(List<PricingCategorySummaryDTO> pricingSummaries) {
-        XYChart.Series<String, Number> pricingMixSeries = new XYChart.Series<>();
-        pricingMixSeries.setName("Gross Sales");
+    private void populateOverviewPricingMixViz(List<PricingCategorySummaryDTO> pricingSummaries) {
+        overviewPricingMixContent.getChildren().clear();
 
-        pricingSummaries.stream()
+        List<PricingCategorySummaryDTO> positive = pricingSummaries.stream()
                 .filter(summary -> summary.getGrossSales() > 0)
-                .forEach(summary -> pricingMixSeries.getData().add(
-                        new XYChart.Data<>(summary.getName(), summary.getGrossSales())));
+                .sorted(Comparator.comparing(PricingCategorySummaryDTO::getName, String.CASE_INSENSITIVE_ORDER))
+                .collect(Collectors.toList());
 
-        if (pricingMixSeries.getData().isEmpty()) {
-            overviewPricingMixChart.getData().clear();
-            overviewPricingMixChart.setTitle("No pricing activity for the selected date");
+        if (positive.isEmpty()) {
+            Label empty = new Label("No pricing activity for the selected date.");
+            empty.getStyleClass().add("shell-note");
+            empty.setWrapText(true);
+            overviewPricingMixContent.getChildren().add(empty);
             return;
         }
 
-        overviewPricingMixChart.setTitle(null);
-        overviewPricingMixChart.getData().setAll(pricingMixSeries);
+        int maxGross = positive.stream().mapToInt(PricingCategorySummaryDTO::getGrossSales).max().orElse(1);
+
+        int colorIdx = 0;
+        for (PricingCategorySummaryDTO summary : positive) {
+            double ratio = summary.getGrossSales() / (double) maxGross;
+
+            VBox row = new VBox(4);
+            HBox top = new HBox(10);
+            top.setAlignment(Pos.CENTER_LEFT);
+
+            Label nameLabel = new Label(summary.getName());
+            nameLabel.getStyleClass().add("viz-row-title");
+            nameLabel.setWrapText(true);
+
+            Region spacer = new Region();
+            HBox.setHgrow(spacer, Priority.ALWAYS);
+
+            Label amtLabel = new Label(formatCurrency(summary.getGrossSales()));
+            amtLabel.getStyleClass().add("viz-row-value");
+
+            top.getChildren().addAll(nameLabel, spacer, amtLabel);
+
+            HBox track = new HBox();
+            track.setAlignment(Pos.CENTER_LEFT);
+            track.setMinHeight(16);
+            track.setPrefHeight(16);
+            track.setMaxWidth(Double.MAX_VALUE);
+            track.getStyleClass().add("viz-row-track");
+
+            Region fill = new Region();
+            fill.setMinHeight(12);
+            fill.prefWidthProperty().bind(track.widthProperty().multiply(ratio));
+            fill.getStyleClass().addAll("viz-row-fill", "viz-mix-" + (colorIdx % 3));
+            colorIdx++;
+
+            track.getChildren().add(fill);
+            row.getChildren().addAll(top, track);
+            overviewPricingMixContent.getChildren().add(row);
+        }
     }
 
-    private void populateOperationsBarberBreakdownChart(List<DailyBarberTotalDTO> barberTotals) {
+    private void populateOperationsBarberBreakdownViz(List<DailyBarberTotalDTO> barberTotals) {
+        operationsBarberBreakdownContent.getChildren().clear();
+
         if (barberTotals.isEmpty()) {
-            operationsBarberBreakdownChart.getData().clear();
-            operationsBarberBreakdownChart.setLegendVisible(false);
-            operationsBarberBreakdownChart.setTitle("No barber earnings for the selected date");
+            Label empty = new Label("No barber earnings for the selected date.");
+            empty.getStyleClass().add("shell-note");
+            empty.setWrapText(true);
+            operationsBarberBreakdownContent.getChildren().add(empty);
             return;
         }
 
-        XYChart.Series<String, Number> barberSeries = new XYChart.Series<>();
-        barberSeries.setName("Barber");
+        List<DailyBarberTotalDTO> orderedTotals = barberTotals.stream()
+                .sorted(Comparator.comparing(DailyBarberTotalDTO::getBarberName, String.CASE_INSENSITIVE_ORDER))
+                .collect(Collectors.toList());
 
-        XYChart.Series<String, Number> shopSeries = new XYChart.Series<>();
-        shopSeries.setName("Shop");
+        for (DailyBarberTotalDTO total : orderedTotals) {
+            int commission = total.getBarberCommissionTotal();
+            int shopShare = total.getShopShareTotal();
+            int rowSum = commission + shopShare;
 
-        barberTotals.forEach(total -> {
-            barberSeries.getData().add(new XYChart.Data<>(total.getBarberName(), total.getBarberCommissionTotal()));
-            shopSeries.getData().add(new XYChart.Data<>(total.getBarberName(), total.getShopShareTotal()));
-        });
+            VBox block = new VBox(6);
+            Label nameLabel = new Label(total.getBarberName());
+            nameLabel.getStyleClass().add("viz-row-title");
 
-        operationsBarberBreakdownChart.setLegendVisible(true);
-        operationsBarberBreakdownChart.setTitle(null);
-        operationsBarberBreakdownChart.getData().setAll(barberSeries, shopSeries);
+            if (rowSum <= 0) {
+                Label zero = new Label("No earnings this date.");
+                zero.getStyleClass().add("shell-note");
+                block.getChildren().addAll(nameLabel, zero);
+                operationsBarberBreakdownContent.getChildren().add(block);
+                continue;
+            }
+
+            double cRatio = commission / (double) rowSum;
+            double sRatio = shopShare / (double) rowSum;
+
+            HBox segments = new HBox();
+            segments.setAlignment(Pos.CENTER_LEFT);
+            segments.setMinHeight(26);
+            segments.setPrefHeight(26);
+            segments.setMaxWidth(Double.MAX_VALUE);
+            segments.getStyleClass().add("viz-stacked-bar");
+
+            Region cSeg = new Region();
+            cSeg.setMinHeight(24);
+            cSeg.prefWidthProperty().bind(segments.widthProperty().multiply(cRatio));
+            cSeg.getStyleClass().addAll("viz-bar-segment", "viz-bar-barber");
+
+            Region sSeg = new Region();
+            sSeg.setMinHeight(24);
+            sSeg.prefWidthProperty().bind(segments.widthProperty().multiply(sRatio));
+            sSeg.getStyleClass().addAll("viz-bar-segment", "viz-bar-shop");
+
+            segments.getChildren().addAll(cSeg, sSeg);
+
+            HBox legend = new HBox(18);
+            legend.setAlignment(Pos.CENTER_LEFT);
+            legend.getChildren().addAll(
+                    buildVizLegendChip("Commission", formatCurrency(commission), "viz-legend-swatch-barber"),
+                    buildVizLegendChip("Shop share", formatCurrency(shopShare), "viz-legend-swatch-shop"));
+
+            block.getChildren().addAll(nameLabel, segments, legend);
+            operationsBarberBreakdownContent.getChildren().add(block);
+        }
+    }
+
+    private HBox buildVizLegendChip(String title, String value, String swatchStyleClass) {
+        Region dot = new Region();
+        dot.setMinSize(12, 12);
+        dot.setPrefSize(12, 12);
+        dot.getStyleClass().addAll("viz-legend-swatch", swatchStyleClass);
+
+        Label text = new Label(title + ": " + value);
+        text.getStyleClass().add("viz-legend-text");
+
+        HBox row = new HBox(8);
+        row.setAlignment(Pos.CENTER_LEFT);
+        row.getChildren().addAll(dot, text);
+        return row;
     }
 
     private String buildBarberBreakdownSummary(List<DailyBarberTotalDTO> barberTotals) {
@@ -1869,7 +2027,7 @@ public class OwnerDashboardController {
     private String getEarningsFromDate() {
         LocalDate selectedDate = earningsFromDatePicker.getValue();
         if (selectedDate == null) {
-            selectedDate = LocalDate.now().minusDays(6);
+            selectedDate = LocalDate.now().minusDays(13);
             earningsFromDatePicker.setValue(selectedDate);
         }
 

@@ -13,7 +13,7 @@ public class ShopSettingsService {
         return shopSettingsDAO.getSettings();
     }
 
-    public ServiceResult<ShopSettingsModel> updateShopSettings(String shopName, String currencyCode) {
+    public ServiceResult<ShopSettingsModel> updateShopSettings(String shopName, String currencyCode, String ownerNotes) {
         String normalizedShopName = ServiceValidation.trimToNull(shopName);
         String normalizedCurrencyCode = ServiceValidation.trimToNull(currencyCode);
 
@@ -30,10 +30,13 @@ public class ShopSettingsService {
             return ServiceResult.fail("Shop settings not found");
         }
 
+        String resolvedNotes = ownerNotes == null ? "" : ownerNotes;
+
         ShopSettingsModel updatedSettings = new ShopSettingsModel(
                 existingSettings.getSettingsId(),
                 normalizedShopName,
                 normalizedCurrencyCode.toUpperCase(),
+                resolvedNotes,
                 existingSettings.getUpdatedAt());
 
         if (!shopSettingsDAO.updateSettings(updatedSettings)) {
