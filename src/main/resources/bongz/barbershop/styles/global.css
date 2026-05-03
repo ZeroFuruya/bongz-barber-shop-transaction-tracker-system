@@ -338,49 +338,92 @@
     -fx-border-width: 0 0 1px 3px;
 }
 
-.chart {
-    -fx-padding: 6px 0 0 0;
+/* Owner dashboard data viz (HBox/Region bars — replaces JavaFX charts for reliable rendering) */
+
+.viz-scroll {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
 }
 
-.chart-plot-background {
+.viz-scroll>.viewport {
     -fx-background-color: transparent;
 }
 
-.chart-vertical-grid-lines,
-.chart-horizontal-grid-lines {
-    -fx-stroke: rgba(122, 97, 73, 0.16);
+.viz-stacked-bar {
+    -fx-background-color: rgba(122, 97, 73, 0.14);
+    -fx-background-radius: 10px;
+    -fx-padding: 3px;
 }
 
-.axis {
-    -fx-tick-label-fill: #6c5948;
-    -fx-font-size: 11px;
+.viz-bar-segment {
+    -fx-min-height: 24px;
+    -fx-pref-height: 24px;
 }
 
-.axis-label,
-.chart-legend .label,
-.chart-pie-label {
-    -fx-text-fill: #4c372a;
-    -fx-font-size: 11px;
+.viz-bar-barber {
+    -fx-background-color: linear-gradient(to right, #975227, #c88947);
+    -fx-background-radius: 8px;
 }
 
-.default-color0.chart-bar {
-    -fx-bar-fill: linear-gradient(to top, #975227 0%, #c88947 100%);
+.viz-bar-shop {
+    -fx-background-color: linear-gradient(to right, #6c372d, #965446);
+    -fx-background-radius: 8px;
 }
 
-.default-color1.chart-bar {
-    -fx-bar-fill: linear-gradient(to top, #6c372d 0%, #965446 100%);
+.viz-row-track {
+    -fx-background-color: rgba(122, 97, 73, 0.14);
+    -fx-background-radius: 8px;
+    -fx-padding: 2px;
 }
 
-.default-color0.chart-pie {
-    -fx-pie-color: #bf7b3d;
+.viz-row-fill {
+    -fx-min-height: 12px;
+    -fx-pref-height: 12px;
+    -fx-max-height: 12px;
+    -fx-background-radius: 6px;
 }
 
-.default-color1.chart-pie {
-    -fx-pie-color: #6d372d;
+.viz-mix-0 {
+    -fx-background-color: linear-gradient(to right, #975227, #c88947);
 }
 
-.default-color2.chart-pie {
-    -fx-pie-color: #d2a15d;
+.viz-mix-1 {
+    -fx-background-color: linear-gradient(to right, #6c372d, #965446);
+}
+
+.viz-mix-2 {
+    -fx-background-color: linear-gradient(to right, #4a5f8a, #8fa8c9);
+}
+
+.viz-row-title {
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-text-fill: #2c1b16;
+    -fx-font-size: 13px;
+}
+
+.viz-row-value {
+    -fx-text-fill: #261511;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 12.5px;
+}
+
+.viz-legend-swatch {
+    -fx-background-radius: 4px;
+    -fx-min-width: 12px;
+    -fx-min-height: 12px;
+}
+
+.viz-legend-swatch-barber {
+    -fx-background-color: linear-gradient(to bottom, #c88947, #975227);
+}
+
+.viz-legend-swatch-shop {
+    -fx-background-color: linear-gradient(to bottom, #965446, #6c372d);
+}
+
+.viz-legend-text {
+    -fx-text-fill: #32251d;
+    -fx-font-size: 12px;
 }
 
 .scroll-bar:vertical,
@@ -495,4 +538,9 @@
     -fx-text-fill: #261612;
     -fx-font-family: "Segoe UI Semibold";
     -fx-font-size: 20px;
+}
+
+.error-label {
+    -fx-text-fill: #c94e4e;
+    -fx-font-size: 11px;
 }

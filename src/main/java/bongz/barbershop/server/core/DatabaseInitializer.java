@@ -1,6 +1,7 @@
 package bongz.barbershop.server.core;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
@@ -29,6 +30,7 @@ public final class DatabaseInitializer {
             connection.setAutoCommit(false);
 
             executeStatements(connection, schemaStatements());
+            migrateShopSettingsOwnerNotes(connection);
             DatabaseSeeder.seed(connection);
 
             connection.commit();
@@ -44,6 +46,29 @@ public final class DatabaseInitializer {
                 statement.execute(sql);
             }
         }
+    }
+
+    private static void migrateShopSettingsOwnerNotes(Connection connection) throws SQLException {
+        if (tableHasColumn(connection, "shop_settings", "owner_notes")) {
+            return;
+        }
+        try (Statement statement = connection.createStatement()) {
+            statement.execute("ALTER TABLE shop_settings ADD COLUMN owner_notes TEXT");
+        }
+    }
+
+    private static boolean tableHasColumn(Connection connection, String tableName, String columnName)
+            throws SQLException {
+        String pragma = "PRAGMA table_info(" + tableName + ")";
+        try (Statement statement = connection.createStatement();
+                ResultSet rs = statement.executeQuery(pragma)) {
+            while (rs.next()) {
+                if (columnName.equalsIgnoreCase(rs.getString("name"))) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private static List<String> schemaStatements() {
@@ -88,6 +113,7 @@ public final class DatabaseInitializer {
                             settings_id INTEGER PRIMARY KEY CHECK (settings_id = 1),
                             shop_name TEXT NOT NULL DEFAULT 'Bongz Barbershop',
                             currency_code TEXT NOT NULL DEFAULT 'PHP',
+                            owner_notes TEXT,
                             updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
                         )
                         """,
