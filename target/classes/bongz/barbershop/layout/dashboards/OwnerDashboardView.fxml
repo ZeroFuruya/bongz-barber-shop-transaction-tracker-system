@@ -2,14 +2,16 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToolBar?>
@@ -109,17 +111,15 @@
                               </StackPane>
                               <StackPane prefHeight="42.0" prefWidth="70.0" styleClass="accent-slot">
                                  <children>
+                                    <ImageView fitHeight="42.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../assets/images/logout.png" />
+                                       </image>
+                                    </ImageView>
                                     <Button mnemonicParsing="false" onAction="#handleLogout" prefHeight="42.0" prefWidth="70.0" styleClass="icon-ghost-button">
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
-                                       <graphic>
-                                          <ImageView fitHeight="34.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../../assets/images/logout.png" />
-                                             </image>
-                                          </ImageView>
-                                       </graphic>
                                     </Button>
                                  </children>
                               </StackPane>
@@ -231,12 +231,8 @@
                                           <VBox spacing="8.0">
                                              <children>
                                                 <Label styleClass="section-title" text="Today's Revenue Split" />
-                                                <Label styleClass="shell-note" text="Barber vs shop share of gross (same day)." wrapText="true" />
-                                                <ScrollPane fx:id="overviewRevenueSplitScroll" fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" minHeight="100.0" prefHeight="170.0" styleClass="viz-scroll" vbarPolicy="AS_NEEDED" VBox.vgrow="ALWAYS">
-                                                   <content>
-                                                      <VBox fx:id="overviewRevenueSplitContent" spacing="10.0" />
-                                                   </content>
-                                                </ScrollPane>
+                                                <Label styleClass="shell-note" text="Selected-date revenue split." wrapText="true" />
+                                                <PieChart fx:id="overviewRevenueSplitChart" labelsVisible="true" legendVisible="true" prefHeight="155.0" prefWidth="230.0" />
                                              </children>
                                           </VBox>
                                        </children>
@@ -249,12 +245,15 @@
                                           <VBox spacing="8.0">
                                              <children>
                                                 <Label styleClass="section-title" text="Today's Pricing Mix" />
-                                                <Label styleClass="shell-note" text="Gross sales by category (length ∝ amount)." wrapText="true" />
-                                                <ScrollPane fx:id="overviewPricingMixScroll" fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" minHeight="100.0" prefHeight="170.0" styleClass="viz-scroll" vbarPolicy="AS_NEEDED" VBox.vgrow="ALWAYS">
-                                                   <content>
-                                                      <VBox fx:id="overviewPricingMixContent" spacing="10.0" />
-                                                   </content>
-                                                </ScrollPane>
+                                                <Label styleClass="shell-note" text="Gross sales by pricing category." wrapText="true" />
+                                                <BarChart fx:id="overviewPricingMixChart" animated="false" categoryGap="18.0" legendVisible="false" prefHeight="155.0" prefWidth="500.0">
+                                                   <xAxis>
+                                                      <CategoryAxis fx:id="overviewPricingMixCategoryAxis" side="BOTTOM" />
+                                                   </xAxis>
+                                                   <yAxis>
+                                                      <NumberAxis fx:id="overviewPricingMixValueAxis" side="LEFT" />
+                                                   </yAxis>
+                                                </BarChart>
                                              </children>
                                           </VBox>
                                        </children>
@@ -339,12 +338,15 @@
                                                 <VBox spacing="10.0">
                                                    <children>
                                           <Label styleClass="section-title" text="Barber Breakdown" />
-                                                      <Label fx:id="operationsBarberCommissionListLabel" styleClass="shell-note" text="Per-barber commission vs shop share for this date." wrapText="true" />
-                                                      <ScrollPane fx:id="operationsBarberBreakdownScroll" fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" minHeight="160.0" prefHeight="280.0" styleClass="viz-scroll" vbarPolicy="AS_NEEDED" VBox.vgrow="ALWAYS">
-                                                         <content>
-                                                            <VBox fx:id="operationsBarberBreakdownContent" spacing="12.0" />
-                                                         </content>
-                                                      </ScrollPane>
+                                                      <Label fx:id="operationsBarberCommissionListLabel" styleClass="shell-note" text="Barber and shop earnings are charted below for this date." wrapText="true" />
+                                                      <BarChart fx:id="operationsBarberBreakdownChart" animated="false" categoryGap="18.0" legendVisible="true" prefHeight="250.0" prefWidth="760.0">
+                                                         <xAxis>
+                                                            <CategoryAxis fx:id="operationsBarberBreakdownCategoryAxis" side="BOTTOM" />
+                                                         </xAxis>
+                                                         <yAxis>
+                                                            <NumberAxis fx:id="operationsBarberBreakdownValueAxis" side="LEFT" />
+                                                         </yAxis>
+                                                      </BarChart>
                                                    </children>
                                                 </VBox>
                                              </children>
@@ -840,16 +842,10 @@
                               </StackPane>
                               <StackPane prefHeight="360.0" prefWidth="789.0" styleClass="surface-card" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <VBox spacing="10.0" VBox.vgrow="ALWAYS">
+                                    <VBox spacing="10.0">
                                        <children>
                                           <Label styleClass="section-title" text="Owner Notes" />
-                                          <Label styleClass="shell-note" text="Private reminders for this shop. Saved here; currency and shop name stay on Edit Settings." wrapText="true" />
-                                          <TextArea fx:id="settingsOwnerNotesArea" prefRowCount="10" wrapText="true" VBox.vgrow="ALWAYS" />
-                                          <HBox spacing="10.0">
-                                             <children>
-                                                <Button mnemonicParsing="false" onAction="#handleSaveOwnerNotes" prefHeight="36.0" text="Save Notes" />
-                                             </children>
-                                          </HBox>
+                                          <Label text="Settings changes should be rare and intentional. Currency updates affect every financial label in the Owner dashboard." wrapText="true" />
                                        </children>
                                     </VBox>
                                  </children>

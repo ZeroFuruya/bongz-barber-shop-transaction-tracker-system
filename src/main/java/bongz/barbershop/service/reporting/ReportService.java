@@ -15,13 +15,6 @@ public class ReportService {
 
     private final ReportDAO reportDAO = new ReportDAO();
 
-    /**
-     * Latest date that has posted transactions; {@code null} when the ledger is empty.
-     */
-    public String getLatestPostedBusinessDate() {
-        return reportDAO.getLatestPostedBusinessDate();
-    }
-
     public List<BarberDashboardCardDTO> getBarberDashboardCards(String businessDate) {
         String normalizedBusinessDate = ServiceValidation.normalizeBusinessDate(businessDate);
         if (normalizedBusinessDate == null) {

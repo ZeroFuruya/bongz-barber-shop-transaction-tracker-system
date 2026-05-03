@@ -53,8 +53,7 @@ public class OwnerShopSettingsModalController {
     private void handleSave() {
         var result = shopSettingsService.updateShopSettings(
                 shopNameField.getText(),
-                currencyCodeField.getText(),
-                this.settings.getOwnerNotes());
+                currencyCodeField.getText());
 
         if (!result.isSuccess()) {
             showStatus(result.getMessage());

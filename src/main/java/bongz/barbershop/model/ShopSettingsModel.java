@@ -4,14 +4,12 @@ public class ShopSettingsModel {
     private int settingsId;
     private String shopName;
     private String currencyCode;
-    private String ownerNotes;
     private String updatedAt;
 
-    public ShopSettingsModel(int settingsId, String shopName, String currencyCode, String ownerNotes, String updatedAt) {
+    public ShopSettingsModel(int settingsId, String shopName, String currencyCode, String updatedAt) {
         this.settingsId = settingsId;
         this.shopName = shopName;
         this.currencyCode = currencyCode;
-        this.ownerNotes = ownerNotes;
         this.updatedAt = updatedAt;
     }
 
@@ -37,14 +35,6 @@ public class ShopSettingsModel {
 
     public void setCurrencyCode(String currencyCode) {
         this.currencyCode = currencyCode;
-    }
-
-    public String getOwnerNotes() {
-        return ownerNotes;
-    }
-
-    public void setOwnerNotes(String ownerNotes) {
-        this.ownerNotes = ownerNotes;
     }
 
     public String getUpdatedAt() {
