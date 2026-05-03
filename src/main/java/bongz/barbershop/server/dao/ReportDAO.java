@@ -16,31 +16,6 @@ import java.util.List;
 
 public class ReportDAO {
 
-    /**
-     * Latest calendar date with at least one POSTED transaction, or {@code null} if none.
-     */
-    public String getLatestPostedBusinessDate() {
-        String sql = """
-                SELECT MAX(business_date) AS max_date
-                FROM transactions
-                WHERE status = 'POSTED'
-                """;
-
-        try (Connection conn = JDBC.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql);
-                ResultSet rs = ps.executeQuery()) {
-
-            if (rs.next()) {
-                String value = rs.getString("max_date");
-                return rs.wasNull() || value == null || value.isBlank() ? null : value;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
     public List<BarberDashboardCardDTO> getBarberDashboardCards(String businessDate) {
         String sql = """
                 SELECT

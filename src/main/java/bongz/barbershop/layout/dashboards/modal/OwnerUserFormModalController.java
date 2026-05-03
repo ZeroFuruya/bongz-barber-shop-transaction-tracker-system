@@ -47,7 +47,9 @@ public class OwnerUserFormModalController {
 
     @FXML
     private void initialize() {
-        // Role options are set in load() for create vs edit.
+        roleComboBox.setItems(FXCollections.observableArrayList(UserRole.MANAGER.name()));
+        roleComboBox.getSelectionModel().selectFirst();
+        roleComboBox.setDisable(true);
     }
 
     public void load(App app, UserModel selectedUser, Consumer<String> onUserSaved) {
@@ -56,40 +58,19 @@ public class OwnerUserFormModalController {
         this.onUserSaved = onUserSaved;
 
         if (selectedUser == null) {
-            roleComboBox.setItems(FXCollections.observableArrayList(UserRole.MANAGER.name()));
-            roleComboBox.getSelectionModel().selectFirst();
-            roleComboBox.setDisable(true);
-            activeCheckBox.setDisable(false);
             titleLabel.setText("Add Manager");
             userIdLabel.setText("User ID: New");
             createdAtLabel.setText("Created At: (new)");
-            usernameField.clear();
-            passwordField.clear();
-            confirmPasswordField.clear();
             activeCheckBox.setSelected(true);
             return;
         }
 
-        UserRole resolvedRole;
-        try {
-            resolvedRole = UserRole.fromValue(selectedUser.getRole());
-        } catch (IllegalArgumentException ignored) {
-            resolvedRole = UserRole.MANAGER;
-        }
-
-        roleComboBox.setItems(FXCollections.observableArrayList(resolvedRole.name()));
-        roleComboBox.getSelectionModel().selectFirst();
-        roleComboBox.setDisable(true);
-
-        boolean editingOwner = resolvedRole == UserRole.OWNER;
-        titleLabel.setText(editingOwner ? "Edit Owner" : "Edit Manager");
+        titleLabel.setText("Edit Manager");
         userIdLabel.setText("User ID: " + selectedUser.getId());
         createdAtLabel.setText("Created At: " + valueOrPlaceholder(selectedUser.getCreatedAt()));
         usernameField.setText(selectedUser.getUsername());
-        passwordField.clear();
-        confirmPasswordField.clear();
         activeCheckBox.setSelected(selectedUser.getIsActive() == 1);
-        activeCheckBox.setDisable(editingOwner);
+        roleComboBox.getSelectionModel().select(selectedUser.getRole());
     }
 
     @FXML
@@ -126,29 +107,19 @@ public class OwnerUserFormModalController {
             return;
         }
 
-        UserRole resolvedRole;
-        try {
-            resolvedRole = UserRole.fromValue(selectedUser.getRole());
-        } catch (IllegalArgumentException ignored) {
-            showStatus("Unsupported role.");
-            return;
-        }
-
-        int activeFlag = resolvedRole == UserRole.OWNER ? 1 : (activeCheckBox.isSelected() ? 1 : 0);
-
         var result = userService.updateUser(
                 selectedUser.getId(),
                 usernameField.getText(),
                 password,
-                resolvedRole,
-                activeFlag);
+                UserRole.MANAGER,
+                activeCheckBox.isSelected() ? 1 : 0);
 
         if (!result.isSuccess()) {
             showStatus(result.getMessage());
             return;
         }
 
-        closeWithMessage(resolvedRole == UserRole.OWNER ? "Owner account updated." : "Manager account updated.");
+        closeWithMessage("Manager account updated.");
     }
 
     @FXML

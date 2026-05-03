@@ -13,7 +13,6 @@ import bongz.barbershop.loader.OwnerDashLoader;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
@@ -27,11 +26,6 @@ public class AuthenticationController {
     private PasswordField passwordField;
     @FXML
     private Button loginButton;
-
-    @FXML
-    private Label userErrorLabel;
-    @FXML
-    private Label passErrorLabel;
 
     private final AuthenticatorService authService = new AuthenticatorService();
 
@@ -66,16 +60,6 @@ public class AuthenticationController {
 
     private void showError(String message) {
         System.err.println("LOGIN ERROR: " + message);
-        if (message.toLowerCase().contains("user")) {
-            userErrorLabel.setText(message);
-            userErrorLabel.setVisible(true);
-            passErrorLabel.setVisible(false);
-        } else {
-            passErrorLabel.setText(message);
-            passErrorLabel.setVisible(true);
-            userErrorLabel.setVisible(false);
-        }
-
     }
 
     private void closeModal() {

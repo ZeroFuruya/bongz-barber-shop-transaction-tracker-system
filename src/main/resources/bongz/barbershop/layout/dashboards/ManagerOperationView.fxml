@@ -43,22 +43,20 @@
                         <VBox prefHeight="55.0" prefWidth="485.0" HBox.hgrow="ALWAYS" />
                         <StackPane prefHeight="55.0" prefWidth="190.0" styleClass="accent-slot">
                            <children>
-                              <DatePicker fx:id="businessDatePicker" onAction="#handleBusinessDateChanged" prefHeight="61.0" prefWidth="156.0" />
+                              <DatePicker fx:id="businessDatePicker" onAction="#handleBusinessDateChanged" prefWidth="170.0" />
                            </children>
                         </StackPane>
-                        <StackPane prefHeight="53.0" prefWidth="90.0" styleClass="accent-slot">
+                        <StackPane prefHeight="55.0" prefWidth="70.0" styleClass="accent-slot">
                            <children>
+                              <ImageView fitHeight="55.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../assets/images/logout.png" />
+                                 </image>
+                              </ImageView>
                               <Button mnemonicParsing="false" onAction="#handleLogout" prefHeight="66.0" prefWidth="84.0" styleClass="icon-ghost-button">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
-                                 <graphic>
-                                    <ImageView fitHeight="32.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../../assets/images/logout.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
                               </Button>
                            </children>
                         </StackPane>
